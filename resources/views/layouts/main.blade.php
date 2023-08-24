@@ -3,7 +3,7 @@
 
 <head>
     <base href="" />
-    <title>Drone'</title>
+    <title>WhoopGrounds'</title>
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <meta charset="utf-8" />
     <meta name="description"
@@ -14,7 +14,7 @@
     <meta property="og:locale" content="en_US" />
     <meta property="og:type" content="article" />
     <meta
-        property="og:title"content="Drone' | Bootstrap HTML, VueJS, React, Angular, Asp.Net Core, Rails, Spring, Blazor, Django, Flask & Laravel Admin Dashboard Theme" />
+        property="og:title"content="WhoopGrounds' | Bootstrap HTML, VueJS, React, Angular, Asp.Net Core, Rails, Spring, Blazor, Django, Flask & Laravel Admin Dashboard Theme" />
     <meta property="og:url" content="https://keenthemes.com/metronic" />
     <meta property="og:site_name" content="Keenthemes | Metronic" />
     <link rel="canonical" href="https://preview.keenthemes.com/metronic8" />
@@ -229,9 +229,9 @@
                         class="app-container container-fluid d-flex flex-column flex-md-row flex-center flex-md-stack py-3">
                         <!--begin::Copyright-->
                         <div class="text-dark order-2 order-md-1">
-                            <span class="text-muted fw-semibold me-1">2022&copy;</span>
+                            <span class="text-muted fw-semibold me-1">2023&copy;</span>
                             <a href="https://keenthemes.com" target="_blank"
-                                class="text-gray-800 text-hover-primary">Drone'</a>
+                                class="text-gray-800 text-hover-primary">WhoopGrounds'</a>
                         </div>
                         {{-- <ul class="menu menu-gray-600 menu-hover-primary fw-semibold order-1">
                             <li class="menu-item">

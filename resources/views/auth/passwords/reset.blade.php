@@ -4,7 +4,7 @@
 
 <head>
     <base href="../../../" />
-    <title>Drone'</title>
+    <title>WhoopGrounds'</title>
     <meta charset="utf-8" />
     <meta name="description"
         content="The most advanced Bootstrap Admin Theme on Themeforest trusted by 100,000 beginners and professionals. Multi-demo, Dark Mode, RTL support and complete React, Angular, Vue, Asp.Net Core, Rails, Spring, Blazor, Django, Flask & Laravel versions. Grab your copy now and get life-time updates for free." />
@@ -14,9 +14,9 @@
     <meta property="og:locale" content="en_US" />
     <meta property="og:type" content="article" />
     <meta property="og:title"
-        content="Drone' | Bootstrap HTML, VueJS, React, Angular, Asp.Net Core, Rails, Spring, Blazor, Django, Flask & Laravel Admin Dashboard Theme" />
+        content="WhoopGrounds' | Bootstrap HTML, VueJS, React, Angular, Asp.Net Core, Rails, Spring, Blazor, Django, Flask & Laravel Admin Dashboard Theme" />
     <meta property="og:url" content="" />
-    <meta property="og:site_name" content="Dashboard | Drone'" />
+    <meta property="og:site_name" content="Dashboard | WhoopGrounds'" />
     <link rel="canonical" href="" />
     <link rel="shortcut icon" href="{{ asset('assets/media/logos/favicon.ico') }}" />
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Inter:300,400,500,600,700" />
@@ -66,7 +66,7 @@
                     <img class="theme-dark-show mx-auto mw-100 w-150px w-lg-300px mb-10 mb-lg-20"
                         src="{{ asset('assets/media/auth/logo.png') }}" alt="" />
 
-                    <h1 class="text-gray-800 fs-2qx fw-bold text-center mb-7">Drone'</h1>
+                    <h1 class="text-gray-800 fs-2qx fw-bold text-center mb-7">WhoopGrounds'</h1>
 
                     <div class="text-gray-600 fs-base text-center fw-semibold">In this kind of post,
                         <a href="#" class="opacity-75-hover text-primary me-1">the blogger</a>introduces a person
