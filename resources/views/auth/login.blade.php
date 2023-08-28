@@ -70,7 +70,7 @@
 
                     {{-- <h1 class="text-gray-800 fs-2qx fw-bold text-center mb-7">WhoopGrounds</h1> --}}
 
-                    <div class="text-gray-600 fs-base text-center fw-semibold">In this kind of post,
+                    <div class="text-white fs-base text-center fw-semibold">In this kind of post,
                         <a href="#" class="opacity-75-hover text-primary me-1">the blogger</a>introduces a person
                         they’ve interviewed
                         <br />and provides some background information about
