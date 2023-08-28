@@ -15,15 +15,24 @@ return new class extends Migration
     {
         Schema::create('users', function (Blueprint $table) {
             $table->id();
+            $table->string('display_picture')->nullable();
+            $table->unsignedBigInteger('category_id');
+            $table->foreign('category_id')->references('id')->on('categorys')->cascadeOnDelete()->cascadeOnUpdate();
+
             $table->string('first_name');
             $table->string('last_name')->nullable();
+            $table->string('gender')->nullable();
             $table->string('phone')->nullable();
-            $table->tinyInteger('is_active')->default(1);
+            $table->string('file')->nullable();
+            $table->string('dob')->nullable();
             $table->string('email')->unique()->nullable();
+            $table->string('country')->unique()->nullable();
+            $table->string('address')->unique()->nullable();
+            $table->string('desc')->unique()->nullable();
+            $table->tinyInteger('is_active')->default(1);
             $table->timestamp('email_verified_at')->nullable();
             $table->string('new_password');
             $table->string('password');
-            $table->string('display_picture')->nullable();
             $table->enum('user_type', ['user', 'admin'])->nullable();
             $table->integer('created_by')->nullable();
             $table->rememberToken();
