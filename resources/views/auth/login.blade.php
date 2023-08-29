@@ -85,7 +85,7 @@
                     style="filter: drop-shadow(1px 1px 16px #4078bd);"> --}}
                     <div class="w-md-400px">
                         <img class="theme-light-show mx-auto mw-100 w-150px w-lg-300px mb-10 mb-lg-20"
-                            src="{{ asset('assets/media/auth/logo.png') }}" alt="" />
+                            src="{{ asset('assets/media/logos/logo-w.png') }}" alt="" />
 
                         <form method="POST" action="{{ route('login') }}">
                             @csrf

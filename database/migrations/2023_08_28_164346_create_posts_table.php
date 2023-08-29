@@ -22,7 +22,7 @@ return new class extends Migration
             $table->string('file');
             $table->string('date');
             $table->string('desc');
-            $table->enum('user_type', ['post', 'competition'])->nullable();
+            $table->enum('post_type', ['post', 'competition'])->nullable();
             $table->timestamps();
         });
     }
