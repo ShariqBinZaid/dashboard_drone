@@ -2,12 +2,14 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Posts;
 use Illuminate\Http\Request;
-use App\Models\Subscriptions;
+use Illuminate\Support\Facades\Auth;
+use App\Http\Resources\PostsResource;
+use App\Models\Categories;
 use Illuminate\Support\Facades\Validator;
-use App\Http\Resources\SubscriptionsResource;
 
-class SubscriptionsController extends Controller
+class PostsController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -16,16 +18,16 @@ class SubscriptionsController extends Controller
      */
     public function index()
     {
-        $subscriptions = Subscriptions::all();
-
-        return view('subscriptions.index', compact(['subscriptions']));
+        $data['posts'] = Posts::all();
+        $data['categories'] = Categories::all();
+        return view('posts.index')->with($data);
     }
 
     public function list(Request $req)
     {
         $req = $req->input();
-        $subscriptions = Subscriptions::get();
-        return new SubscriptionsResource($subscriptions);
+        $posts = Posts::get();
+        return new PostsResource($posts);
     }
 
     /**
@@ -49,10 +51,11 @@ class SubscriptionsController extends Controller
         $input = $req->all();
 
         $validator = Validator::make($input, [
-            'image' => 'required',
-            'name' => 'required',
-            'price' => 'required',
+            'file' => 'required',
+            'date' => 'required',
             'desc' => 'required',
+            'category_id' => 'required',
+            'post_type' => 'required',
         ]);
 
         // dd($input);
@@ -60,18 +63,19 @@ class SubscriptionsController extends Controller
             return response()->json(['success' => false, 'error' => $validator->errors()]);
         }
 
-        if ($req->file('image')) {
-            unset($input['image']);
-            $input += ['image' => $this->updateprofile($req, 'image', 'profileimage')];
+        if ($req->file('file')) {
+            unset($input['file']);
+            $input += ['file' => $this->updateprofile($req, 'file', 'profileimage')];
         }
 
+        $input += ['user_id' => Auth::id()];
         unset($input['_token']);
         if (@$input['id']) {
-            $subscriptions = Subscriptions::where("id", $input['id'])->update($input);
-            return response()->json(['success' => true, 'msg' => 'Subscriptions Updated Successfully.']);
+            $posts = Posts::where("id", $input['id'])->update($input);
+            return response()->json(['success' => true, 'msg' => 'Posts Updated Successfully.']);
         } else {
-            $subscriptions = Subscriptions::create($input);
-            return response()->json(['success' => true, 'msg' => 'Subscriptions Created Successfully', 'data' => $subscriptions]);
+            $posts = Posts::create($input);
+            return response()->json(['success' => true, 'msg' => 'Posts Created Successfully', 'data' => $posts]);
         }
     }
 
@@ -84,11 +88,11 @@ class SubscriptionsController extends Controller
     public function show($id)
     {
         if ($id ==  "all") {
-            $subscriptions = Subscriptions::all();
-            return new SubscriptionsResource($subscriptions);
+            $posts = Posts::all();
+            return new PostsResource($posts);
         } else {
-            $subscriptions = Subscriptions::where('id', $id)->first();
-            return response()->json(['success' => true, 'data' => $subscriptions]);
+            $posts = Posts::where('id', $id)->first();
+            return response()->json(['success' => true, 'data' => $posts]);
         }
     }
 
@@ -123,13 +127,12 @@ class SubscriptionsController extends Controller
      */
     public function destroy(Request $req, $id)
     {
-        Subscriptions::where('id', $id)->forcedelete();
-        echo json_encode(['success' => true, 'msg' => 'Subscriptions Deleted Successfully']);
+        Posts::where('id', $id)->forcedelete();
+        echo json_encode(['success' => true, 'msg' => 'Posts Deleted Successfully']);
     }
-
-    public function getsubscriptions()
+    public function getposts()
     {
-        $getcategories = Subscriptions::get();
-        return response()->json(['success' => true, 'data' => $getcategories]);
+        $getpots = Posts::get();
+        return response()->json(['success' => true, 'data' => $getpots]);
     }
 }

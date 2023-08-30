@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Auth;
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ApiController;
+use App\Http\Controllers\BestPlaceController;
 use Illuminate\Support\Facades\Artisan;
 use App\Http\Controllers\BlogsController;
 use App\Http\Controllers\ParentController;
@@ -14,6 +15,7 @@ use App\Http\Controllers\Users\UserController;
 use App\Http\Controllers\Users\ClientController;
 use App\Http\Controllers\SubscriptionsController;
 use App\Http\Controllers\Modules\ModulesController;
+use App\Http\Controllers\PostsController;
 use App\Http\Controllers\RolePermission\RoleController;
 use App\Http\Controllers\RolePermission\AttachController;
 use App\Http\Controllers\RolePermission\RolePermissionController;
@@ -98,6 +100,20 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::resource('subscriptions', SubscriptionsController::class);
     Route::controller(SubscriptionsController::class)->group(function () {
         Route::get('user/subscriptions/lists', 'list')->name('subscriptions.list');
+    });
+
+
+    // ************************ Best Place  ************************ //
+    Route::resource('place', BestPlaceController::class);
+    Route::controller(BestPlaceController::class)->group(function () {
+        Route::get('user/place/lists', 'list')->name('place.list');
+    });
+
+
+    // ************************ Posts  ************************ //
+    Route::resource('posts', PostsController::class);
+    Route::controller(PostsController::class)->group(function () {
+        Route::get('user/posts/lists', 'list')->name('posts.list');
     });
 
 

@@ -17,6 +17,7 @@ use App\Models\Categories;
 use App\Models\Permission;
 use App\Models\UserInType;
 use App\Models\RolePermission;
+use App\Models\Subscriptions;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Hash;
 
@@ -41,6 +42,19 @@ class DatabaseSeeder extends Seeder
         ]);
         Categories::create([
             'name' => 'Tricks',
+        ]);
+
+        Subscriptions::create([
+            'image' => 'profileimage/test.png',
+            'name' => '1 Year',
+            'price' => '100',
+            'desc' => 'Test 1',
+        ]);
+        Subscriptions::create([
+            'image' => 'profileimage/test.png',
+            'name' => '2 Year',
+            'price' => '100',
+            'desc' => 'Test 2',
         ]);
 
         User::create([
@@ -175,6 +189,5 @@ class DatabaseSeeder extends Seeder
             'user_id' => 1,
             'user_type' => 2,
         ]);
-
     }
 }

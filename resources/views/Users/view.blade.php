@@ -75,6 +75,10 @@
                                             <div class="text-gray-600 text-capitalize">{{ $user->User_type }}</div>
                                             <div class="fw-bold mt-5">Contact Number</div>
                                             <div class="text-gray-600 text-capitalize">{{ $user->phone }}</div>
+                                            <div class="fw-bold mt-5">Country</div>
+                                            <div class="text-gray-600 text-capitalize">{{ $user->country }}</div>
+                                            <div class="fw-bold mt-5">Address</div>
+                                            <div class="text-gray-600 text-capitalize">{{ $user->address }}</div>
                                             {{-- <div class="fw-bold mt-5">Country</div>
                                             <div class="text-gray-600">
                                                 <a href="#"
@@ -171,19 +175,19 @@
                                                         type="text" id="email" value="{{ $user->email }}">
                                                 </div>
 
-                                                {{-- <div class="mb-10">
+                                                <div class="mb-10">
                                                     <label for="email" class="form-label">Address</label>
                                                     <input class="form-control" placeholder="Address" name="address"
                                                         type="text" id="address" value="{{ $user->address }}">
-                                                </div> --}}
+                                                </div>
 
-                                                {{-- <div class="mb-10">
+                                                <div class="mb-10">
                                                     <label for="email" class="form-label">Gender</label>
                                                     <select class="form-control" name="gender" id="gender">
                                                         <option value="male">Male</option>
                                                         <option value="female">Female</option>
                                                     </select>
-                                                </div> --}}
+                                                </div>
 
                                                 <div class="mb-10">
                                                     <label for="phone" class="form-label">Contact Number</label>

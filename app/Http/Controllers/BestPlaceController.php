@@ -2,12 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\BestPlace;
 use Illuminate\Http\Request;
-use App\Models\Subscriptions;
+use Illuminate\Support\Facades\Auth;
+use App\Http\Resources\BestPlaceResource;
 use Illuminate\Support\Facades\Validator;
-use App\Http\Resources\SubscriptionsResource;
 
-class SubscriptionsController extends Controller
+class BestPlaceController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -16,16 +17,16 @@ class SubscriptionsController extends Controller
      */
     public function index()
     {
-        $subscriptions = Subscriptions::all();
+        $place = BestPlace::all();
 
-        return view('subscriptions.index', compact(['subscriptions']));
+        return view('place.index', compact(['place']));
     }
 
     public function list(Request $req)
     {
         $req = $req->input();
-        $subscriptions = Subscriptions::get();
-        return new SubscriptionsResource($subscriptions);
+        $place = BestPlace::get();
+        return new BestPlaceResource($place);
     }
 
     /**
@@ -49,10 +50,10 @@ class SubscriptionsController extends Controller
         $input = $req->all();
 
         $validator = Validator::make($input, [
-            'image' => 'required',
-            'name' => 'required',
-            'price' => 'required',
+            'title' => 'required',
+            'loc' => 'required',
             'desc' => 'required',
+            'file' => 'required',
         ]);
 
         // dd($input);
@@ -60,18 +61,19 @@ class SubscriptionsController extends Controller
             return response()->json(['success' => false, 'error' => $validator->errors()]);
         }
 
-        if ($req->file('image')) {
-            unset($input['image']);
-            $input += ['image' => $this->updateprofile($req, 'image', 'profileimage')];
+        if ($req->file('file')) {
+            unset($input['file']);
+            $input += ['file' => $this->updateprofile($req, 'file', 'profileimage')];
         }
 
+        $input += ['user_id' => Auth::id()];
         unset($input['_token']);
         if (@$input['id']) {
-            $subscriptions = Subscriptions::where("id", $input['id'])->update($input);
-            return response()->json(['success' => true, 'msg' => 'Subscriptions Updated Successfully.']);
+            $bestplace = BestPlace::where("id", $input['id'])->update($input);
+            return response()->json(['success' => true, 'msg' => 'BestPlace Updated Successfully.']);
         } else {
-            $subscriptions = Subscriptions::create($input);
-            return response()->json(['success' => true, 'msg' => 'Subscriptions Created Successfully', 'data' => $subscriptions]);
+            $bestplace = BestPlace::create($input);
+            return response()->json(['success' => true, 'msg' => 'BestPlace Created Successfully', 'data' => $bestplace]);
         }
     }
 
@@ -84,10 +86,10 @@ class SubscriptionsController extends Controller
     public function show($id)
     {
         if ($id ==  "all") {
-            $subscriptions = Subscriptions::all();
-            return new SubscriptionsResource($subscriptions);
+            $subscriptions = BestPlace::all();
+            return new BestPlaceResource($subscriptions);
         } else {
-            $subscriptions = Subscriptions::where('id', $id)->first();
+            $subscriptions = BestPlace::where('id', $id)->first();
             return response()->json(['success' => true, 'data' => $subscriptions]);
         }
     }
@@ -123,13 +125,12 @@ class SubscriptionsController extends Controller
      */
     public function destroy(Request $req, $id)
     {
-        Subscriptions::where('id', $id)->forcedelete();
-        echo json_encode(['success' => true, 'msg' => 'Subscriptions Deleted Successfully']);
+        BestPlace::where('id', $id)->forcedelete();
+        echo json_encode(['success' => true, 'msg' => 'BestPlace Deleted Successfully']);
     }
-
-    public function getsubscriptions()
+    public function getplace()
     {
-        $getcategories = Subscriptions::get();
-        return response()->json(['success' => true, 'data' => $getcategories]);
+        $getplace = BestPlace::get();
+        return response()->json(['success' => true, 'data' => $getplace]);
     }
 }

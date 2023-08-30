@@ -4,7 +4,7 @@ namespace App\Http\Resources;
 
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class SubscriptionsResource extends JsonResource
+class BestPlaceResource extends JsonResource
 {
     /**
      * Transform the resource into an array.
@@ -14,20 +14,20 @@ class SubscriptionsResource extends JsonResource
      */
     public function toArray($request)
     {
-        $subscriptions = [];
+        $places = [];
 
         if ($this->resource->count() > 0) {
-            foreach ($this->resource as $subscription) {
-                $picture = $subscription->image != null ? asset('storage/' . $subscription->image) : '/assets/media/avatars/blank.png';
+            foreach ($this->resource as $place) {
+                $picture = $place->image != null ? asset('storage/' . $place->image) : '/assets/media/avatars/blank.png';
                 $userAvatar = '<div class="d-flex align-items-center">
                             <div class="symbol symbol-35px symbol-circle">
                                     <img alt="Pic" src="' . $picture . '"
                                          style=" object-fit: cover;"/>
                             </div>
-                            <a href="' . route('user.admin.view', $subscription->id) . '" target="_blank" >
+                            <a href="' . route('user.admin.view', $place->id) . '" target="_blank" >
                                 <div class="text-gray-800 text-hover-primary mb-1 ms-5 cursor-pointer">
-                                    ' . $subscription->first_name . ' ' . $subscription->last_name . '
-                                    <div class="fw-semibold text-muted">' . $subscription->email . '</div>
+                                    ' . $place->first_name . ' ' . $place->last_name . '
+                                    <div class="fw-semibold text-muted">' . $place->email . '</div>
                                 </div>
                                 </a>
                             <!--end::Details-->
@@ -45,31 +45,31 @@ class SubscriptionsResource extends JsonResource
                               </button>
                               <ul class="dropdown-menu" aria-labelledby="actionsMenu">';
                 $actions .= '<li>
-                                <a class="dropdown-item create_new_off_canvas_modal edit_blog"  data-id="' . $subscription->id . '" href="javascript:void(0);" >Edit</a>
+                                <a class="dropdown-item create_new_off_canvas_modal edit_blog"  data-id="' . $place->id . '" href="javascript:void(0);" >Edit</a>
                             </li>';
                 $actions .= '<li>
-                                <a class="dropdown-item delete_record" data-id="' . $subscription->id . '" href="javascript:void(0);">Delete</a>
+                                <a class="dropdown-item delete_record" data-id="' . $place->id . '" href="javascript:void(0);">Delete</a>
                             </li>';
 
                 $actions .= '</ul>';
 
                 $actions .= '</div>';
 
-                $subscriptions[] = [
-                    'image' => $userAvatar,
-                    'name' => $subscription->name,
-                    'price' => $subscription->price,
-                    'desc' => $subscription->desc,
-                    // 'createdAt' => Carbon::createFromFormat('Y-m-d H:i:s', $subscription->created_at)->format('d M, Y h:i A'),
+                $places[] = [
+                    'file' => $userAvatar,
+                    'title' => $place->title,
+                    'loc' => $place->loc,
+                    'desc' => $place->desc,
+                    // 'createdAt' => Carbon::createFromFormat('Y-m-d H:i:s', $place->created_at)->format('d M, Y h:i A'),
                     'actions' => $actions
                 ];
             }
         }
         return [
             'draw' => 1,
-            'recordsTotal' => count($subscriptions),
-            'recordsFiltered' => count($subscriptions),
-            'data' => $subscriptions
+            'recordsTotal' => count($places),
+            'recordsFiltered' => count($places),
+            'data' => $places
         ];
     }
 }

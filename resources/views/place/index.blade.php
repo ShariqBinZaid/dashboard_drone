@@ -5,7 +5,7 @@
         <div id="kt_app_toolbar_container" class="app-container container-xxl d-flex flex-stack">
             <div class="page-title d-flex flex-column justify-content-center flex-wrap me-3">
                 <h1 class="page-heading d-flex text-dark fw-bold fs-3 flex-column justify-content-center my-0">
-                    Subscriptions List</h1>
+                    Place List</h1>
                 <ul class="breadcrumb breadcrumb-separatorless fw-semibold fs-7 my-0 pt-1">
                     <li class="breadcrumb-item text-muted">
                         <a href="{{ route('dashboard') }}" class="text-muted text-hover-primary">Home</a>
@@ -13,11 +13,11 @@
                     <li class="breadcrumb-item">
                         <span class="bullet bg-gray-400 w-5px h-2px"></span>
                     </li>
-                    <li class="breadcrumb-item text-muted">Subscriptions Details</li>
+                    <li class="breadcrumb-item text-muted">Place Details</li>
                     <li class="breadcrumb-item">
                         <span class="bullet bg-gray-400 w-5px h-2px"></span>
                     </li>
-                    <li class="breadcrumb-item text-muted">Subscriptions</li>
+                    <li class="breadcrumb-item text-muted">Place</li>
             </div>
         </div>
     </div>
@@ -41,7 +41,7 @@
                                 </svg>
                             </span>
                             <input type="text" data-kt-user-table-filter="search"
-                                class="form-control form-control-solid w-250px ps-14" placeholder="Search Subscriptions"
+                                class="form-control form-control-solid w-250px ps-14" placeholder="Search Place"
                                 id="search_table" />
                         </div>
                     </div>
@@ -59,7 +59,7 @@
                                         <rect x="4.36396" y="11.364" width="16" height="2" rx="1"
                                             fill="currentColor" />
                                     </svg>
-                                </span>Add Subscriptions
+                                </span>Add Place
                             </button>
                             {{-- @endif --}}
 
@@ -141,12 +141,12 @@
                     </div>
                 </div>
                 <div class="card-body py-4">
-                    <table class="table align-middle table-row-dashed fs-6 gy-5" id="subscriptions_table">
+                    <table class="table align-middle table-row-dashed fs-6 gy-5" id="place_table">
                         <thead>
                             <tr class="text-start text-muted fw-bold fs-7 text-uppercase gs-0">
-                                <th>Image</th>
-                                <th>Name</th>
-                                <th>Price</th>
+                                <th>File</th>
+                                <th>Title</th>
+                                <th>Location</th>
                                 <th>Descriptions</th>
                                 <th>Actions</th>
                             </tr>
@@ -167,7 +167,7 @@
                     </div>
                     <div class="card-body py-5">
 
-                        <form class="subscriptionsFrom" enctype="multipart/form-data">
+                        <form class="placeFrom" enctype="multipart/form-data">
                             @csrf
 
                             <input type="hidden" name="id">
@@ -194,9 +194,9 @@
                                         data-kt-image-input-action="change" data-bs-toggle="tooltip"
                                         title="Change avatar">
                                         <i class="bi bi-pencil-fill fs-7"></i>
-                                        <input type="file" id="imgInp" name="image"
+                                        <input type="file" id="imgInp" name="file"
                                             accept=".png, .jpg, .jpeg" />
-                                        <input type="hidden" name="image" />
+                                        <input type="hidden" name="file" />
                                     </label>
                                     <span
                                         class="btn btn-icon btn-circle btn-active-color-primary w-25px h-25px bg-body shadow"
@@ -218,16 +218,16 @@
                             <div class="row">
                                 <div class="col-md-6">
                                     <div class="mb-10">
-                                        <label for="name" class="form-label">Name</label>
-                                        <input class="form-control removeclass" placeholder="Name" name="name"
-                                            type="text" id="name" value="">
+                                        <label for="title" class="form-label">Title</label>
+                                        <input class="form-control removeclass" placeholder="Title" name="title"
+                                            type="text" id="title" value="">
                                     </div>
                                 </div>
                                 <div class="col-md-6">
                                     <div class="mb-10">
-                                        <label for="price" class="form-label">Price</label>
-                                        <input class="form-control removeclass" placeholder="Price" name="price"
-                                            type="text" id="price" value="">
+                                        <label for="loc" class="form-label">Location</label>
+                                        <input class="form-control removeclass" placeholder="Location" name="loc"
+                                            type="text" id="loc" value="">
                                     </div>
                                 </div>
                             </div>
@@ -236,7 +236,8 @@
                                 <div class="col-md-12">
                                     <div class="mb-10">
                                         <label for="desc" class="form-label">Descriptions</label>
-                                        <textarea class="form-control removeclass" name="desc" id="desc" palceholder="Descriptions" cols="30" rows="10"></textarea>
+                                        <textarea class="form-control removeclass" name="desc" id="desc" palceholder="Descriptions" cols="30"
+                                            rows="10"></textarea>
                                     </div>
                                 </div>
                             </div>
@@ -288,23 +289,23 @@
             var years = moment().diff(start, "years");
             // alert("You are " + years + " years old!");
         });
-        let table = $('#subscriptions_table').DataTable({
+        let table = $('#place_table').DataTable({
             responsive: true,
             // processing: true,
             // serverSide: true,
             pageLength: 10,
             lengthChange: true,
             ajax: {
-                url: "{{ route('subscriptions.list') }}",
+                url: "{{ route('place.list') }}",
             },
             columns: [{
-                    data: 'image'
+                    data: 'file'
                 },
                 {
-                    data: 'name'
+                    data: 'title'
                 },
                 {
-                    data: 'price'
+                    data: 'loc'
                 },
                 {
                     data: 'desc'
@@ -320,13 +321,13 @@
             let id = $(this).attr('data-id');
             $('.drawertitle').html('Edit User')
             showloader('none')
-            $.get('{{ route('subscriptions.show', '') }}/' + id, {
+            $.get('{{ route('place.show', '') }}/' + id, {
                 _token: '{{ csrf_token() }}',
                 id: id
             }, function(d) {
                 $('#kt_drawer_example_basic').find('input[name="id"]').val(d.data.id)
-                $('#kt_drawer_example_basic').find('input[name="name"]').val(d.data.name)
-                $('#kt_drawer_example_basic').find('input[name="price"]').val(d.data.price)
+                $('#kt_drawer_example_basic').find('input[name="title"]').val(d.data.title)
+                $('#kt_drawer_example_basic').find('input[name="loc"]').val(d.data.loc)
                 $('#kt_drawer_example_basic').find('textarea[name="desc"]').val(d.data.desc)
             }, 'json')
 
@@ -336,7 +337,7 @@
             table.search($(this).val()).draw();
         });
 
-        $('body').on('submit', '.subscriptionsFrom', function(e) {
+        $('body').on('submit', '.placeFrom', function(e) {
             e.preventDefault();
             var formData = new FormData(this);
             showloader('block')
@@ -347,7 +348,7 @@
             });
             $.ajax({
                 type: 'POST',
-                url: "{{ route('subscriptions.store', '') }}",
+                url: "{{ route('place.store', '') }}",
                 data: formData,
                 cache: false,
                 contentType: false,
@@ -374,7 +375,7 @@
             let id = $(this).attr('data-id');
 
             Swal.fire({
-                html: `Are you sure you want to delete this Subscriptions`,
+                html: `Are you sure you want to delete this Place`,
                 icon: "info",
                 buttonsStyling: false,
                 showCancelButton: true,
@@ -389,7 +390,7 @@
                 if (data.isConfirmed == true) {
                     showloader('block')
                     $.ajax({
-                        url: '{{ route('subscriptions.destroy', '') }}/' + id,
+                        url: '{{ route('place.destroy', '') }}/' + id,
                         type: 'DELETE',
                         dataType: 'json',
                         data: {

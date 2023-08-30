@@ -3,7 +3,10 @@
 use Illuminate\Support\Facades\Route;
 
 use App\Http\Controllers\ApiController;
+use App\Http\Controllers\PostsController;
+use App\Http\Controllers\BestPlaceController;
 use App\Http\Controllers\CategoriesController;
+use App\Http\Controllers\SubscriptionsController;
 
 /*
 |--------------------------------------------------------------------------
@@ -29,5 +32,20 @@ Route::middleware('auth:api')->group(function () {
 
     Route::controller(ApiController::class)->group(function () {
         Route::get('locations', 'locations')->name('locations.locations');
+    });
+
+    Route::controller(SubscriptionsController::class)->group(function () {
+        Route::post('subscriptions', 'store')->name('subscriptions.subscriptions');
+        Route::get('getsubscriptions', 'getsubscriptions')->name('subscriptions.getsubscriptions');
+    });
+
+    Route::controller(BestPlaceController::class)->group(function () {
+        Route::post('place', 'store')->name('place.place');
+        Route::get('getplace', 'getplace')->name('place.getplace');
+    });
+
+    Route::controller(PostsController::class)->group(function () {
+        Route::post('posts', 'store')->name('posts.place');
+        Route::get('getposts', 'getposts')->name('posts.getposts');
     });
 });

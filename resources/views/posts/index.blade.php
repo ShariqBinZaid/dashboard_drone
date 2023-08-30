@@ -5,7 +5,7 @@
         <div id="kt_app_toolbar_container" class="app-container container-xxl d-flex flex-stack">
             <div class="page-title d-flex flex-column justify-content-center flex-wrap me-3">
                 <h1 class="page-heading d-flex text-dark fw-bold fs-3 flex-column justify-content-center my-0">
-                    Clients List</h1>
+                    Posts List</h1>
                 <ul class="breadcrumb breadcrumb-separatorless fw-semibold fs-7 my-0 pt-1">
                     <li class="breadcrumb-item text-muted">
                         <a href="{{ route('dashboard') }}" class="text-muted text-hover-primary">Home</a>
@@ -13,14 +13,16 @@
                     <li class="breadcrumb-item">
                         <span class="bullet bg-gray-400 w-5px h-2px"></span>
                     </li>
-                    <li class="breadcrumb-item text-muted">Client Details</li>
+                    <li class="breadcrumb-item text-muted">Posts Details</li>
                     <li class="breadcrumb-item">
                         <span class="bullet bg-gray-400 w-5px h-2px"></span>
                     </li>
-                    <li class="breadcrumb-item text-muted">Clients</li>
+                    <li class="breadcrumb-item text-muted">Posts</li>
             </div>
         </div>
     </div>
+
+
 
     <div id="kt_app_content" class="app-content flex-column-fluid">
         <div id="kt_app_content_container" class="app-container container-xxl">
@@ -39,7 +41,7 @@
                                 </svg>
                             </span>
                             <input type="text" data-kt-user-table-filter="search"
-                                class="form-control form-control-solid w-250px ps-14" placeholder="Search Clients"
+                                class="form-control form-control-solid w-250px ps-14" placeholder="Search Posts"
                                 id="search_table" />
                         </div>
                     </div>
@@ -57,7 +59,7 @@
                                         <rect x="4.36396" y="11.364" width="16" height="2" rx="1"
                                             fill="currentColor" />
                                     </svg>
-                                </span>Add Clients
+                                </span>Add Posts
                             </button>
                             {{-- @endif --}}
 
@@ -139,15 +141,13 @@
                     </div>
                 </div>
                 <div class="card-body py-4">
-                    <table class="table align-middle table-row-dashed fs-6 gy-5" id="client_table">
+                    <table class="table align-middle table-row-dashed fs-6 gy-5" id="posts_table">
                         <thead>
                             <tr class="text-start text-muted fw-bold fs-7 text-uppercase gs-0">
-                                <th>Image</th>
-                                <th>First Name</th>
-                                <th>Last Name</th>
-                                <th>Email</th>
-                                <th>Country</th>
-                                {{-- <th>Password</th> --}}
+                                <th>File</th>
+                                <th>Date</th>
+                                <th>Descriptions</th>
+                                <th>Post Type</th>
                                 <th>Actions</th>
                             </tr>
                         </thead>
@@ -167,97 +167,96 @@
                     </div>
                     <div class="card-body py-5">
 
-                        <form class="clientForm" enctype="multipart/form-data">
+                        <form class="placeFrom" enctype="multipart/form-data">
                             @csrf
 
                             <input type="hidden" name="id">
 
+                            <div class="fv-row mb-7">
+
+                                <label class="d-block fw-semibold fs-6 mb-5">Display Image</label>
+                                <style>
+                                    .image-input-placeholder {
+                                        background-image: url('{{ asset('assets/media/svg/files/blank-image.svg') }}');
+                                    }
+
+                                    [data-theme="dark"] .image-input-placeholder {
+                                        background-image: url('{{ asset('assets/media/svg/files/blank-image-dark.svg') }}');
+                                    }
+                                </style>
+                                <div class="image-input image-input-outline image-input-placeholder"
+                                    data-kt-image-input="true">
+                                    <div class="image-input-wrapper w-125px h-125px dispalyImage">
+
+                                    </div>
+                                    <label
+                                        class="btn btn-icon btn-circle btn-active-color-primary w-25px h-25px bg-body shadow"
+                                        data-kt-image-input-action="change" data-bs-toggle="tooltip"
+                                        title="Change avatar">
+                                        <i class="bi bi-pencil-fill fs-7"></i>
+                                        <input type="file" id="imgInp" name="file"
+                                            accept=".png, .jpg, .jpeg" />
+                                        <input type="hidden" name="file" />
+                                    </label>
+                                    <span
+                                        class="btn btn-icon btn-circle btn-active-color-primary w-25px h-25px bg-body shadow"
+                                        data-kt-image-input-action="cancel" data-bs-toggle="tooltip"
+                                        title="Cancel avatar">
+                                        <i class="bi bi-x fs-2"></i>
+                                    </span>
+                                    <span
+                                        class="btn btn-icon btn-circle btn-active-color-primary w-25px h-25px bg-body shadow"
+                                        data-kt-image-input-action="remove" data-bs-toggle="tooltip"
+                                        title="Remove avatar">
+                                        <i class="bi bi-x fs-2"></i>
+                                    </span>
+                                </div>
+                                <div class="form-text">Allowed file types: png, jpg, jpeg.</div>
+
+                            </div>
+
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="mb-10">
+                                        <label for="date" class="form-label">Date</label>
+                                        <input class="form-control removeclass" placeholder="Date" name="date"
+                                            type="text" id="date" value="">
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="mb-10">
+                                        <label for="category_id" class="form-label">Select Category</label>
+                                        <select class="mb-5 form-select select2-example addnewselect"
+                                            aria-label="Floating label select example" id="category_id"
+                                            name="category_id">
+                                            <option selected disabled>Social Network</option>
+                                            @foreach ($categories as $categorie)
+                                                <option value="{{ $categorie->id }}">
+                                                    {{ $categorie->name }}</option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+
                             <div class="row">
                                 <div class="col-md-12">
-                                    <div class="fv-row mb-7">
-
-                                        <label class="d-block fw-semibold fs-6 mb-5">Image</label>
-                                        <style>
-                                            .image-input-placeholder {
-                                                background-image: url('{{ asset('assets/media/svg/files/blank-image.svg') }}');
-                                            }
-
-                                            [data-theme="dark"] .image-input-placeholder {
-                                                background-image: url('{{ asset('assets/media/svg/files/blank-image-dark.svg') }}');
-                                            }
-                                        </style>
-                                        <div class="image-input image-input-outline image-input-placeholder"
-                                            data-kt-image-input="true">
-                                            <div class="image-input-wrapper w-125px h-125px dispalyImage">
-
-                                            </div>
-                                            <label
-                                                class="btn btn-icon btn-circle btn-active-color-primary w-25px h-25px bg-body shadow"
-                                                data-kt-image-input-action="change" data-bs-toggle="tooltip"
-                                                title="Change avatar">
-                                                <i class="bi bi-pencil-fill fs-7"></i>
-                                                <input type="file" id="imgInp" name="image"
-                                                    accept=".png, .jpg, .jpeg" />
-                                                <input type="hidden" name="image" />
-                                            </label>
-                                            <span
-                                                class="btn btn-icon btn-circle btn-active-color-primary w-25px h-25px bg-body shadow"
-                                                data-kt-image-input-action="cancel" data-bs-toggle="tooltip"
-                                                title="Cancel avatar">
-                                                <i class="bi bi-x fs-2"></i>
-                                            </span>
-                                            <span
-                                                class="btn btn-icon btn-circle btn-active-color-primary w-25px h-25px bg-body shadow"
-                                                data-kt-image-input-action="remove" data-bs-toggle="tooltip"
-                                                title="Remove avatar">
-                                                <i class="bi bi-x fs-2"></i>
-                                            </span>
-                                        </div>
-                                        <div class="form-text">Allowed file types: png, jpg, jpeg.</div>
+                                    <div class="mb-10">
+                                        <label for="post_type" class="form-label">Select Post Type</label>
+                                        <select class="form-control" name="post_type" id="post_type">
+                                            <option value="post">Post</option>
+                                            <option value="competition">Competition</option>
+                                        </select>
                                     </div>
                                 </div>
                             </div>
 
                             <div class="row">
-                                <div class="col-md-6">
+                                <div class="col-md-12">
                                     <div class="mb-10">
-                                        <label for="first_name" class="form-label">First Name</label>
-                                        <input class="form-control" placeholder="First Name" name="first_name"
-                                            type="text" id="first_name">
-                                    </div>
-                                </div>
-                                <div class="col-md-6">
-                                    <div class="mb-10">
-                                        <label for="last_name" class="form-label">Last Name</label>
-                                        <input class="form-control" placeholder="Last Name" name="last_name"
-                                            type="text" id="last_name">
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="row">
-                                <div class="col-md-6">
-                                    <div class="mb-10">
-                                        <label for="email" class="form-label">Email</label>
-                                        <input class="form-control" placeholder="Email" name="email" type="text"
-                                            id="email">
-                                    </div>
-                                </div>
-                                <div class="col-md-6">
-                                    <div class="mb-10">
-                                        <label for="country" class="form-label">Country</label>
-                                        <input class="form-control" placeholder="Country" name="country"
-                                            type="text" id="country">
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="row">
-                                <div class="col-md-6">
-                                    <div class="mb-10">
-                                        <label for="password" class="form-label">Password</label>
-                                        <input class="form-control" placeholder="Password" name="password"
-                                            type="text" id="password">
+                                        <label for="desc" class="form-label">Descriptions</label>
+                                        <textarea class="form-control removeclass" name="desc" id="desc" palceholder="Descriptions" cols="30"
+                                            rows="10"></textarea>
                                     </div>
                                 </div>
                             </div>
@@ -276,7 +275,6 @@
                                 </button>
                             </div>
                         </form>
-
                     </div>
                 </div>
             </div>
@@ -301,7 +299,7 @@
 
 <script>
     $(document).ready(function() {
-        $("#join_on").daterangepicker({
+        $("#date").daterangepicker({
             singleDatePicker: true,
             showDropdowns: true,
             minYear: 1901,
@@ -310,98 +308,58 @@
             var years = moment().diff(start, "years");
             // alert("You are " + years + " years old!");
         });
-        let table = $('#client_table').DataTable({
+        let table = $('#posts_table').DataTable({
             responsive: true,
             // processing: true,
             // serverSide: true,
             pageLength: 10,
             lengthChange: true,
             ajax: {
-                url: "{{ route('client.list') }}",
+                url: "{{ route('posts.list') }}",
             },
             columns: [{
-                    data: 'image'
+                    data: 'file'
                 },
                 {
-                    data: 'first_name'
+                    data: 'title'
                 },
                 {
-                    data: 'last_name'
+                    data: 'loc'
                 },
                 {
-                    data: 'email'
+                    data: 'desc'
                 },
-                {
-                    data: 'country'
-                },
-                // {
-                //     data: 'password'
-                // },
                 {
                     data: 'actions'
                 }
             ],
         });
 
-        $("#addSocialNetwork").click(function() {
-            const container = $(".social-select-container");
-            const newSelectRow = container.find(".row").last().clone();
-            newSelectRow.find('.addnewselect');
-            newSelectRow.find('.removeclass').val('');
-            container.append(newSelectRow);
-        });
-
-        $("#delSocialNetwork").click(function() {
-            const container = $(".social-select-container");
-            const selectRows = container.find(".row");
-            if (selectRows.length > 1) {
-                selectRows.last().remove();
-            }
-        });
-
         $('body').on('click', '.edit_blog', function() {
             $('.passwordDiv').hide();
             let id = $(this).attr('data-id');
-            $('.drawertitle').html('Edit Client')
-            // showloader('block')
-            $.get('{{ route('client.show', '') }}/' + id, {
+            $('.drawertitle').html('Edit User')
+            showloader('none')
+            $.get('{{ route('posts.show', '') }}/' + id, {
                 _token: '{{ csrf_token() }}',
                 id: id
             }, function(d) {
                 $('#kt_drawer_example_basic').find('input[name="id"]').val(d.data.id)
-                $('#kt_drawer_example_basic').find('input[name="first_name"]').val(d.data
-                    .first_name)
-                $('#kt_drawer_example_basic').find('input[name="last_name"]').val(d.data
-                    .last_name)
-                $('#kt_drawer_example_basic').find('input[name="email"]').val(d.data
-                    .email)
-                $('#kt_drawer_example_basic').find('input[name="country"]').val(d.data
-                    .country)
-                $('#kt_drawer_example_basic').find('input[name="password"]').val(d.data
-                    .password)
-                var image = "{{ asset('assets/media/svg/files/blank-image-dark.svg') }}";
-                if (d.data.icon != 'http://127.0.0.1:8000/storage') {
-                    image = d.data.icon
-                }
-                $('#kt_drawer_example_basic').find('.dispalyImage').css('background-image',
-                    'url(' + image + ')')
-                // $('#kt_drawer_example_basic').find('select[name="categorys_id"]').val(d.data
-                // .categorys_id)
-                showloader('none')
+                $('#kt_drawer_example_basic').find('input[name="title"]').val(d.data.title)
+                $('#kt_drawer_example_basic').find('input[name="loc"]').val(d.data.loc)
+                $('#kt_drawer_example_basic').find('textarea[name="desc"]').val(d.data.desc)
             }, 'json')
 
         });
-
 
         $('#search_table').on('keyup', function() {
             table.search($(this).val()).draw();
         });
 
-
-        $('body').on('submit', '.clientForm', function(e) {
+        $('body').on('submit', '.placeFrom', function(e) {
             e.preventDefault();
             var formData = new FormData(this);
-            showloader('none')
+            showloader('block')
             $.ajaxSetup({
                 headers: {
                     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
@@ -409,7 +367,7 @@
             });
             $.ajax({
                 type: 'POST',
-                url: "{{ route('client.store', '') }}",
+                url: "{{ route('posts.store', '') }}",
                 data: formData,
                 cache: false,
                 contentType: false,
@@ -432,12 +390,11 @@
             });
         });
 
-
         $('body').on('click', '.delete_record', function() {
             let id = $(this).attr('data-id');
 
             Swal.fire({
-                html: `Are you sure you want to delete this Client`,
+                html: `Are you sure you want to delete this Place`,
                 icon: "info",
                 buttonsStyling: false,
                 showCancelButton: true,
@@ -452,7 +409,7 @@
                 if (data.isConfirmed == true) {
                     showloader('block')
                     $.ajax({
-                        url: '{{ route('client.destroy', '') }}/' + id,
+                        url: '{{ route('posts.destroy', '') }}/' + id,
                         type: 'DELETE',
                         dataType: 'json',
                         data: {
