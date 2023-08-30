@@ -26,7 +26,7 @@ class PostsController extends Controller
     public function list(Request $req)
     {
         $req = $req->input();
-        $posts = Posts::get();
+        $posts = Posts::with('getCategorys')->get();
         return new PostsResource($posts);
     }
 

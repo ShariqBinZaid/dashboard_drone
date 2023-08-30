@@ -22,8 +22,6 @@
         </div>
     </div>
 
-
-
     <div id="kt_app_content" class="app-content flex-column-fluid">
         <div id="kt_app_content_container" class="app-container container-xxl">
             <div class="card">
@@ -140,6 +138,7 @@
                         </div>
                     </div>
                 </div>
+
                 <div class="card-body py-4">
                     <table class="table align-middle table-row-dashed fs-6 gy-5" id="posts_table">
                         <thead>
@@ -147,6 +146,7 @@
                                 <th>File</th>
                                 <th>Date</th>
                                 <th>Descriptions</th>
+                                {{-- <th>Category</th> --}}
                                 <th>Post Type</th>
                                 <th>Actions</th>
                             </tr>
@@ -321,13 +321,16 @@
                     data: 'file'
                 },
                 {
-                    data: 'title'
-                },
-                {
-                    data: 'loc'
+                    data: 'date'
                 },
                 {
                     data: 'desc'
+                },
+                // {
+                //     data: 'category_id'
+                // },
+                {
+                    data: 'post_type'
                 },
                 {
                     data: 'actions'
@@ -347,6 +350,10 @@
                 $('#kt_drawer_example_basic').find('input[name="id"]').val(d.data.id)
                 $('#kt_drawer_example_basic').find('input[name="title"]').val(d.data.title)
                 $('#kt_drawer_example_basic').find('input[name="loc"]').val(d.data.loc)
+                $('#kt_drawer_example_basic').find('select[name="category_id"]').val(d.data
+                    .category_id)
+                $('#kt_drawer_example_basic').find('select[name="post_type"]').val(d.data
+                    .post_type)
                 $('#kt_drawer_example_basic').find('textarea[name="desc"]').val(d.data.desc)
             }, 'json')
 

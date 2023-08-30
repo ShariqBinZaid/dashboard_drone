@@ -71,8 +71,12 @@
                                             <div class="text-gray-600 text-capitalize">{{ $user->email }}</div>
                                             <div class="fw-bold mt-5">Phone</div>
                                             <div class="text-gray-600 text-capitalize">{{ $user->phone }}</div>
+                                            <div class="fw-bold mt-5">Date Of Birth</div>
+                                            <div class="text-gray-600 text-capitalize">{{ $user->dob }}</div>
+                                            <div class="fw-bold mt-5">Gender</div>
+                                            <div class="text-gray-600 text-capitalize">{{ $user->gender }}</div>
                                             <div class="fw-bold mt-5">User Type</div>
-                                            <div class="text-gray-600 text-capitalize">{{ $user->User_type }}</div>
+                                            <div class="text-gray-600 text-capitalize">{{ $user->user_type }}</div>
                                             <div class="fw-bold mt-5">Contact Number</div>
                                             <div class="text-gray-600 text-capitalize">{{ $user->phone }}</div>
                                             <div class="fw-bold mt-5">Country</div>
@@ -176,17 +180,36 @@
                                                 </div>
 
                                                 <div class="mb-10">
-                                                    <label for="email" class="form-label">Address</label>
+                                                    <label for="address" class="form-label">Address</label>
                                                     <input class="form-control" placeholder="Address" name="address"
                                                         type="text" id="address" value="{{ $user->address }}">
                                                 </div>
 
                                                 <div class="mb-10">
-                                                    <label for="email" class="form-label">Gender</label>
+                                                    <label for="country" class="form-label">Country</label>
+                                                    <input class="form-control" placeholder="Country" name="country"
+                                                        type="text" id="country" value="{{ $user->country }}">
+                                                </div>
+
+                                                <div class="mb-10">
+                                                    <label for="desc" class="form-label">Descriptions</label>
+                                                    <input class="form-control" placeholder="Descriptions" name="desc"
+                                                        type="text" id="desc" value="{{ $user->desc }}">
+                                                </div>
+
+                                                <div class="mb-10">
+                                                    <label for="gender" class="form-label">Gender</label>
                                                     <select class="form-control" name="gender" id="gender">
                                                         <option value="male">Male</option>
                                                         <option value="female">Female</option>
                                                     </select>
+                                                </div>
+
+                                                <div class="mb-10">
+                                                    <label for="dob" class="form-label">Date Of Birth</label>
+                                                    <input class="form-control" placeholder="Date Of Birth"
+                                                        name="dob" type="text" id="dob"
+                                                        value="{{ $user->dob }}">
                                                 </div>
 
                                                 <div class="mb-10">
@@ -197,7 +220,15 @@
                                                 </div>
 
                                                 <div class="mb-10">
-                                                    <label for="email" class="form-label">Active</label>
+                                                    <label for="user_type" class="form-label">User Type</label>
+                                                    <select class="form-control" name="user_type" id="user_type">
+                                                        <option value="admin">Admin</option>
+                                                        <option value="user">User</option>
+                                                    </select>
+                                                </div>
+
+                                                <div class="mb-10">
+                                                    <label for="is_active" class="form-label">Active</label>
                                                     <select class="form-control" name="is_active" id="is_active">
                                                         <option value="1"
                                                             {{ $user->is_active == 'active' ? 'selected' : '' }}>Active
