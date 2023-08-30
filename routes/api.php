@@ -3,7 +3,7 @@
 use Illuminate\Support\Facades\Route;
 
 use App\Http\Controllers\ApiController;
-
+use App\Http\Controllers\CategoriesController;
 
 /*
 |--------------------------------------------------------------------------
@@ -22,4 +22,12 @@ Route::post('userupdate', [ApiController::class, 'userupdate']);
 Route::post('phoneotp', [ApiController::class, 'phoneotp']);
 
 Route::middleware('auth:api')->group(function () {
+    Route::controller(CategoriesController::class)->group(function () {
+        Route::post('categories', 'store')->name('categories.categories');
+        Route::get('getcategories', 'getcategories')->name('categories.getcategories');
+    });
+
+    Route::controller(ApiController::class)->group(function () {
+        Route::get('locations', 'locations')->name('locations.locations');
+    });
 });

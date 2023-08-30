@@ -1,17 +1,19 @@
 <?php
 
-use App\Http\Controllers\ApiController;
 use App\Models\User;
-
 use Illuminate\Support\Facades\Auth;
+
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\ApiController;
 use Illuminate\Support\Facades\Artisan;
 use App\Http\Controllers\BlogsController;
+use App\Http\Controllers\ParentController;
+use App\Http\Controllers\PackagesController;
+use App\Http\Controllers\CategoriesController;
 use App\Http\Controllers\Users\UserController;
 use App\Http\Controllers\Users\ClientController;
+use App\Http\Controllers\SubscriptionsController;
 use App\Http\Controllers\Modules\ModulesController;
-use App\Http\Controllers\PackagesController;
-use App\Http\Controllers\ParentController;
 use App\Http\Controllers\RolePermission\RoleController;
 use App\Http\Controllers\RolePermission\AttachController;
 use App\Http\Controllers\RolePermission\RolePermissionController;
@@ -84,18 +86,20 @@ Route::middleware(['auth', 'verified'])->group(function () {
         Route::DELETE('role/destory/{id?}', 'destory')->name('role.destory');
     });
 
-    // ************************ Client  ************************ //
-    Route::resource('client', ClientController::class);
-    Route::controller(ClientController::class)->group(function () {
-        Route::get('user/client/lists', 'list')->name('client.list');
-        // Route::get('/client/{clientId}/social-networks', 'getClientSocialNetworks')->name('client.social');
+
+    // ************************ Categories  ************************ //
+    Route::resource('categories', CategoriesController::class);
+    Route::controller(CategoriesController::class)->group(function () {
+        Route::get('user/categories/lists', 'list')->name('categories.list');
     });
 
-    // ************************ Packages  ************************ //
-    Route::resource('packages', PackagesController::class);
-    Route::controller(PackagesController::class)->group(function () {
-        Route::get('user/packages/lists', 'list')->name('packages.list');
+
+    // ************************ Subscriptions  ************************ //
+    Route::resource('subscriptions', SubscriptionsController::class);
+    Route::controller(SubscriptionsController::class)->group(function () {
+        Route::get('user/subscriptions/lists', 'list')->name('subscriptions.list');
     });
+
 
     // ************************ Modules  ************************ //
     Route::resource('module', ModulesController::class);

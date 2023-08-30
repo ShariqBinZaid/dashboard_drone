@@ -7,12 +7,13 @@ namespace Database\Seeders;
 use App\Models\Role;
 use App\Models\User;
 use App\Models\Briefs;
+use App\Models\Orders;
 use App\Models\Clients;
 use App\Models\Modules;
-use App\Models\Orders;
 use App\Models\Packages;
 use App\Models\UserRole;
 use App\Models\UserType;
+use App\Models\Categories;
 use App\Models\Permission;
 use App\Models\UserInType;
 use App\Models\RolePermission;
@@ -35,94 +36,57 @@ class DatabaseSeeder extends Seeder
         //     'email' => 'test@example.com',
         // ]);
 
+        Categories::create([
+            'name' => 'Cinemetography',
+        ]);
+        Categories::create([
+            'name' => 'Tricks',
+        ]);
+
         User::create([
+            'display_picture' => 'profileimage/test.png',
+            'category_id' => '1',
             'first_name' => 'Admin',
             'last_name' => 'Admin',
+            'gender' => 'male',
+            'phone' => '1234567890',
+            'file' => 'profileimage/test.png',
+            'dob' => '2023-08-23',
             'email' => 'admin@test.com',
-            'phone' => '123456',
+            'country' => 'Dubai',
+            'address' => 'Emirates',
+            'desc' => 'Admin',
+            'is_active' => '1',
             'password' => Hash::make('123456'),
-            'display_picture' => 'profileimage/test.png',
             'user_type' => 'admin'
         ]);
         User::create([
+            'display_picture' => 'profileimage/test.png',
+            'category_id' => '2',
             'first_name' => 'User',
             'last_name' => 'User',
+            'gender' => 'male',
+            'phone' => '123456789',
+            'file' => 'profileimage/test.png',
+            'dob' => '2023-08-23',
             'email' => 'user@test.com',
-            'phone' => '123456',
+            'country' => 'United State',
+            'address' => 'California',
+            'desc' => 'Admin',
+            'is_active' => '1',
             'password' => Hash::make('123456'),
-            'display_picture' => 'profileimage/test.png',
             'user_type' => 'user'
         ]);
 
-        Packages::create([
-            'name' => 'Packages 1',
-            'desc' => 'Testing',
-            'regular_price' => '100',
-            'sale_price' => '50',
-        ]);
-        Packages::create([
-            'name' => 'Packages 2',
-            'desc' => 'Testing',
-            'regular_price' => '80',
-            'sale_price' => '40',
-        ]);
-        Packages::create([
-            'name' => 'Packages 3',
-            'desc' => 'Testing',
-            'regular_price' => '60',
-            'sale_price' => '30',
-        ]);
+        // Clients::create([
+        //     'image' => 'profileimage/test.png',
+        //     'first_name' => 'Client 2',
+        //     'last_name' => 'Testing 2',
+        //     'country' => 'California',
+        //     'email' => 'client2@test.com',
+        //     'password' => Hash::make('123456'),
+        // ]);
 
-        Clients::create([
-            'image' => 'profileimage/test.png',
-            'first_name' => 'Client 1',
-            'last_name' => 'Testing 1',
-            'email' => 'client1@test.com',
-            'country' => 'California',
-            'password' => Hash::make('123456'),
-        ]);
-        Clients::create([
-            'image' => 'profileimage/test.png',
-            'first_name' => 'Client 2',
-            'last_name' => 'Testing 2',
-            'country' => 'California',
-            'email' => 'client2@test.com',
-            'password' => Hash::make('123456'),
-        ]);
-
-        Orders::create([
-            'package_id' => '1',
-            'client_id' => '1',
-            'amount' => '100',
-            'payment_status' => 'unpaid',
-            'status' => 'unpaid',
-        ]);
-        Orders::create([
-            'package_id' => '2',
-            'client_id' => '2',
-            'amount' => '80',
-            'payment_status' => 'paid',
-            'status' => 'paid',
-        ]);
-
-        Briefs::create([
-            'order_id' => '1',
-            'name' => 'Client 1',
-            'email' => 'client1@test.com',
-            'country' => 'California',
-            'file' => 'Testing 1',
-            'color_theme' => 'Yellow',
-            'business_type' => 'Blog',
-        ]);
-        Briefs::create([
-            'order_id' => '2',
-            'name' => 'Client 2',
-            'email' => 'client2@test.com',
-            'country' => 'California',
-            'file' => 'Testing 2',
-            'color_theme' => 'Blue',
-            'business_type' => 'E-Commerce',
-        ]);
 
         $modules = ['Users', 'Roles', 'Clients', 'Modules'];
         foreach ($modules as  $module) {
@@ -212,19 +176,5 @@ class DatabaseSeeder extends Seeder
             'user_type' => 2,
         ]);
 
-        // $packages = [[
-        //     'name' => 'Packages 1',
-        //     'no_of_session' => '1 Session',
-        //     'total_time' => '30',
-        //     'session_time' => '30 Minute',
-        //     'price' => '10',
-        // ], [
-        //     'name' => 'Packages 2',
-        //     'no_of_session' => '2 Session',
-        //     'total_time' => '60',
-        //     'session_time' => '30 Minute',
-        //     'price' => '20',
-        // ]];
-        // Packages::insert($packages);
     }
 }

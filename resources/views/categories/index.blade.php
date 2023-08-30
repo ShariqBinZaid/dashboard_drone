@@ -5,7 +5,7 @@
         <div id="kt_app_toolbar_container" class="app-container container-xxl d-flex flex-stack">
             <div class="page-title d-flex flex-column justify-content-center flex-wrap me-3">
                 <h1 class="page-heading d-flex text-dark fw-bold fs-3 flex-column justify-content-center my-0">
-                    Packages List</h1>
+                    Categories List</h1>
                 <ul class="breadcrumb breadcrumb-separatorless fw-semibold fs-7 my-0 pt-1">
                     <li class="breadcrumb-item text-muted">
                         <a href="{{ route('dashboard') }}" class="text-muted text-hover-primary">Home</a>
@@ -13,11 +13,11 @@
                     <li class="breadcrumb-item">
                         <span class="bullet bg-gray-400 w-5px h-2px"></span>
                     </li>
-                    <li class="breadcrumb-item text-muted">Package Details</li>
+                    <li class="breadcrumb-item text-muted">Categories Details</li>
                     <li class="breadcrumb-item">
                         <span class="bullet bg-gray-400 w-5px h-2px"></span>
                     </li>
-                    <li class="breadcrumb-item text-muted">Packages</li>
+                    <li class="breadcrumb-item text-muted">Categories</li>
             </div>
         </div>
     </div>
@@ -41,7 +41,7 @@
                                 </svg>
                             </span>
                             <input type="text" data-kt-user-table-filter="search"
-                                class="form-control form-control-solid w-250px ps-14" placeholder="Search Packages"
+                                class="form-control form-control-solid w-250px ps-14" placeholder="Search Categories"
                                 id="search_table" />
                         </div>
                     </div>
@@ -59,7 +59,7 @@
                                         <rect x="4.36396" y="11.364" width="16" height="2" rx="1"
                                             fill="currentColor" />
                                     </svg>
-                                </span>Add Packages
+                                </span>Add Categories
                             </button>
                             {{-- @endif --}}
 
@@ -141,15 +141,10 @@
                     </div>
                 </div>
                 <div class="card-body py-4">
-                    <table class="table align-middle table-row-dashed fs-6 gy-5" id="package_table">
+                    <table class="table align-middle table-row-dashed fs-6 gy-5" id="categories_table">
                         <thead>
                             <tr class="text-start text-muted fw-bold fs-7 text-uppercase gs-0">
-                                <th>Package</th>
-                                <th>No. Of Sessions</th>
-                                <th>Session Time</th>
-                                <th>Discount Offer %</th>
-                                <th>Sale Price</th>
-                                <th>Price</th>
+                                <th>Name</th>
                                 <th>Actions</th>
                             </tr>
                         </thead>
@@ -169,7 +164,7 @@
                     </div>
                     <div class="card-body py-5">
 
-                        <form class="packageFrom" enctype="multipart/form-data">
+                        <form class="categoriesFrom" enctype="multipart/form-data">
                             @csrf
 
                             <input type="hidden" name="id">
@@ -218,52 +213,11 @@
                             </div> --}}
 
                             <div class="row">
-                                <div class="col-md-6">
+                                <div class="col-md-12">
                                     <div class="mb-10">
-                                        <label for="no_of_session" class="form-label">Name</label>
+                                        <label for="name" class="form-label">Name</label>
                                         <input class="form-control removeclass" placeholder="Name" name="name"
                                             type="text" id="name" value="">
-                                    </div>
-                                </div>
-                                <div class="col-md-6">
-                                    <div class="mb-10">
-                                        <label for="no_of_session" class="form-label">Number Of Session</label>
-                                        <input class="form-control removeclass" placeholder="Number Of Session"
-                                            name="no_of_session" type="number" id="no_of_session" value="">
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="row">
-                                <div class="col-md-6">
-                                    <div class="mb-10">
-                                        <label for="last_name" class="form-label">Session Time</label>
-                                        <input class="form-control removeclass" placeholder="Session Time"
-                                            name="session_time" type="number" id="session_time" value="">
-                                    </div>
-                                </div>
-                                <div class="col-md-6">
-                                    <div class="mb-10">
-                                        <label for="email" class="form-label">Price</label>
-                                        <input class="form-control removeclass" placeholder="Price" name="price"
-                                            type="number" id="price" value="">
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="row">
-                                <div class="col-md-6">
-                                    <div class="mb-10">
-                                        <label for="last_name" class="form-label">No of Package Purchase</label>
-                                        <input class="form-control removeclass" placeholder="No of Package Purchase"
-                                            name="noofpkg" type="number" id="noofpkg" value="">
-                                    </div>
-                                </div>
-                                <div class="col-md-6">
-                                    <div class="mb-10">
-                                        <label for="discount_offer" class="form-label">Discount Offer %</label>
-                                        <input class="form-control removeclass" placeholder="Discount Offer"
-                                            name="discount_offer" type="number" id="discount_offer" value="">
                                     </div>
                                 </div>
                             </div>
@@ -315,32 +269,17 @@
             var years = moment().diff(start, "years");
             // alert("You are " + years + " years old!");
         });
-        let table = $('#package_table').DataTable({
+        let table = $('#categories_table').DataTable({
             responsive: true,
             // processing: true,
             // serverSide: true,
             pageLength: 10,
             lengthChange: true,
             ajax: {
-                url: "{{ route('packages.list') }}",
+                url: "{{ route('categories.list') }}",
             },
             columns: [{
                     data: 'name'
-                },
-                {
-                    data: 'no_of_session'
-                },
-                {
-                    data: 'session_time'
-                },
-                {
-                    data: 'discount_offer'
-                },
-                {
-                    data: 'sale_price'
-                },
-                {
-                    data: 'price'
                 },
                 {
                     data: 'actions'
@@ -352,21 +291,13 @@
             $('.passwordDiv').hide();
             let id = $(this).attr('data-id');
             $('.drawertitle').html('Edit User')
-            showloader('block')
-            $.get('{{ route('packages.show', '') }}/' + id, {
+            showloader('none')
+            $.get('{{ route('categories.show', '') }}/' + id, {
                 _token: '{{ csrf_token() }}',
                 id: id
             }, function(d) {
                 $('#kt_drawer_example_basic').find('input[name="id"]').val(d.data.id)
                 $('#kt_drawer_example_basic').find('input[name="name"]').val(d.data.name)
-                $('#kt_drawer_example_basic').find('input[name="no_of_session"]').val(d.data
-                    .no_of_session)
-                $('#kt_drawer_example_basic').find('input[name="discount_offer"]').val(d.data
-                    .discount_offer)
-                $('#kt_drawer_example_basic').find('input[name="session_time"]').val(d.data
-                    .session_time)
-                $('#kt_drawer_example_basic').find('input[name="price"]').val(d.data.price)
-                showloader('none')
             }, 'json')
 
         });
@@ -375,9 +306,7 @@
             table.search($(this).val()).draw();
         });
 
-
-
-        $('body').on('submit', '.packageFrom', function(e) {
+        $('body').on('submit', '.categoriesFrom', function(e) {
             e.preventDefault();
             var formData = new FormData(this);
             showloader('block')
@@ -388,7 +317,7 @@
             });
             $.ajax({
                 type: 'POST',
-                url: "{{ route('packages.store', '') }}",
+                url: "{{ route('categories.store', '') }}",
                 data: formData,
                 cache: false,
                 contentType: false,
@@ -415,7 +344,7 @@
             let id = $(this).attr('data-id');
 
             Swal.fire({
-                html: `Are you sure you want to delete this packages`,
+                html: `Are you sure you want to delete this Categories`,
                 icon: "info",
                 buttonsStyling: false,
                 showCancelButton: true,
@@ -430,7 +359,7 @@
                 if (data.isConfirmed == true) {
                     showloader('block')
                     $.ajax({
-                        url: '{{ route('packages.destroy', '') }}/' + id,
+                        url: '{{ route('categories.destroy', '') }}/' + id,
                         type: 'DELETE',
                         dataType: 'json',
                         data: {
