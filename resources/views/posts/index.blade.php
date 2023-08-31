@@ -146,7 +146,7 @@
                                 <th>File</th>
                                 <th>Date</th>
                                 <th>Descriptions</th>
-                                {{-- <th>Category</th> --}}
+                                <th>Category</th>
                                 <th>Post Type</th>
                                 <th>Actions</th>
                             </tr>
@@ -326,9 +326,9 @@
                 {
                     data: 'desc'
                 },
-                // {
-                //     data: 'category_id'
-                // },
+                {
+                    data: 'category_id'
+                },
                 {
                     data: 'post_type'
                 },

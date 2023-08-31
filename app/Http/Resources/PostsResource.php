@@ -59,7 +59,7 @@ class PostsResource extends JsonResource
                     'file' => $userAvatar,
                     'date' => $post->date,
                     'desc' => $post->desc,
-                    // 'category_id' => $post->getCategorys->name,
+                    'category_id' => $post->getCategorys->name,
                     'post_type' => $post->post_type,
                     // 'createdAt' => Carbon::createFromFormat('Y-m-d H:i:s', $post->created_at)->format('d M, Y h:i A'),
                     'actions' => $actions
