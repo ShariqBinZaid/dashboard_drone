@@ -19,10 +19,12 @@ use App\Http\Controllers\SubscriptionsController;
 |
 */
 
+
 Route::post('register', [ApiController::class, 'register']);
 Route::post('login', [ApiController::class, 'login']);
 Route::post('userupdate', [ApiController::class, 'userupdate']);
 Route::post('phoneotp', [ApiController::class, 'phoneotp']);
+
 
 Route::middleware('auth:api')->group(function () {
     Route::controller(CategoriesController::class)->group(function () {
@@ -49,5 +51,7 @@ Route::middleware('auth:api')->group(function () {
     Route::controller(PostsController::class)->group(function () {
         Route::post('posts', 'store')->name('posts.place');
         Route::get('getposts', 'getposts')->name('posts.getposts');
+        Route::post('usercomments', 'usercomments')->name('place.usercomments');
+        Route::get('getusercomments/{comment_id?}', 'getusercomments')->name('place.getusercomments');
     });
 });

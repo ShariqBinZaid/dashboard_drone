@@ -13,6 +13,7 @@ use Illuminate\Support\Facades\Hash;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Validator;
 use App\Http\Resources\Users\UserAdminResource;
+use App\Models\UserComments;
 use App\Models\UserInType;
 use App\Models\UserType;
 use League\CommonMark\Extension\CommonMark\Node\Inline\Strong;

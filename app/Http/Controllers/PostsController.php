@@ -3,10 +3,12 @@
 namespace App\Http\Controllers;
 
 use App\Models\Posts;
+use App\Models\Categories;
+use App\Models\UserComments;
 use Illuminate\Http\Request;
+use App\Models\UserSubscriptions;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Resources\PostsResource;
-use App\Models\Categories;
 use Illuminate\Support\Facades\Validator;
 
 class PostsController extends Controller
@@ -135,5 +137,35 @@ class PostsController extends Controller
     {
         $getpots = Posts::get();
         return response()->json(['success' => true, 'data' => $getpots]);
+    }
+
+    public function usercomments(Request $req)
+    {
+        $input = $req->all();
+
+        $validator = Validator::make($input, [
+            'comment' => 'required',
+        ]);
+
+        // dd($input);
+        if ($validator->fails()) {
+            return response()->json(['success' => false, 'error' => $validator->errors()]);
+        }
+
+        $input += ['user_id' => Auth::id()];
+        unset($input['_token']);
+        if (@$input['id']) {
+            $usercomments = UserComments::where("id", $input['id'])->update($input);
+            return response()->json(['success' => true, 'msg' => 'User Comments Updated Successfully.']);
+        } else {
+            $usercomments = UserComments::create($input);
+            return response()->json(['success' => true, 'msg' => 'User Comments Created Successfully', 'data' => $usercomments]);
+        }
+    }
+
+    public function getusercomments($comment_id)
+    {
+        $usercomments = UserComments::where('comment_id', $comment_id)->get();
+        return response()->json(['success' => true, 'data' => $usercomments]);
     }
 }

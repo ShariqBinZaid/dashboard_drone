@@ -157,7 +157,7 @@ class SubscriptionsController extends Controller
 
     public function getusersubcriptions($user_id)
     {
-        $getusersubcriptions = UserSubscriptions::with('getSubscriptions')->where('user_id', $user_id)->get();
+        $getusersubcriptions = UserSubscriptions::with('userSubscriptions')->where('user_id', $user_id)->get();
         return response()->json(['success' => true, 'data' => $getusersubcriptions]);
     }
 }
