@@ -37,6 +37,8 @@ Route::middleware('auth:api')->group(function () {
     Route::controller(SubscriptionsController::class)->group(function () {
         Route::post('subscriptions', 'store')->name('subscriptions.subscriptions');
         Route::get('getsubscriptions', 'getsubscriptions')->name('subscriptions.getsubscriptions');
+        Route::post('usersubcriptions', 'usersubcriptions')->name('subscriptions.usersubcriptions');
+        Route::get('getusersubcriptions/{id?}', 'getusersubcriptions')->name('subscriptions.getusersubcriptions');
     });
 
     Route::controller(BestPlaceController::class)->group(function () {

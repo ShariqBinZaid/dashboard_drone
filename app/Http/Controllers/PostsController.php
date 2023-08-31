@@ -130,6 +130,7 @@ class PostsController extends Controller
         Posts::where('id', $id)->forcedelete();
         echo json_encode(['success' => true, 'msg' => 'Posts Deleted Successfully']);
     }
+
     public function getposts()
     {
         $getpots = Posts::get();

@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\Subscriptions;
 use Illuminate\Support\Facades\Validator;
 use App\Http\Resources\SubscriptionsResource;
+use App\Models\UserSubscriptions;
 
 class SubscriptionsController extends Controller
 {
@@ -131,5 +132,32 @@ class SubscriptionsController extends Controller
     {
         $getcategories = Subscriptions::get();
         return response()->json(['success' => true, 'data' => $getcategories]);
+    }
+
+    public function usersubcriptions(Request $req)
+    {
+        $input = $req->all();
+
+        $validator = Validator::make($input, []);
+
+        // dd($input);
+        if ($validator->fails()) {
+            return response()->json(['success' => false, 'error' => $validator->errors()]);
+        }
+
+        unset($input['_token']);
+        if (@$input['id']) {
+            $usersubcriptions = UserSubscriptions::where("id", $input['id'])->update($input);
+            return response()->json(['success' => true, 'msg' => 'User Subscriptions Updated Successfully.']);
+        } else {
+            $usersubcriptions = UserSubscriptions::create($input);
+            return response()->json(['success' => true, 'msg' => 'User Subscriptions Created Successfully', 'data' => $usersubcriptions]);
+        }
+    }
+
+    public function getusersubcriptions($user_id)
+    {
+        $getusersubcriptions = UserSubscriptions::with('getSubscriptions')->where('user_id', $user_id)->get();
+        return response()->json(['success' => true, 'data' => $getusersubcriptions]);
     }
 }

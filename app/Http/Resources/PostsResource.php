@@ -18,7 +18,7 @@ class PostsResource extends JsonResource
 
         if ($this->resource->count() > 0) {
             foreach ($this->resource as $post) {
-                $picture = $post->image != null ? asset('storage/' . $post->image) : '/assets/media/avatars/blank.png';
+                $picture = $post->file != null ? asset('storage/' . $post->file) : '/assets/media/avatars/blank.png';
                 $userAvatar = '<div class="d-flex align-items-center">
                             <div class="symbol symbol-35px symbol-circle">
                                     <img alt="Pic" src="' . $picture . '"

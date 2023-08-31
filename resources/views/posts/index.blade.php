@@ -355,6 +355,12 @@
                 $('#kt_drawer_example_basic').find('select[name="post_type"]').val(d.data
                     .post_type)
                 $('#kt_drawer_example_basic').find('textarea[name="desc"]').val(d.data.desc)
+                var image = "{{ asset('assets/media/svg/files/blank-image-dark.svg') }}";
+                if (d.data.display_picture != 'http://127.0.0.1:8000/storage') {
+                    image = d.data.display_picture
+                }
+                $('#kt_drawer_example_basic').find('.dispalyImage').css('background-image',
+                    'url(' + image + ')')
             }, 'json')
 
         });
