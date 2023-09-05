@@ -34,6 +34,9 @@ Route::middleware('auth:api')->group(function () {
 
     Route::controller(ApiController::class)->group(function () {
         Route::get('locations', 'locations')->name('locations.locations');
+        Route::post('userfollowers', 'userfollowers')->name('followers.userfollowers');
+        Route::post('userlikes', 'userlikes')->name('followers.userlikes');
+        Route::post('usershares', 'usershares')->name('followers.usershares');
     });
 
     Route::controller(SubscriptionsController::class)->group(function () {

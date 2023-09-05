@@ -95,7 +95,7 @@
                 data-kt-menu="true" data-kt-menu-expand="false">
 
                 <div data-kt-menu-trigger="click" class="menu-item menu-accordion">
-                    <a href="{{ route('categories.index') }}}}">
+                    <a href="{{ route('categories.index') }}">
                         <span class="menu-link">
                             <span class="menu-icon {{ request()->is('user') ? 'active' : '' }}">
                                 <span class="svg-icon svg-icon-2">
@@ -127,7 +127,7 @@
                 data-kt-menu="true" data-kt-menu-expand="false">
 
                 <div data-kt-menu-trigger="click" class="menu-item menu-accordion">
-                    <a href="{{ route('subscriptions.index') }}}}">
+                    <a href="{{ route('subscriptions.index') }}">
                         <span class="menu-link">
                             <span class="menu-icon {{ request()->is('user') ? 'active' : '' }}">
                                 <span class="svg-icon svg-icon-2">
@@ -166,7 +166,7 @@
                 data-kt-menu="true" data-kt-menu-expand="false">
 
                 <div data-kt-menu-trigger="click" class="menu-item menu-accordion">
-                    <a href="{{ route('place.index') }}}}">
+                    <a href="{{ route('place.index') }}">
                         <span class="menu-link">
                             <span class="menu-icon {{ request()->is('user') ? 'active' : '' }}">
                                 <span class="svg-icon svg-icon-2">
@@ -198,7 +198,7 @@
                 data-kt-menu="true" data-kt-menu-expand="false">
 
                 <div data-kt-menu-trigger="click" class="menu-item menu-accordion">
-                    <a href="{{ route('posts.index') }}}}">
+                    <a href="{{ route('posts.index') }}">
                         <span class="menu-link">
                             <span class="menu-icon {{ request()->is('user') ? 'active' : '' }}">
                                 <span class="svg-icon svg-icon-2">

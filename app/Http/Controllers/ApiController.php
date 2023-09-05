@@ -5,6 +5,9 @@ namespace App\Http\Controllers;
 use App\Models\User;
 use App\Models\Packages;
 use Illuminate\Http\Request;
+use App\Models\UserFollowers;
+use App\Models\UserLikes;
+use App\Models\UserShares;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
@@ -108,7 +111,7 @@ class ApiController extends Controller
         if ($validator->fails()) {
             return response()->json(['success' => false, 'error' => $validator->errors()]);
         }
-        
+
         $input += ['user_id' => Auth::id()];
         unset($input['_token']);
         if (@$input['id']) {
@@ -127,5 +130,76 @@ class ApiController extends Controller
         // $ip = '1';
         $userLocations = Location::get($ip);
         return response()->json(['success' => true, 'msg' => 'Location Get Successfully', 'data' => $userLocations]);
+    }
+
+    public function userfollowers(Request $req)
+    {
+        $input = $req->all();
+        $validator = Validator::make($req->all(), [
+            'user_id' => 'required',
+            'follower_id' => 'required'
+        ]);
+
+        if ($validator->fails()) {
+            return $this->sendError('Validation Error.', $validator->errors());
+        }
+        $checkFollower = UserFollowers::where('user_id', $input['user_id'])->where('follower_id', $input['follower_id'])->get();
+        if ($checkFollower->count() > 0) {
+            foreach ($checkFollower as $check) {
+                UserFollowers::where('id', $check->id)->delete();
+            }
+
+            return response()->json(['success' => true, 'msg' => 'User UnFollow Successfully', 'data' => []]);
+        }
+
+        $followerinsert = UserFollowers::create($input);
+        return response()->json(['success' => true, 'msg' => 'User Followed Successfully', 'data' => $followerinsert]);
+    }
+
+    public function userlikes(Request $req)
+    {
+        $input = $req->all();
+        $validator = Validator::make($req->all(), [
+            'user_id' => 'required',
+            'like_id' => 'required'
+        ]);
+
+        if ($validator->fails()) {
+            return $this->sendError('Validation Error.', $validator->errors());
+        }
+        $checkFollower = UserLikes::where('user_id', $input['user_id'])->where('like_id', $input['like_id'])->get();
+        if ($checkFollower->count() > 0) {
+            foreach ($checkFollower as $check) {
+                UserLikes::where('id', $check->id)->delete();
+            }
+
+            return response()->json(['success' => true, 'msg' => 'User UnLike Successfully', 'data' => []]);
+        }
+
+        $followerinsert = UserLikes::create($input);
+        return response()->json(['success' => true, 'msg' => 'User UnLiked Successfully', 'data' => $followerinsert]);
+    }
+
+    public function usershares(Request $req)
+    {
+        $input = $req->all();
+        $validator = Validator::make($input, [
+            'user_id' => 'required',
+            'share_id' => 'required',
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json(['success' => false, 'error' => $validator->errors()]);
+        }
+
+        // $input += ['user_id' => Auth::id()];
+        unset($input['_token']);
+        if (@$input['id']) {
+            $userupdate = UserShares::where("id", $input['id'])->update($input);
+            return response()->json(['success' => true, 'msg' => 'User Shares Updated Successfully.']);
+        } else {
+            $userupdate = UserShares::create($input);
+            return response()->json(['success' => true, 'msg' => 'User Shares Successfully']);
+        }
     }
 }
