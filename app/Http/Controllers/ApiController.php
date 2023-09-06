@@ -156,6 +156,23 @@ class ApiController extends Controller
         return response()->json(['success' => true, 'msg' => 'User Followed Successfully', 'data' => $followerinsert]);
     }
 
+    public function getusersfollowers($follower_id)
+    {
+        $usersfollower = UserFollowers::with('getUserFollower')->where('follower_id', $follower_id)->first();
+        return response()->json(['success' => true, 'data' => $usersfollower]);
+    }
+
+    public function followercheck($user_id, $follower_id)
+    {
+        $followcheck = UserFollowers::where('user_id', $user_id)->where('follower_id', $follower_id)->exists();
+
+        if (!$followcheck) {
+            return response()->json(['success' => true, 'msg' => 'User Not Followed']);
+        }
+
+        return response()->json(['success' => true, 'msg' => 'User Already Followed']);
+    }
+
     public function userlikes(Request $req)
     {
         $input = $req->all();
@@ -180,6 +197,12 @@ class ApiController extends Controller
         return response()->json(['success' => true, 'msg' => 'User UnLiked Successfully', 'data' => $followerinsert]);
     }
 
+    public function getuserlikes($like_id)
+    {
+        $usersfollower = UserLikes::with('getUserLike')->where('like_id', $like_id)->first();
+        return response()->json(['success' => true, 'data' => $usersfollower]);
+    }
+
     public function usershares(Request $req)
     {
         $input = $req->all();
@@ -201,5 +224,11 @@ class ApiController extends Controller
             $userupdate = UserShares::create($input);
             return response()->json(['success' => true, 'msg' => 'User Shares Successfully']);
         }
+    }
+
+    public function getusershares($share_id)
+    {
+        $usersfollower = UserShares::with('getUserShare')->where('share_id', $share_id)->first();
+        return response()->json(['success' => true, 'data' => $usersfollower]);
     }
 }

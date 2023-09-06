@@ -37,6 +37,10 @@ Route::middleware('auth:api')->group(function () {
         Route::post('userfollowers', 'userfollowers')->name('followers.userfollowers');
         Route::post('userlikes', 'userlikes')->name('followers.userlikes');
         Route::post('usershares', 'usershares')->name('followers.usershares');
+        Route::get('getusersfollowers/{id?}', 'getusersfollowers')->name('followers.getusersfollowers');
+        Route::get('followercheck/{user_id?}/{follower_id}', 'followercheck')->name('followers.followercheck');
+        Route::get('getuserlikes/{like_id?}', 'getuserlikes')->name('followers.getuserlikes');
+        Route::get('getusershares/{share_id?}', 'getusershares')->name('followers.getusershares');
     });
 
     Route::controller(SubscriptionsController::class)->group(function () {

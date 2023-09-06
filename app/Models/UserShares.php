@@ -9,4 +9,9 @@ class UserShares extends Model
 {
     use HasFactory;
     protected $guarded = [];
+
+    public function getUserShare()
+    {
+        return $this->hasMany(User::class, 'id', 'share_id');
+    }
 }

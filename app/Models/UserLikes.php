@@ -9,4 +9,9 @@ class UserLikes extends Model
 {
     use HasFactory;
     protected $guarded = [];
+
+    public function getUserLike()
+    {
+        return $this->hasMany(User::class, 'id', 'like_id');
+    }
 }

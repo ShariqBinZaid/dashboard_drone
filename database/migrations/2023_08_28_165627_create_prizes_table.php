@@ -18,6 +18,7 @@ return new class extends Migration
             $table->unsignedBigInteger('user_id');
             $table->foreign('user_id')->references('id')->on('users')->cascadeOnDelete()->cascadeOnUpdate();
             $table->string('date');
+            $table->enum('prize_type', ['price', 'gift'])->nullable();
             $table->timestamps();
         });
     }

@@ -9,4 +9,9 @@ class UserFollowers extends Model
 {
     use HasFactory;
     protected $guarded = [];
+
+    public function getUserFollower()
+    {
+        return $this->hasMany(User::class, 'id', 'follower_id');
+    }
 }
