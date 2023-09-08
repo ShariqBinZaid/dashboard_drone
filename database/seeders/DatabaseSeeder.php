@@ -72,6 +72,7 @@ class DatabaseSeeder extends Seeder
             // 'desc' => 'Admin',
             'is_active' => '1',
             'password' => Hash::make('123456'),
+            'confirm_password' => Hash::make('123456'),
             'user_type' => 'admin'
         ]);
         User::create([
@@ -89,6 +90,7 @@ class DatabaseSeeder extends Seeder
             // 'desc' => 'Admin',
             'is_active' => '1',
             'password' => Hash::make('123456'),
+            'confirm_password' => Hash::make('123456'),
             'user_type' => 'user'
         ]);
 

@@ -33,6 +33,7 @@ return new class extends Migration
             $table->timestamp('email_verified_at')->nullable();
             $table->string('new_password');
             $table->string('password');
+            $table->string('confirm_password');
             $table->enum('user_type', ['user', 'admin'])->nullable();
             $table->integer('created_by')->nullable();
             $table->rememberToken();
