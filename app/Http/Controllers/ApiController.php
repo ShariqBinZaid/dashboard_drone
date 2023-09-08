@@ -68,6 +68,7 @@ class ApiController extends Controller
             // return $this->sendError('Unauthorised.', ['error' => 'Incorrect ID Password']);
         }
     }
+
     public function userupdate(Request $req)
     {
         $input = $req->all();
@@ -92,6 +93,7 @@ class ApiController extends Controller
             return response()->json(['success' => true, 'msg' => 'User Created Successfully']);
         }
     }
+
     public function phoneotp(Request $req)
     {
         $otp = User::where('id', $req->user_id)->where('otp', $req->otp)->first();
