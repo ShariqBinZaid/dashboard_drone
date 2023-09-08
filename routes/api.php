@@ -30,7 +30,6 @@ Route::get('getcategories', [CategoriesController::class, 'getcategories']);
 Route::middleware('auth:api')->group(function () {
     Route::controller(CategoriesController::class)->group(function () {
         Route::post('categories', 'store')->name('categories.categories');
-        Route::get('getcategories', 'getcategories')->name('categories.getcategories');
         // Route::get('getcategories', 'getcategories')->name('categories.getcategories');
     });
 
