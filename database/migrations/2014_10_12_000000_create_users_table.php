@@ -26,9 +26,9 @@ return new class extends Migration
             $table->string('file')->nullable();
             $table->string('dob')->nullable();
             $table->string('email')->nullable();
-            $table->string('country')->nullable();
-            $table->string('address')->nullable();
-            $table->string('desc')->nullable();
+            // $table->string('country')->nullable();
+            // $table->string('address')->nullable();
+            // $table->string('desc')->nullable();
             $table->tinyInteger('is_active')->default(1);
             $table->timestamp('email_verified_at')->nullable();
             $table->string('new_password');
