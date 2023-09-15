@@ -130,7 +130,7 @@ class BestPlaceController extends Controller
     }
     public function getplace()
     {
-        $getplace = BestPlace::get();
+        $getplace = BestPlace::with('getUser')->get();
         return response()->json(['success' => true, 'data' => $getplace]);
     }
 }
