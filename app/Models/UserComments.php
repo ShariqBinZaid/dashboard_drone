@@ -12,6 +12,6 @@ class UserComments extends Model
 
     public function getUser()
     {
-        return $this->hasMany(User::class, 'id', 'follower_id');
+        return $this->hasMany(User::class, 'user_id', 'id');
     }
 }
