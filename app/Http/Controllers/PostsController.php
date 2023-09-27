@@ -135,7 +135,7 @@ class PostsController extends Controller
 
     public function getposts()
     {
-        $getpots = Posts::get();
+        $getpots = Posts::with('userID')->get();
         return response()->json(['success' => true, 'data' => $getpots]);
     }
 
