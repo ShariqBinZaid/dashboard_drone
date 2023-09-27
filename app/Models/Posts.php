@@ -15,7 +15,7 @@ class Posts extends Model
     {
         return $this->belongsTo(Categories::class, 'category_id', 'id');
     }
-    public function userID()
+    public function getUser()
     {
         return $this->belongsTo(User::class, 'user_id', 'id');
     }
