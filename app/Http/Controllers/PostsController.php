@@ -165,7 +165,7 @@ class PostsController extends Controller
 
     public function getusercomments($comment_id)
     {
-        $usercomments = UserComments::where('comment_id', $comment_id)->get();
+        $usercomments = UserComments::with('getUser')->where('comment_id', $comment_id)->get();
         return response()->json(['success' => true, 'data' => $usercomments]);
     }
 }
