@@ -139,10 +139,10 @@ class PostsController extends Controller
         return response()->json(['success' => true, 'data' => $getpots]);
     }
 
-    public function getpostscommentslikes($id)
+    public function getpostcommentlike($id)
     {
-        $getpostscomments = Posts::with('getUser', 'getComments', 'getLikes')->where('id', $id)->get();
-        return response()->json(['success' => true, 'data' => $getpostscomments]);
+        $getpostcommentlike = Posts::with('getUser', 'getComments', 'getLikes')->where('id', $id)->get();
+        return response()->json(['success' => true, 'data' => $getpostcommentlike]);
     }
 
     public function usercomments(Request $req)
