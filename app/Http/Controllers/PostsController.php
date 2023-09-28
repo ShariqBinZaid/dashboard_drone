@@ -141,7 +141,7 @@ class PostsController extends Controller
 
     public function getpostscomments()
     {
-        $getpostscomments = Posts::with('getUser', 'comment')->get();
+        $getpostscomments = Posts::with('getUser', 'comments','likes')->get();
         return response()->json(['success' => true, 'data' => $getpostscomments]);
     }
 
