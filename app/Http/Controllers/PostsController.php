@@ -133,11 +133,10 @@ class PostsController extends Controller
         echo json_encode(['success' => true, 'msg' => 'Posts Deleted Successfully']);
     }
 
-    public function getposts()
+    public function getposts($id)
     {
-        $getpost = Posts::with('getUser')->get();
-        $getpostcommentlike = Posts::with('getComments', 'getLikes')->count();
-        return response()->json(['success' => true, 'data' => $getpost, 'getpostcommentlike' => $getpostcommentlike]);
+        $getpost = Posts::with('getComments', 'getLikes')->where('id', $id)->count();
+        return response()->json(['success' => true, 'data' => $getpost]);
     }
 
     public function getpostcommentlike($id)
