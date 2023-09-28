@@ -9,6 +9,8 @@ use Illuminate\Http\Request;
 use App\Models\UserSubscriptions;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Resources\PostsResource;
+use App\Models\User;
+use App\Models\UserLikes;
 use Illuminate\Support\Facades\Validator;
 
 class PostsController extends Controller
@@ -137,6 +139,62 @@ class PostsController extends Controller
     {
         $getpost = Posts::with('getComments', 'getLikes')->where('id', $id)->count();
         return response()->json(['success' => true, 'data' => $getpost]);
+    }
+
+    public function postlikes(Request $req)
+    {
+        $input = $req->all();
+        $validator = Validator::make($input, [
+            // 'user_id' => 'required',
+            'post_id' => 'required',
+        ]);
+
+        // dd($input);
+        if ($validator->fails()) {
+            return response()->json(['success' => false, 'error' => $validator->errors()]);
+        }
+
+        $input += ['user_id' => Auth::id()];
+
+        unset($input['_token']);
+        if (@$input['id']) {
+            $posts = UserLikes::where("id", $input['id'])->update($input);
+            return response()->json(['success' => true, 'msg' => 'Posts Liked Updated Successfully.']);
+        } else {
+            $posts = UserLikes::create($input);
+            return response()->json(['success' => true, 'msg' => 'Posts Liked Successfully', 'data' => $posts]);
+        }
+    }
+
+    public function getpostlikes($post_id)
+    {
+        $getpostlikes = UserLikes::where('post_id', $post_id)->count();
+        return response()->json(['success' => true, 'data' => $getpostlikes]);
+    }
+
+    public function postcomments(Request $req)
+    {
+        $input = $req->all();
+        $validator = Validator::make($input, [
+            // 'user_id' => 'required',
+            'post_id' => 'required',
+        ]);
+
+        // dd($input);
+        if ($validator->fails()) {
+            return response()->json(['success' => false, 'error' => $validator->errors()]);
+        }
+
+        $input += ['user_id' => Auth::id()];
+
+        unset($input['_token']);
+        if (@$input['id']) {
+            $posts = UserComments::where("id", $input['id'])->update($input);
+            return response()->json(['success' => true, 'msg' => 'User Comments Updated Successfully.']);
+        } else {
+            $posts = UserComments::create($input);
+            return response()->json(['success' => true, 'msg' => 'User Comments Successfully', 'data' => $posts]);
+        }
     }
 
     public function getpostcommentlike($id)

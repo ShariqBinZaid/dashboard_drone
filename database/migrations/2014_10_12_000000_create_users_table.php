@@ -19,7 +19,7 @@ return new class extends Migration
             $table->unsignedBigInteger('category_id');
             $table->foreign('category_id')->references('id')->on('categories')->cascadeOnDelete()->cascadeOnUpdate();
 
-            $table->string('first_name');
+            $table->string('first_name')->nullable();
             $table->string('last_name')->nullable();
             $table->string('gender')->nullable();
             $table->string('phone')->nullable();

@@ -58,6 +58,9 @@ Route::middleware('auth:api')->group(function () {
 
     Route::controller(PostsController::class)->group(function () {
         Route::post('posts', 'store')->name('posts.place');
+        Route::post('postlikes', 'postlikes')->name('posts.postlikes');
+        Route::get('getpostlikes/{id?}', 'getpostlikes')->name('posts.getpostlikes');
+        Route::post('postcomments', 'postcomments')->name('posts.postcomments');
         Route::get('getposts/{id?}', 'getposts')->name('posts.getposts');
         Route::get('getpostcommentlike/{id?}', 'getpostcommentlike')->name('posts.getpostcommentlike');
         Route::post('usercomments', 'usercomments')->name('place.usercomments');
