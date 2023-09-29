@@ -175,62 +175,34 @@ class ApiController extends Controller
         return response()->json(['success' => true, 'msg' => 'User Already Followed']);
     }
 
-    public function userlikes(Request $req)
-    {
-        $input = $req->all();
-        $validator = Validator::make($req->all(), [
-            'user_id' => 'required',
-            'like_id' => 'required'
-        ]);
-
-        if ($validator->fails()) {
-            return $this->sendError('Validation Error.', $validator->errors());
-        }
-        $checkFollower = UserLikes::where('user_id', $input['user_id'])->where('like_id', $input['like_id'])->get();
-        if ($checkFollower->count() > 0) {
-            foreach ($checkFollower as $check) {
-                UserLikes::where('id', $check->id)->delete();
-            }
-
-            return response()->json(['success' => true, 'msg' => 'User UnLike Successfully', 'data' => []]);
-        }
-
-        $followerinsert = UserLikes::create($input);
-        return response()->json(['success' => true, 'msg' => 'User UnLiked Successfully', 'data' => $followerinsert]);
-    }
-
-    public function getuserlikes($like_id)
-    {
-        $usersfollower = UserLikes::with('getUserLike')->where('like_id', $like_id)->first();
-        return response()->json(['success' => true, 'data' => $usersfollower]);
-    }
-
     public function usershares(Request $req)
     {
         $input = $req->all();
         $validator = Validator::make($input, [
-            'user_id' => 'required',
-            'share_id' => 'required',
+            // 'user_id' => 'required',
+            'post_id' => 'required',
         ]);
 
         if ($validator->fails()) {
             return response()->json(['success' => false, 'error' => $validator->errors()]);
         }
 
-        // $input += ['user_id' => Auth::id()];
+        $input += ['user_id' => Auth::id()];
+
         unset($input['_token']);
+
         if (@$input['id']) {
-            $userupdate = UserShares::where("id", $input['id'])->update($input);
+            $usershare = UserShares::where("id", $input['id'])->update($input);
             return response()->json(['success' => true, 'msg' => 'User Shares Updated Successfully.']);
         } else {
-            $userupdate = UserShares::create($input);
-            return response()->json(['success' => true, 'msg' => 'User Shares Successfully']);
+            $usershare = UserShares::create($input);
+            return response()->json(['success' => true, 'msg' => 'User Shares Successfully', 'data' => $usershare]);
         }
     }
 
-    public function getusershares($share_id)
+    public function getusershares($post_id)
     {
-        $usersfollower = UserShares::with('getUserShare')->where('share_id', $share_id)->first();
-        return response()->json(['success' => true, 'data' => $usersfollower]);
+        $getusershares = UserShares::where('post_id', $post_id)->get();
+        return response()->json(['success' => true, 'data' => $getusershares]);
     }
 }

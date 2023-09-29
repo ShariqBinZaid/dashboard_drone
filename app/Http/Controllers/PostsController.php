@@ -141,7 +141,7 @@ class PostsController extends Controller
         return response()->json(['success' => true, 'data' => $getpost]);
     }
 
-    public function postlikes(Request $req)
+    public function userpostlikes(Request $req)
     {
         $input = $req->all();
         $validator = Validator::make($input, [
@@ -166,9 +166,9 @@ class PostsController extends Controller
         }
     }
 
-    public function getpostlikes($post_id)
+    public function getuserpostlikes($post_id)
     {
-        $getpostlikes = UserLikes::where('post_id', $post_id)->count();
+        $getpostlikes = UserLikes::where('post_id', $post_id)->get();
         return response()->json(['success' => true, 'data' => $getpostlikes]);
     }
 
@@ -176,8 +176,8 @@ class PostsController extends Controller
     {
         $input = $req->all();
         $validator = Validator::make($input, [
-            // 'user_id' => 'required',
             'post_id' => 'required',
+            'comment' => 'required',
         ]);
 
         // dd($input);
@@ -197,39 +197,15 @@ class PostsController extends Controller
         }
     }
 
-    public function getpostcommentlike($id)
+    public function getuserpostcomments($post_id)
     {
-        $getpostcommentlike = Posts::with('getUser', 'getComments', 'getLikes')->where('id', $id)->get();
+        $userpostcomments = UserComments::where('post_id', $post_id)->get();
+        return response()->json(['success' => true, 'data' => $userpostcomments]);
+    }
+
+    public function getusercomments()
+    {
+        $getpostcommentlike = UserComments::get();
         return response()->json(['success' => true, 'data' => $getpostcommentlike]);
-    }
-
-    public function usercomments(Request $req)
-    {
-        $input = $req->all();
-
-        $validator = Validator::make($input, [
-            'comment' => 'required',
-        ]);
-
-        // dd($input);
-        if ($validator->fails()) {
-            return response()->json(['success' => false, 'error' => $validator->errors()]);
-        }
-
-        $input += ['user_id' => Auth::id()];
-        unset($input['_token']);
-        if (@$input['id']) {
-            $usercomments = UserComments::where("id", $input['id'])->update($input);
-            return response()->json(['success' => true, 'msg' => 'User Comments Updated Successfully.']);
-        } else {
-            $usercomments = UserComments::create($input);
-            return response()->json(['success' => true, 'msg' => 'User Comments Created Successfully', 'data' => $usercomments]);
-        }
-    }
-
-    public function getusercomments($comment_id)
-    {
-        $usercomments = UserComments::with('getUser')->where('comment_id', $comment_id)->get();
-        return response()->json(['success' => true, 'data' => $usercomments]);
     }
 }
