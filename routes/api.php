@@ -36,7 +36,6 @@ Route::middleware('auth:api')->group(function () {
     Route::controller(ApiController::class)->group(function () {
         Route::get('locations', 'locations')->name('locations.locations');
         Route::post('userfollowers', 'userfollowers')->name('followers.userfollowers');
-        Route::post('userlikes', 'userlikes')->name('followers.userlikes');
         Route::post('usershares', 'usershares')->name('followers.usershares');
         Route::get('getusersfollowers/{id?}', 'getusersfollowers')->name('followers.getusersfollowers');
         Route::get('followercheck/{user_id?}/{follower_id}', 'followercheck')->name('followers.followercheck');
@@ -58,12 +57,12 @@ Route::middleware('auth:api')->group(function () {
 
     Route::controller(PostsController::class)->group(function () {
         Route::post('posts', 'store')->name('posts.place');
-        Route::post('postlikes', 'postlikes')->name('posts.postlikes');
-        Route::get('getpostlikes/{id?}', 'getpostlikes')->name('posts.getpostlikes');
-        Route::post('postcomments', 'postcomments')->name('posts.postcomments');
-        Route::get('getposts/{id?}', 'getposts')->name('posts.getposts');
+        Route::get('getposts', 'getposts')->name('posts.getposts');
+        Route::post('userpostlikes', 'userpostlikes')->name('posts.userpostlikes');
+        Route::get('getuserpostlikes/{id?}', 'getuserpostlikes')->name('posts.getuserpostlikes');
+        Route::post('userpostcomments', 'userpostcomments')->name('posts.userpostcomments');
         Route::get('getpostcommentlike/{id?}', 'getpostcommentlike')->name('posts.getpostcommentlike');
         Route::post('usercomments', 'usercomments')->name('place.usercomments');
-        Route::get('getusercomments/{comment_id?}', 'getusercomments')->name('place.getusercomments');
+        // Route::get('getusercomments/{comment_id?}', 'getusercomments')->name('place.getusercomments');
     });
 });

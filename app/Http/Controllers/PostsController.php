@@ -135,9 +135,9 @@ class PostsController extends Controller
         echo json_encode(['success' => true, 'msg' => 'Posts Deleted Successfully']);
     }
 
-    public function getposts($id)
+    public function getposts()
     {
-        $getpost = Posts::with('getComments', 'getLikes')->where('id', $id)->count();
+        $getpost = Posts::get();
         return response()->json(['success' => true, 'data' => $getpost]);
     }
 
@@ -172,7 +172,7 @@ class PostsController extends Controller
         return response()->json(['success' => true, 'data' => $getpostlikes]);
     }
 
-    public function postcomments(Request $req)
+    public function userpostcomments(Request $req)
     {
         $input = $req->all();
         $validator = Validator::make($input, [
