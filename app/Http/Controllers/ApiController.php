@@ -158,9 +158,9 @@ class ApiController extends Controller
         return response()->json(['success' => true, 'msg' => 'User Followed Successfully', 'data' => $followerinsert]);
     }
 
-    public function getusersfollowers($follower_id)
+    public function getusersfollowers($post_id)
     {
-        $usersfollower = UserFollowers::with('getUserFollower')->where('follower_id', $follower_id)->first();
+        $usersfollower = UserFollowers::with('getUserFollower')->where('post_id', $post_id)->first();
         return response()->json(['success' => true, 'data' => $usersfollower]);
     }
 
