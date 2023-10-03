@@ -166,7 +166,7 @@ class ApiController extends Controller
 
     public function followercheck($user_id, $post_id)
     {
-        $followcheck = UserFollowers::where('user_id', $user_id)->where('follower_id', $post_id)->exists();
+        $followcheck = UserFollowers::where('user_id', $user_id)->where('post_id', $post_id)->exists();
 
         if (!$followcheck) {
             return response()->json(['success' => true, 'msg' => 'User Not Followed']);
