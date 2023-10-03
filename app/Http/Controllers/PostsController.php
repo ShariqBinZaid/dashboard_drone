@@ -9,6 +9,7 @@ use Illuminate\Http\Request;
 use App\Models\UserSubscriptions;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Resources\PostsResource;
+use App\Models\ReplyComments;
 use App\Models\User;
 use App\Models\UserLikes;
 use Illuminate\Support\Facades\Validator;
@@ -247,6 +248,32 @@ class PostsController extends Controller
         } else {
             $posts = UserComments::create($input);
             return response()->json(['success' => true, 'msg' => 'User Comments Successfully', 'data' => $posts]);
+        }
+    }
+
+    public function userreplycomments(Request $req)
+    {
+        $input = $req->all();
+        $validator = Validator::make($input, [
+            'comment_id' => 'required',
+            'comment' => 'required',
+        ]);
+
+        // dd($input);
+        if ($validator->fails()) {
+            return response()->json(['success' => false, 'error' => $validator->errors()]);
+        }
+
+        $input += ['user_id' => Auth::id()];
+
+        unset($input['_token']);
+
+        if (@$input['id']) {
+            $posts = ReplyComments::where("id", $input['id'])->update($input);
+            return response()->json(['success' => true, 'msg' => 'User Reply Comments Updated Successfully.']);
+        } else {
+            $posts = ReplyComments::create($input);
+            return response()->json(['success' => true, 'msg' => 'User Reply Comments Successfully', 'data' => $posts]);
         }
     }
 
