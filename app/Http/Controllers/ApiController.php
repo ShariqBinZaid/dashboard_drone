@@ -139,7 +139,7 @@ class ApiController extends Controller
         $input = $req->all();
         $validator = Validator::make($req->all(), [
             'user_id' => 'required',
-            'follower_id' => 'required'
+            'post_id' => 'required'
         ]);
 
         if ($validator->fails()) {
