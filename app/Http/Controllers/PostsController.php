@@ -172,6 +172,17 @@ class PostsController extends Controller
         return response()->json(['success' => true, 'data' => $getpostlikes]);
     }
 
+    public function likecheck($user_id, $post_id)
+    {
+        $likecheck = UserLikes::where('user_id', $user_id)->where('post_id', $post_id)->exists();
+
+        if (!$likecheck) {
+            return response()->json(['success' => true, 'msg' => 'User Not Like']);
+        }
+
+        return response()->json(['success' => true, 'msg' => 'User Already Liked']);
+    }
+
     public function userpostcomments(Request $req)
     {
         $input = $req->all();
