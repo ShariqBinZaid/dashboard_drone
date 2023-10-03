@@ -254,7 +254,7 @@ class PostsController extends Controller
                 if (UserLikes::where('user_id', Auth::id())->where('post_id', $fcu->id)->exists()) {
                     $isLike = true;
                 }
-                // $getpost[$k]->commentCount += FeedsComments::where('feeds_id', $fcu->id)->count();
+                $getpost[$k]->commentCount += UserComments::where('post_d', $fcu->id)->count();
                 $getpost[$k]->likeCount += UserLikes::where('post_id', $fcu->id)->count();
                 $getpost[$k]->isLike += $isLike;
             }
