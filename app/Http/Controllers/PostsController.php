@@ -252,7 +252,7 @@ class PostsController extends Controller
 
     public function getuserpostcomments($post_id)
     {
-        $userpostcomments = UserComments::where('post_id', $post_id)->get();
+        $userpostcomments = UserComments::with('getUser', 'getPost')->where('post_id', $post_id)->get();
         return response()->json(['success' => true, 'data' => $userpostcomments]);
     }
 
@@ -261,5 +261,4 @@ class PostsController extends Controller
         $getpostcommentlike = UserComments::get();
         return response()->json(['success' => true, 'data' => $getpostcommentlike]);
     }
-
 }
