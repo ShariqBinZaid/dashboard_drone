@@ -246,7 +246,7 @@ class PostsController extends Controller
 
     public function getallpost()
     {
-        $getpost = Posts::with('getUser')->get();
+        $getpost = Posts::with('getUser', 'getCategorys')->get();
 
         if (!empty($getpost)) {
             foreach ($getpost as $k => $fcu) {
