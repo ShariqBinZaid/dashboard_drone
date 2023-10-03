@@ -145,7 +145,7 @@ class ApiController extends Controller
         if ($validator->fails()) {
             return $this->sendError('Validation Error.', $validator->errors());
         }
-        $checkFollower = UserFollowers::where('user_id', $input['user_id'])->where('follower_id', $input['follower_id'])->get();
+        $checkFollower = UserFollowers::where('user_id', $input['user_id'])->where('post_id', $input['post_id'])->get();
         if ($checkFollower->count() > 0) {
             foreach ($checkFollower as $check) {
                 UserFollowers::where('id', $check->id)->delete();
