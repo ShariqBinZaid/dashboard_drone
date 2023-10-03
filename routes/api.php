@@ -63,5 +63,6 @@ Route::middleware('auth:api')->group(function () {
         Route::get('getuserpostlikes/{post_id?}', 'getuserpostlikes')->name('posts.getuserpostlikes');
         Route::post('userpostcomments', 'userpostcomments')->name('place.userpostcomments');
         Route::get('getuserpostcomments/{post_id?}', 'getuserpostcomments')->name('posts.getuserpostcomments');
+        Route::get('getallpost', 'getallpost')->name('posts.getallpost');
     });
 });

@@ -243,4 +243,22 @@ class PostsController extends Controller
         $getpostcommentlike = UserComments::get();
         return response()->json(['success' => true, 'data' => $getpostcommentlike]);
     }
+
+    public function getallpost()
+    {
+        $getpost = Posts::with('getUser')->get();
+
+        if (!empty($getpost)) {
+            foreach ($getpost as $k => $fcu) {
+                $isLike = false;
+                if (UserLikes::where('user_id', Auth::id())->where('post_id', $fcu->id)->exists()) {
+                    $isLike = true;
+                }
+                // $getpost[$k]->commentCount += FeedsComments::where('feeds_id', $fcu->id)->count();
+                $getpost[$k]->likeCount += UserLikes::where('post_id', $fcu->id)->count();
+                $getpost[$k]->isLike += $isLike;
+            }
+        }
+        return response()->json(['success' => true, 'data' => $getpost]);
+    }
 }
