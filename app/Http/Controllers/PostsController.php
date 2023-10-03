@@ -138,8 +138,26 @@ class PostsController extends Controller
     public function getposts()
     {
         $getpost = Posts::with('getUser', 'getCategorys')->get();
+
+        if (!empty($getpost)) {
+            foreach ($getpost as $k => $fcu) {
+                $isLike = false;
+                if (UserLikes::where('user_id', Auth::id())->where('post_id', $fcu->id)->exists()) {
+                    $isLike = true;
+                }
+                $getpost[$k]->commentCount += UserComments::where('post_id', $fcu->id)->count();
+                $getpost[$k]->likeCount += UserLikes::where('post_id', $fcu->id)->count();
+                $getpost[$k]->isLike += $isLike;
+            }
+        }
         return response()->json(['success' => true, 'data' => $getpost]);
     }
+
+    // public function getposts()
+    // {
+    //     $getpost = Posts::with('getUser', 'getCategorys')->get();
+    //     return response()->json(['success' => true, 'data' => $getpost]);
+    // }
 
     public function userpostlikes(Request $req)
     {
@@ -244,21 +262,4 @@ class PostsController extends Controller
         return response()->json(['success' => true, 'data' => $getpostcommentlike]);
     }
 
-    public function getallpost()
-    {
-        $getpost = Posts::with('getUser', 'getCategorys')->get();
-
-        if (!empty($getpost)) {
-            foreach ($getpost as $k => $fcu) {
-                $isLike = false;
-                if (UserLikes::where('user_id', Auth::id())->where('post_id', $fcu->id)->exists()) {
-                    $isLike = true;
-                }
-                $getpost[$k]->commentCount += UserComments::where('post_id', $fcu->id)->count();
-                $getpost[$k]->likeCount += UserLikes::where('post_id', $fcu->id)->count();
-                $getpost[$k]->isLike += $isLike;
-            }
-        }
-        return response()->json(['success' => true, 'data' => $getpost]);
-    }
 }
