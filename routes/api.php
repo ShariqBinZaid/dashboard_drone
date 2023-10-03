@@ -57,6 +57,7 @@ Route::middleware('auth:api')->group(function () {
     Route::controller(PostsController::class)->group(function () {
         Route::post('posts', 'store')->name('posts.place');
         Route::get('getposts', 'getposts')->name('posts.getposts');
+        Route::post('userlike', 'userlike')->name('posts.userlike');
         Route::get('likecheck/{user_id?}/{post_id?}', 'likecheck')->name('posts.likecheck');
         Route::post('userpostlikes', 'userpostlikes')->name('posts.userpostlikes');
         Route::get('getuserpostlikes/{post_id?}', 'getuserpostlikes')->name('posts.getuserpostlikes');

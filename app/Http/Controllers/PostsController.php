@@ -172,6 +172,30 @@ class PostsController extends Controller
         return response()->json(['success' => true, 'data' => $getpostlikes]);
     }
 
+    public function userlike(Request $req)
+    {
+        $input = $req->all();
+        $validator = Validator::make($req->all(), [
+            'user_id' => 'required',
+            'post_id' => 'required'
+        ]);
+
+        if ($validator->fails()) {
+            return $this->sendError('Validation Error.', $validator->errors());
+        }
+        $checkLike = UserLikes::where('user_id', $input['user_id'])->where('post_id', $input['post_id'])->get();
+        if ($checkLike->count() > 0) {
+            foreach ($checkLike as $check) {
+                UserLikes::where('id', $check->id)->delete();
+            }
+
+            return response()->json(['success' => true, 'msg' => 'User UnLike Successfully', 'data' => []]);
+        }
+
+        $userlike = UserLikes::create($input);
+        return response()->json(['success' => true, 'msg' => 'User Liked Successfully', 'data' => $userlike]);
+    }
+
     public function likecheck($user_id, $post_id)
     {
         $likecheck = UserLikes::where('user_id', $user_id)->where('post_id', $post_id)->exists();
