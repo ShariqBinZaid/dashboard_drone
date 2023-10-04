@@ -279,7 +279,7 @@ class PostsController extends Controller
 
     public function getuserreplycomments($comment_id)
     {
-        $getuserreplycomments = ReplyComments::where('comment_id', $comment_id)->get();
+        $getuserreplycomments = ReplyComments::get();
         return response()->json(['success' => true, 'data' => $getuserreplycomments]);
     }
 
