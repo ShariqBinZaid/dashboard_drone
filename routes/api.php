@@ -64,6 +64,6 @@ Route::middleware('auth:api')->group(function () {
         Route::post('userpostcomments', 'userpostcomments')->name('place.userpostcomments');
         Route::get('getuserpostcomments/{post_id?}', 'getuserpostcomments')->name('posts.getuserpostcomments');
         Route::post('userreplycomments', 'userreplycomments')->name('place.userreplycomments');
-        Route::get('getuserreplycomments/{$comment_id?}', 'getuserreplycomments')->name('place.getuserreplycomments');
+        Route::get('getuserreplycomments/{comment_id?}', 'getuserreplycomments')->name('place.getuserreplycomments');
     });
 });
