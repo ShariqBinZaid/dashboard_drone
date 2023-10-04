@@ -277,6 +277,12 @@ class PostsController extends Controller
         }
     }
 
+    public function getuserreplycomments(Request $req)
+    {
+        $getuserreplycomments = ReplyComments::get();
+        return response()->json(['success' => true, 'data' => $getuserreplycomments]);
+    }
+
     public function getuserpostcomments($post_id)
     {
         $userpostcomments = UserComments::with('getUser', 'getPost')->where('post_id', $post_id)->get();
