@@ -9,4 +9,9 @@ class ReplyComments extends Model
 {
     use HasFactory;
     protected $guarded = [];
+
+    public function getReplyCommnet()
+    {
+        return $this->belongsTo(UserComments::class, 'commnet_id', 'id');
+    }
 }
