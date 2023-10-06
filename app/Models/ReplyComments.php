@@ -14,4 +14,9 @@ class ReplyComments extends Model
     {
         return $this->belongsTo(UserComments::class, 'commnet_id', 'id');
     }
+
+    public function getUser()
+    {
+        return $this->belongsTo(User::class, 'user_id', 'id');
+    }
 }
