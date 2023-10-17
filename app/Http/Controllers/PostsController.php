@@ -154,11 +154,11 @@ class PostsController extends Controller
         return response()->json(['success' => true, 'data' => $getpost]);
     }
 
-    // public function getposts()
-    // {
-    //     $getpost = Posts::with('getUser', 'getCategorys')->get();
-    //     return response()->json(['success' => true, 'data' => $getpost]);
-    // }
+    public function getuserposts($id)
+    {
+        $getuserposts = Posts::with('getUser')->where('id', $id)->get();
+        return response()->json(['success' => true, 'data' => $getuserposts]);
+    }
 
     public function userpostlikes(Request $req)
     {
