@@ -247,6 +247,7 @@ class PostsController extends Controller
             return response()->json(['success' => true, 'msg' => 'User Comments Updated Successfully.']);
         } else {
             $posts = UserComments::create($input);
+            $posts = UserComments::with('getUser')->get();
             return response()->json(['success' => true, 'msg' => 'User Comments Successfully', 'data' => $posts]);
         }
     }
@@ -273,6 +274,7 @@ class PostsController extends Controller
             return response()->json(['success' => true, 'msg' => 'User Reply Comments Updated Successfully.']);
         } else {
             $posts = ReplyComments::create($input);
+            $posts = ReplyComments::with('getUser')->get();
             return response()->json(['success' => true, 'msg' => 'User Reply Comments Successfully', 'data' => $posts]);
         }
     }
