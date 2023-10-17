@@ -154,10 +154,10 @@ class PostsController extends Controller
         return response()->json(['success' => true, 'data' => $getpost]);
     }
 
-    public function getuserposts($id)
+    public function viewposts($id)
     {
-        $getuserposts = Posts::with('getUser')->where('id', $id)->get();
-        return response()->json(['success' => true, 'data' => $getuserposts]);
+        $viewposts = Posts::with('getUser')->where('id', $id)->get();
+        return response()->json(['success' => true, 'data' => $viewposts]);
     }
 
     public function userpostlikes(Request $req)
