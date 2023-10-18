@@ -28,6 +28,14 @@ Route::get('getcategories', [CategoriesController::class, 'getcategories']);
 
 
 Route::middleware('auth:api')->group(function () {
+
+
+    Route::controller(ApiController::class)->group(function () {
+        Route::post('changepassword', 'changepassword')->name('user.changepassword');
+        Route::post('updateregister', 'updateregister')->name('user.updateregister');
+        Route::post('registerdelete/{id}', 'registerdelete')->name('user.registerdelete');
+    });
+
     Route::controller(CategoriesController::class)->group(function () {
         Route::post('categories', 'store')->name('categories.categories');
         // Route::get('getcategories', 'getcategories')->name('categories.getcategories');
