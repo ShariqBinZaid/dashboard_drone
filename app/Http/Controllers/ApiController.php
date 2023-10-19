@@ -139,6 +139,7 @@ class ApiController extends Controller
             $success['token'] =  $user->createToken('MyApp')->accessToken;
             // $success['email'] =  $user->email;
             $success['user'] =  $user;
+            $success = User::with('getCategory')->get();
             return $this->sendResponse($success, 'User Login Successfully.');
         } else {
             return $this->sendResponse('Unauthorised.', ['error' => 'Email or Password Incorrect']);

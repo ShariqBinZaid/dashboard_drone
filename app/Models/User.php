@@ -35,10 +35,10 @@ class User extends Authenticatable
         'remember_token',
     ];
 
-    // public function getUserFollower()
-    // {
-    //     return $this->hasMany(UserFollowers::class, 'user_id', 'id');
-    // }
+    public function getCategory()
+    {
+        return $this->hasMany(Categories::class, 'category_id', 'id');
+    }
 
 
 
