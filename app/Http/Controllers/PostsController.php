@@ -156,7 +156,18 @@ class PostsController extends Controller
 
     public function viewposts($id)
     {
-        $viewposts = Posts::with('getUser')->where('id', $id)->get();
+        $viewposts = Posts::with('getUser', 'getCategorys')->where('id', $id)->get();
+        if (!empty($viewposts)) {
+            foreach ($viewposts as $k => $fcu) {
+                $isLike = false;
+                if (UserLikes::where('user_id', Auth::id())->where('post_id', $fcu->id)->exists()) {
+                    $isLike = true;
+                }
+                $viewposts[$k]->commentCount += UserComments::where('post_id', $fcu->id)->count();
+                $viewposts[$k]->likeCount += UserLikes::where('post_id', $fcu->id)->count();
+                $viewposts[$k]->isLike += $isLike;
+            }
+        }
         return response()->json(['success' => true, 'data' => $viewposts]);
     }
 
