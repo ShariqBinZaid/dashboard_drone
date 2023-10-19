@@ -132,20 +132,36 @@ class ApiController extends Controller
         }
     }
 
+    // public function login(Request $request)
+    // {
+    //     if (Auth::attempt(['email' => $request->email, 'password' => $request->password])) {
+    //         $user = Auth::user();
+    //         $success['token'] =  $user->createToken('MyApp')->accessToken;
+    //         // $success['email'] =  $user->email;
+    //         $success['user'] =  $user;
+    //         $success = User::with('getCategory')->get();
+    //         return $this->sendResponse($success, 'User Login Successfully.');
+    //     } else {
+    //         return $this->sendResponse('Unauthorised.', ['error' => 'Email or Password Incorrect']);
+    //         // return $this->sendError('Unauthorised.', ['error' => 'Incorrect ID Password']);
+    //     }
+    // }
+
     public function login(Request $request)
-    {
-        if (Auth::attempt(['email' => $request->email, 'password' => $request->password])) {
-            $user = Auth::user();
-            $success['token'] =  $user->createToken('MyApp')->accessToken;
-            // $success['email'] =  $user->email;
-            $success['user'] =  $user;
-            $success = User::with('getCategory')->get();
-            return $this->sendResponse($success, 'User Login Successfully.');
-        } else {
-            return $this->sendResponse('Unauthorised.', ['error' => 'Email or Password Incorrect']);
-            // return $this->sendError('Unauthorised.', ['error' => 'Incorrect ID Password']);
-        }
+{
+    if (Auth::attempt(['email' => $request->email, 'password' => $request->password])) {
+        $user = Auth::user();
+        $success['token'] =  $user->createToken('MyApp')->accessToken;
+
+        // Fetch the currently logged-in user along with 'getCategory' relationship
+        $success['user'] =  User::with('getCategory')->find($user->id);
+
+        return $this->sendResponse($success, 'User Login Successfully.');
+    } else {
+        return $this->sendResponse('Unauthorised.', ['error' => 'Email or Password Incorrect']);
     }
+}
+
 
     public function userupdate(Request $req)
     {
