@@ -157,6 +157,7 @@ class PostsController extends Controller
     public function viewposts($id)
     {
         $viewposts = Posts::with('getUser', 'getCategorys')->where('id', $id)->get();
+
         if (!empty($viewposts)) {
             foreach ($viewposts as $k => $fcu) {
                 $isLike = false;
@@ -168,6 +169,7 @@ class PostsController extends Controller
                 $viewposts[$k]->isLike += $isLike;
             }
         }
+
         return response()->json(['success' => true, 'data' => $viewposts]);
     }
 
