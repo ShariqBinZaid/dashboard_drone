@@ -223,8 +223,8 @@ class ApiController extends Controller
         $ip = $request->ip();
         // dd($ip);
         // $ip = '1';
-        $userLocations = Location::get($ip);
-        return response()->json(['success' => true, 'msg' => 'Location Get Successfully', 'data' => $userLocations]);
+        $getlocations = Location::get($ip);
+        return response()->json(['success' => true, 'msg' => 'Location Get Successfully', 'data' => $getlocations]);
     }
 
     public function userfollowers(Request $req)
@@ -297,5 +297,30 @@ class ApiController extends Controller
     {
         $getusershares = UserShares::where('post_id', $post_id)->get();
         return response()->json(['success' => true, 'data' => $getusershares]);
+    }
+
+    public function followUnfollow(Request $req)
+    {
+        $input = $req->all();
+        $validator = Validator::make($req->all(), [
+            'user_id' => 'required',
+            'post_id' => 'required'
+        ]);
+
+        if ($validator->fails()) {
+            return $this->sendError('Validation Error.', $validator->errors());
+        }
+
+        unset($input['_token']);
+
+        $userfollow = UserFollowers::where('user_id', $input['user_id'])->where('post_id', $input['post_id'])->first();
+
+        if ($userfollow) {
+            $userfollow->delete();
+            return response()->json(['success' => true, 'msg' => 'User UnFollow Successfully']);
+        } else {
+            $userfollow = UserFollowers::create($input);
+            return response()->json(['success' => true, 'msg' => 'User Followed Successfully', 'data' => $userfollow]);
+        }
     }
 }

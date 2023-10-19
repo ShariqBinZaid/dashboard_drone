@@ -29,25 +29,21 @@ Route::get('getcategories', [CategoriesController::class, 'getcategories']);
 
 Route::middleware('auth:api')->group(function () {
 
+    Route::controller(CategoriesController::class)->group(function () {
+        Route::post('categories', 'store')->name('categories.categories');
+    });
 
     Route::controller(ApiController::class)->group(function () {
         Route::post('changepassword', 'changepassword')->name('user.changepassword');
         Route::post('updateregister', 'updateregister')->name('user.updateregister');
         Route::post('registerdelete/{id}', 'registerdelete')->name('user.registerdelete');
-    });
-
-    Route::controller(CategoriesController::class)->group(function () {
-        Route::post('categories', 'store')->name('categories.categories');
-        // Route::get('getcategories', 'getcategories')->name('categories.getcategories');
-    });
-
-    Route::controller(ApiController::class)->group(function () {
         Route::get('locations', 'locations')->name('locations.locations');
         Route::post('userfollowers', 'userfollowers')->name('followers.userfollowers');
         Route::post('usershares', 'usershares')->name('followers.usershares');
         Route::get('getusershares/{id?}', 'getusershares')->name('followers.getusershares');
         Route::get('getusersfollowers/{id?}', 'getusersfollowers')->name('followers.getusersfollowers');
         Route::get('followercheck/{user_id?}/{post_id?}', 'followercheck')->name('followers.followercheck');
+        Route::post('followUnfollow', 'followUnfollow')->name('followers.followUnfollow');
     });
 
     Route::controller(SubscriptionsController::class)->group(function () {
