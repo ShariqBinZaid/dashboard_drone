@@ -388,7 +388,7 @@ class ApiController extends Controller
 
         if (@$input['id']) {
             $followersrequest = UserFollowers::where("id", $input['id'])->update($input);
-            return response()->json(['success' => true, 'msg' => 'User Followers Updated Successfully.']);
+            return response()->json(['success' => true, 'msg' => 'User Followers Accept or Reject.']);
         } else {
             // $input['user_id'] = Auth::user()->id;
             // $input['status'] = 'pending';
