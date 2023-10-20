@@ -39,16 +39,19 @@ Route::get('/', function () {
 
 Route::get('/linkstorage', function () {
     Artisan::call('storage:link');
-    echo "clear";
+    echo "Storage Linked Successfully";
 });
+
 
 Route::get('/migratedatabase', function () {
     Artisan::call('migrate:fresh --seed');
+    echo "Fresh Database Migrated Successfully";
 });
 
 Route::get('/clear/1', function () {
     Artisan::call('config:cache');
     Artisan::call('optimize:clear');
+    echo "Cache Cleared Successfully";
 });
 
 Auth::routes();
