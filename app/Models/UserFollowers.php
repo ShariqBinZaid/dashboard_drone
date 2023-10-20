@@ -14,4 +14,9 @@ class UserFollowers extends Model
     {
         return $this->hasMany(User::class, 'id', 'follower_id');
     }
+
+    public function getUser()
+    {
+        return $this->hasMany(User::class, 'id', 'user_id');
+    }
 }

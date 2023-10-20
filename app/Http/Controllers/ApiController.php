@@ -323,4 +323,45 @@ class ApiController extends Controller
             return response()->json(['success' => true, 'msg' => 'User Followed Successfully', 'data' => $userfollow]);
         }
     }
+
+    public function myfollowers($user_id)
+    {
+        $myfollowers = UserFollowers::with('getUser')->where('user_id', $user_id)->get();
+        return response()->json(['success' => true, 'data' => $myfollowers]);
+    }
+
+    public function followersremove(Request $req, $user_id)
+    {
+        $followersremove = UserFollowers::where('user_id', $user_id)->forcedelete();
+        // echo json_encode(['success' => true, 'msg' => 'Followers Deleted Successfully']);
+        return response()->json(['success' => true, 'msg' => 'Followers Deleted Successfully']);
+    }
+
+    public function unfollow(Request $req)
+    {
+        $input = $req->all();
+        $validator = Validator::make($req->all(), [
+            'user_id' => 'required',
+            'post_id' => 'required'
+        ]);
+
+        if ($validator->fails()) {
+            return $this->sendError('Validation Error.', $validator->errors());
+        }
+
+        unset($input['_token']);
+
+        $userfollow = UserFollowers::where('user_id', $input['user_id'])->where('post_id', $input['post_id'])->first();
+
+        if ($userfollow)
+            $userfollow->delete();
+        return response()->json(['success' => true, 'msg' => 'User UnFollow Successfully']);
+    }
+
+
+
+    // public function followrequest()
+    // {
+    //     $followrequest = UserFollowers::
+    // }
 }

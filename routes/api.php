@@ -44,6 +44,9 @@ Route::middleware('auth:api')->group(function () {
         Route::get('getusersfollowers/{id?}', 'getusersfollowers')->name('followers.getusersfollowers');
         Route::get('followercheck/{user_id?}/{post_id?}', 'followercheck')->name('followers.followercheck');
         Route::post('followUnfollow', 'followUnfollow')->name('followers.followUnfollow');
+        Route::post('followersremove/{user_id?}', 'followersremove')->name('followers.followersremove');
+        Route::get('myfollowers/{user_id?}', 'myfollowers')->name('followers.myfollowers');
+        Route::post('unfollow', 'unfollow')->name('followers.unfollow');
     });
 
     Route::controller(SubscriptionsController::class)->group(function () {
