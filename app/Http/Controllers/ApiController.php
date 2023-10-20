@@ -394,7 +394,7 @@ class ApiController extends Controller
             // $input['status'] = 'pending';
             // $input['post_id'] = null;
             $followersrequest = UserFollowers::create($input);
-            return response()->json(['success' => true, 'msg' => 'User Followed Successfully', 'data' => $followersrequest]);
+            return response()->json(['success' => true, 'msg' => 'User Followed Request Successfully', 'data' => $followersrequest]);
         }
     }
 
