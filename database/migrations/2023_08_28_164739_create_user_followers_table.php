@@ -19,7 +19,7 @@ return new class extends Migration
             $table->foreign('user_id')->references('id')->on('users')->cascadeOnDelete()->cascadeOnUpdate();
             $table->unsignedBigInteger('follower_id');
             $table->foreign('follower_id')->references('id')->on('users')->cascadeOnDelete()->cascadeOnUpdate();
-            $table->unsignedBigInteger('post_id');
+            $table->unsignedBigInteger('post_id')->nullable();
             $table->foreign('post_id')->references('id')->on('posts')->cascadeOnDelete()->cascadeOnUpdate();
             $table->enum('status', ['pending', 'accepted', 'rejected'])->default('pending');
             $table->timestamps();

@@ -19,96 +19,108 @@ class ApiController extends Controller
 {
     public function register(Request $request)
     {
-        $input = $request->all();
-        $validator = Validator::make($request->all(), [
-            'first_name' => 'required',
-            'last_name' => 'required',
-            'gender' => 'required',
-            'phone' => 'required',
-            'email' => 'required',
-            // 'country' => 'required',
-            // 'address' => 'required',
-            // 'desc' => 'required',
-            'password' => 'required'
-        ]);
+        try {
+            $input = $request->all();
+            $validator = Validator::make($request->all(), [
+                'first_name' => 'required',
+                'last_name' => 'required',
+                'gender' => 'required',
+                'phone' => 'required',
+                'email' => 'required',
+                // 'country' => 'required',
+                // 'address' => 'required',
+                // 'desc' => 'required',
+                'password' => 'required'
+            ]);
 
-        if ($validator->fails()) {
-            return $this->sendError('Validation Error.', $validator->errors());
+            if ($validator->fails()) {
+                return $this->sendError('Validation Error.', $validator->errors());
+            }
+
+            $users  = User::where('email', $request['email'])->get();
+            if ($users->count() > 0) {
+                return response()->json(['success' => false, 'msg' => 'Email Already Exist']);
+                die;
+            }
+
+            if ($request->file('display_picture')) {
+                unset($input['display_picture']);
+                $input += ['display_picture' => $this->updateprofile($request, 'display_picture', 'profileimage')];
+            }
+
+            // return $input;
+            $input['password'] = bcrypt($input['password']);
+            $user = User::create($input);
+            $success['token'] =  $user->createToken('MyApp')->accessToken;
+            $success['user'] =  $user;
+
+            return $this->sendResponse($success, 'User Registered Successfully.');
+        } catch (\Exception $e) {
+            return $this->sendError($e->getMessage());
         }
-
-        $users  = User::where('email', $request['email'])->get();
-        if ($users->count() > 0) {
-            return response()->json(['success' => false, 'msg' => 'Email Already Exist']);
-            die;
-        }
-
-        if ($request->file('display_picture')) {
-            unset($input['display_picture']);
-            $input += ['display_picture' => $this->updateprofile($request, 'display_picture', 'profileimage')];
-        }
-
-        // return $input;
-        $input['password'] = bcrypt($input['password']);
-        $user = User::create($input);
-        $success['token'] =  $user->createToken('MyApp')->accessToken;
-        $success['user'] =  $user;
-
-        return $this->sendResponse($success, 'User Registered Successfully.');
     }
 
     public function registerdelete(Request $req, $id)
     {
-        $email = $req->input('email');
-        $password = $req->input('password');
+        try {
+            $email = $req->input('email');
+            $password = $req->input('password');
 
-        $user = User::where('email', $email)->first();
+            $user = User::where('email', $email)->first();
 
-        if (!$user) {
-            return response()->json(['success' => false, 'msg' => 'User not found'], 404);
-        }
+            if (!$user) {
+                return response()->json(['success' => false, 'msg' => 'User not found'], 404);
+            }
 
-        if (password_verify($password, $user->password)) {
-            $user->delete();
+            if (password_verify($password, $user->password)) {
+                $user->delete();
 
-            return response()->json(['success' => true, 'msg' => 'User Deleted Successfully']);
-        } else {
-            return response()->json(['success' => false, 'msg' => 'Email or Password is Incorrect'], 401);
+                return response()->json(['success' => true, 'msg' => 'User Deleted Successfully']);
+            } else {
+                return response()->json(['success' => false, 'msg' => 'Email or Password is Incorrect'], 401);
+            }
+        } catch (\Exception $e) {
+            return $this->sendError($e->getMessage());
         }
     }
 
     public function updateregister(Request $req)
     {
-        $input = $req->all();
-        $validator = Validator::make($input, [
-            'display_picture' => 'required',
-            // 'user_name' => 'required',
-            'first_name' => 'required',
-            'last_name' => 'required',
-            // 'gender' => 'required',
-            // 'email' => 'required',
-            // 'dob' => 'required',
-            'phone' => 'required',
-            // 'status' => 'required',
-            // 'is_active' => 'required',
-            // 'user_type' => 'required',
-        ]);
+        try {
+            $input = $req->all();
+            $validator = Validator::make($input, [
+                'display_picture' => 'required',
+                // 'user_name' => 'required',
+                'first_name' => 'required',
+                'last_name' => 'required',
+                // 'gender' => 'required',
+                // 'email' => 'required',
+                // 'dob' => 'required',
+                'phone' => 'required',
+                // 'status' => 'required',
+                // 'is_active' => 'required',
+                // 'user_type' => 'required',
+            ]);
 
-        if ($validator->fails()) {
-            return response()->json(['success' => false, 'error' => $validator->errors()]);
-        }
+            if ($validator->fails()) {
+                return response()->json(['success' => false, 'error' => $validator->errors()]);
+            }
 
-        if ($req->file('display_picture')) {
-            unset($input['display_picture']);
-            $input += ['display_picture' => $this->updateprofile($req, 'display_picture', 'profileimage')];
-        }
+            if ($req->file('display_picture')) {
+                unset($input['display_picture']);
+                $input += ['display_picture' => $this->updateprofile($req, 'display_picture', 'profileimage')];
+            }
 
-        unset($input['_token']);
-        if (@$input['id']) {
-            $userupdate = User::where("id", $input['id'])->update($input);
-            return response()->json(['success' => true, 'msg' => 'User Updated Successfully.', 'data' => User::where('id', $input['id'])->first()]);
-        } else {
-            $userupdate = User::create($input);
-            return response()->json(['success' => true, 'msg' => 'User Created Successfully']);
+            unset($input['_token']);
+            if (@$input['id']) {
+                $userupdate = User::where("id", $input['id'])->update($input);
+                return response()->json(['success' => true, 'msg' => 'User Updated Successfully.', 'data' => User::where('id', $input['id'])->first()]);
+            } else {
+                $userupdate = User::create($input);
+                return response()->json(['success' => true, 'msg' => 'User Created Successfully']);
+            }
+        } catch (\Exception $e) {
+            return $this->sendError($e->getMessage());
         }
     }
 
@@ -133,21 +145,6 @@ class ApiController extends Controller
         }
     }
 
-    // public function login(Request $request)
-    // {
-    //     if (Auth::attempt(['email' => $request->email, 'password' => $request->password])) {
-    //         $user = Auth::user();
-    //         $success['token'] =  $user->createToken('MyApp')->accessToken;
-    //         // $success['email'] =  $user->email;
-    //         $success['user'] =  $user;
-    //         $success = User::with('getCategory')->get();
-    //         return $this->sendResponse($success, 'User Login Successfully.');
-    //     } else {
-    //         return $this->sendResponse('Unauthorised.', ['error' => 'Email or Password Incorrect']);
-    //         // return $this->sendError('Unauthorised.', ['error' => 'Incorrect ID Password']);
-    //     }
-    // }
-
     public function login(Request $request)
     {
         if (Auth::attempt(['email' => $request->email, 'password' => $request->password])) {
@@ -165,26 +162,30 @@ class ApiController extends Controller
 
     public function userupdate(Request $req)
     {
-        $input = $req->all();
-        $validator = Validator::make($input, [
-            'first_name' => 'required',
-            'last_name' => 'required',
-            'email' => 'required',
-            'designation' => 'required',
-            'user_type' => 'required',
-            'password' => 'required'
-        ]);
+        try {
+            $input = $req->all();
+            $validator = Validator::make($input, [
+                'first_name' => 'required',
+                'last_name' => 'required',
+                'email' => 'required',
+                'designation' => 'required',
+                'user_type' => 'required',
+                'password' => 'required'
+            ]);
 
-        if ($validator->fails()) {
-            return response()->json(['success' => false, 'error' => $validator->errors()]);
-        }
-        unset($input['_token']);
-        if (@$input['id']) {
-            $userupdate = User::where("id", $input['id'])->update($input);
-            return response()->json(['success' => true, 'msg' => 'User Updated Successfully.']);
-        } else {
-            $userupdate = User::create($input);
-            return response()->json(['success' => true, 'msg' => 'User Created Successfully']);
+            if ($validator->fails()) {
+                return response()->json(['success' => false, 'error' => $validator->errors()]);
+            }
+            unset($input['_token']);
+            if (@$input['id']) {
+                $userupdate = User::where("id", $input['id'])->update($input);
+                return response()->json(['success' => true, 'msg' => 'User Updated Successfully.']);
+            } else {
+                $userupdate = User::create($input);
+                return response()->json(['success' => true, 'msg' => 'User Created Successfully']);
+            }
+        } catch (\Exception $e) {
+            return $this->sendError($e->getMessage());
         }
     }
 
@@ -389,6 +390,9 @@ class ApiController extends Controller
             $followersrequest = UserFollowers::where("id", $input['id'])->update($input);
             return response()->json(['success' => true, 'msg' => 'User Followers Updated Successfully.']);
         } else {
+            // $input['user_id'] = Auth::user()->id;
+            // $input['status'] = 'pending';
+            // $input['post_id'] = null;
             $followersrequest = UserFollowers::create($input);
             return response()->json(['success' => true, 'msg' => 'User Followed Successfully', 'data' => $followersrequest]);
         }
@@ -400,7 +404,7 @@ class ApiController extends Controller
             $input = $req->all();
             $validator = Validator::make($input, [
                 'follower_id' => 'required',
-                'status' => 'required|in:accepted,rejected',
+                // 'status' => 'required|in:accepted,rejected',
             ]);
 
             if ($validator->fails()) {
@@ -420,6 +424,8 @@ class ApiController extends Controller
             } else {
                 // If no record exists, create a new one
                 $input['user_id'] = $user->id;
+                $input['status'] = 'pending';
+                $input['post_id'] = null;
                 $followersrequest = UserFollowers::create($input);
                 return response()->json(['success' => true, 'msg' => 'User Followed Successfully', 'data' => $followersrequest]);
             }
@@ -430,24 +436,28 @@ class ApiController extends Controller
 
     public function report(Request $req)
     {
-        $input = $req->all();
-        $validator = Validator::make($input, [
-            // 'user_id' => 'required',
-            'desc' => 'required',
-        ]);
+        try {
+            $input = $req->all();
+            $validator = Validator::make($input, [
+                // 'user_id' => 'required',
+                'desc' => 'required',
+            ]);
 
-        if ($validator->fails()) {
-            return response()->json(['success' => false, 'error' => $validator->errors()]);
-        }
+            if ($validator->fails()) {
+                return response()->json(['success' => false, 'error' => $validator->errors()]);
+            }
 
-        $input += ['user_id' => Auth::id()];
+            $input += ['user_id' => Auth::id()];
 
-        if (@$input['id']) {
-            $report = Reports::where("id", $input['id'])->update($input);
-            return response()->json(['success' => true, 'msg' => 'Reports Updated Successfully.']);
-        } else {
-            $report = Reports::create($input);
-            return response()->json(['success' => true, 'msg' => 'Reported Successfully', 'data' => $report]);
+            if (@$input['id']) {
+                $report = Reports::where("id", $input['id'])->update($input);
+                return response()->json(['success' => true, 'msg' => 'Reports Updated Successfully.', 'data' => $report]);
+            } else {
+                $report = Reports::create($input);
+                return response()->json(['success' => true, 'msg' => 'Reported Successfully', 'data' => $report]);
+            }
+        } catch (\Exception $e) {
+            return $this->sendError($e->getMessage());
         }
     }
 }
