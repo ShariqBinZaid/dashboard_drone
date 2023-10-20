@@ -47,6 +47,9 @@ Route::middleware('auth:api')->group(function () {
         Route::post('followersremove/{user_id?}', 'followersremove')->name('followers.followersremove');
         Route::get('myfollowers/{user_id?}', 'myfollowers')->name('followers.myfollowers');
         Route::post('unfollow', 'unfollow')->name('followers.unfollow');
+        Route::post('report', 'report')->name('followers.report');
+        Route::post('followaccept', 'followaccept')->name('followers.followaccept');
+        Route::post('followersrequest', 'followersrequest')->name('followers.followersrequest');
         Route::get('allpostlikes/{post_id}', 'allpostlikes')->name('followers.allpostlikes');
     });
 
@@ -70,9 +73,10 @@ Route::middleware('auth:api')->group(function () {
         Route::get('likecheck/{user_id?}/{post_id?}', 'likecheck')->name('posts.likecheck');
         Route::post('userpostlikes', 'userpostlikes')->name('posts.userpostlikes');
         Route::get('getuserpostlikes/{post_id?}', 'getuserpostlikes')->name('posts.getuserpostlikes');
-        Route::post('userpostcomments', 'userpostcomments')->name('place.userpostcomments');
+        Route::post('userpostcomments', 'userpostcomments')->name('posts.userpostcomments');
         Route::get('getuserpostcomments/{post_id?}', 'getuserpostcomments')->name('posts.getuserpostcomments');
-        Route::post('userreplycomments', 'userreplycomments')->name('place.userreplycomments');
-        Route::get('getuserreplycomments/{comment_id?}', 'getuserreplycomments')->name('place.getuserreplycomments');
+        Route::post('userreplycomments', 'userreplycomments')->name('posts.userreplycomments');
+        Route::get('getuserreplycomments/{comment_id?}', 'getuserreplycomments')->name('posts.getuserreplycomments');
+        Route::get('getuserpost/{comment_id?}', 'getuserpost')->name('posts.getuserpost');
     });
 });

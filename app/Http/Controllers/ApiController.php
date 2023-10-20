@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\User;
 use App\Models\Packages;
+use App\Models\Reports;
 use Illuminate\Http\Request;
 use App\Models\UserFollowers;
 use App\Models\UserLikes;
@@ -367,5 +368,86 @@ class ApiController extends Controller
         }
 
         return response()->json(['success' => true, 'data' => $likedByUsers]);
+    }
+
+    public function followersrequest(Request $req)
+    {
+        $input = $req->all();
+        $validator = Validator::make($input, [
+            // 'user_id' => 'required',
+            'follower_id' => 'required',
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json(['success' => false, 'error' => $validator->errors()]);
+        }
+
+        $input += ['user_id' => Auth::user()->id];
+        $input += ['status' => 'pending'];
+
+        if (@$input['id']) {
+            $followersrequest = UserFollowers::where("id", $input['id'])->update($input);
+            return response()->json(['success' => true, 'msg' => 'User Followers Updated Successfully.']);
+        } else {
+            $followersrequest = UserFollowers::create($input);
+            return response()->json(['success' => true, 'msg' => 'User Followed Successfully', 'data' => $followersrequest]);
+        }
+    }
+
+    public function followaccept(Request $req)
+    {
+        try {
+            $input = $req->all();
+            $validator = Validator::make($input, [
+                'follower_id' => 'required',
+                'status' => 'required|in:accepted,rejected',
+            ]);
+
+            if ($validator->fails()) {
+                return response()->json(['success' => false, 'error' => $validator->errors()]);
+            }
+
+            $user = Auth::user();
+
+            // Check if a record already exists for this user and follower
+            $existingRecord = UserFollowers::where('user_id', $user->id)->where('follower_id', $input['follower_id'])->first();
+
+            if ($existingRecord) {
+                // If a record exists, update the status
+                $existingRecord->status = $input['status'];
+                $existingRecord->save();
+                return response()->json(['success' => true, 'msg' => 'User Followers Updated Successfully.', 'data' => $existingRecord]);
+            } else {
+                // If no record exists, create a new one
+                $input['user_id'] = $user->id;
+                $followersrequest = UserFollowers::create($input);
+                return response()->json(['success' => true, 'msg' => 'User Followed Successfully', 'data' => $followersrequest]);
+            }
+        } catch (\Exception $e) {
+            return $this->sendError($e->getMessage());
+        }
+    }
+
+    public function report(Request $req)
+    {
+        $input = $req->all();
+        $validator = Validator::make($input, [
+            // 'user_id' => 'required',
+            'desc' => 'required',
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json(['success' => false, 'error' => $validator->errors()]);
+        }
+
+        $input += ['user_id' => Auth::id()];
+
+        if (@$input['id']) {
+            $report = Reports::where("id", $input['id'])->update($input);
+            return response()->json(['success' => true, 'msg' => 'Reports Updated Successfully.']);
+        } else {
+            $report = Reports::create($input);
+            return response()->json(['success' => true, 'msg' => 'Reported Successfully', 'data' => $report]);
+        }
     }
 }

@@ -36,6 +36,15 @@ return [
     */
 
     'guards' => [
+        'api' => [
+            'driver' => 'passport',
+            'provider' => 'users',
+            'expire' => 60, // Update this value to the desired expiration time in minutes
+        ],
+    ],
+
+
+    'guards' => [
         'web' => [
             'driver' => 'session',
             'provider' => 'users',

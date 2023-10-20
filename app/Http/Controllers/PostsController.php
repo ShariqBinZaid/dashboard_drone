@@ -309,4 +309,10 @@ class PostsController extends Controller
         $getpostcommentlike = UserComments::get();
         return response()->json(['success' => true, 'data' => $getpostcommentlike]);
     }
+
+    public function getuserpost()
+    {
+        $getuserpost = Posts::where('user_id', Auth::user()->id)->get();
+        return response()->json(['success' => true, 'data' => $getuserpost]);
+    }
 }
