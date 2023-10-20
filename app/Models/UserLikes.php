@@ -14,4 +14,9 @@ class UserLikes extends Model
     {
         return $this->hasMany(User::class, 'id', 'like_id');
     }
+
+    public function User()
+    {
+        return $this->hasMany(User::class, 'id', 'user_id');
+    }
 }

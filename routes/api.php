@@ -47,6 +47,7 @@ Route::middleware('auth:api')->group(function () {
         Route::post('followersremove/{user_id?}', 'followersremove')->name('followers.followersremove');
         Route::get('myfollowers/{user_id?}', 'myfollowers')->name('followers.myfollowers');
         Route::post('unfollow', 'unfollow')->name('followers.unfollow');
+        Route::get('allpostlikes/{post_id}', 'allpostlikes')->name('followers.allpostlikes');
     });
 
     Route::controller(SubscriptionsController::class)->group(function () {

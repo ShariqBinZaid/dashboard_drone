@@ -333,7 +333,6 @@ class ApiController extends Controller
     public function followersremove(Request $req, $user_id)
     {
         $followersremove = UserFollowers::where('user_id', $user_id)->forcedelete();
-        // echo json_encode(['success' => true, 'msg' => 'Followers Deleted Successfully']);
         return response()->json(['success' => true, 'msg' => 'Followers Deleted Successfully']);
     }
 
@@ -358,10 +357,15 @@ class ApiController extends Controller
         return response()->json(['success' => true, 'msg' => 'User UnFollow Successfully']);
     }
 
+    public function allpostlikes($post_id)
+    {
+        $postLikes = UserLikes::where('post_id', $post_id)->get();
+        $likedByUsers = [];
 
+        foreach ($postLikes as $like) {
+            $likedByUsers[] = $like->user;
+        }
 
-    // public function followrequest()
-    // {
-    //     $followrequest = UserFollowers::
-    // }
+        return response()->json(['success' => true, 'data' => $likedByUsers]);
+    }
 }
