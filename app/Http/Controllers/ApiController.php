@@ -388,13 +388,13 @@ class ApiController extends Controller
 
         if (@$input['id']) {
             $followersrequest = UserFollowers::where("id", $input['id'])->update($input);
-            return response()->json(['success' => true, 'msg' => 'User Followers Accept or Reject.']);
+            return response()->json(['success' => true, 'msg' => 'User Followers Updated Successfully.']);
         } else {
             // $input['user_id'] = Auth::user()->id;
             // $input['status'] = 'pending';
             // $input['post_id'] = null;
             $followersrequest = UserFollowers::create($input);
-            return response()->json(['success' => true, 'msg' => 'User Followed Request Successfully', 'data' => $followersrequest]);
+            return response()->json(['success' => true, 'msg' => 'User Followed Successfully', 'data' => $followersrequest]);
         }
     }
 
@@ -420,14 +420,14 @@ class ApiController extends Controller
                 // If a record exists, update the status
                 $existingRecord->status = $input['status'];
                 $existingRecord->save();
-                return response()->json(['success' => true, 'msg' => 'User Followers Updated Successfully.', 'data' => $existingRecord]);
+                return response()->json(['success' => true, 'msg' => 'User Followers Accept or Reject.', 'data' => $existingRecord]);
             } else {
                 // If no record exists, create a new one
                 $input['user_id'] = $user->id;
                 $input['status'] = 'pending';
                 $input['post_id'] = null;
                 $followersrequest = UserFollowers::create($input);
-                return response()->json(['success' => true, 'msg' => 'User Followed Successfully', 'data' => $followersrequest]);
+                return response()->json(['success' => true, 'msg' => 'User Followed Request Successfully', 'data' => $followersrequest]);
             }
         } catch (\Exception $e) {
             return $this->sendError($e->getMessage());
