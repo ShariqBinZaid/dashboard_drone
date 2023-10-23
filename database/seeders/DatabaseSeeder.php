@@ -49,12 +49,19 @@ class DatabaseSeeder extends Seeder
             'name' => '1 Year',
             'price' => '100',
             'desc' => 'Test 1',
+            'start_date' => '2023-09-11',
+            'end_date' => '2023-12-12',
+            'is_active' => '1',
         ]);
         Subscriptions::create([
             'image' => 'profileimage/test.png',
             'name' => '2 Year',
             'price' => '100',
             'desc' => 'Test 2',
+            'start_date' => '2023-09-11',
+            'end_date' => '2023-12-12',
+            'is_active' => '1',
+
         ]);
 
         User::create([

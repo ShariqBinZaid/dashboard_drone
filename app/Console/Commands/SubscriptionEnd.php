@@ -2,6 +2,8 @@
 
 namespace App\Console\Commands;
 
+use Carbon\Carbon;
+use App\Models\Subscriptions;
 use Illuminate\Console\Command;
 
 class SubscriptionEnd extends Command
@@ -28,6 +30,9 @@ class SubscriptionEnd extends Command
      */
     public function handle()
     {
-        return Command::SUCCESS;
+        $subscriptionStart = Subscriptions::where('start_date', '<', Carbon::now())->get();
+        return response()->json(['success' => true, 'msg' => 'Subscriptions End Successfully.']);
+
+        // return Command::SUCCESS;
     }
 }
