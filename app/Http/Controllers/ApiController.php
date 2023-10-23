@@ -7,6 +7,7 @@ use App\Models\Packages;
 use App\Models\Reports;
 use Illuminate\Http\Request;
 use App\Models\UserFollowers;
+use App\Models\UserFollowings;
 use App\Models\UserLikes;
 use App\Models\UserShares;
 use Illuminate\Support\Facades\Auth;
@@ -469,7 +470,7 @@ class ApiController extends Controller
 
     public function getmyfollowing($user_id)
     {
-        $getacceptfollower  = UserFollowers::with('getUser', 'getUserFollower')->where('user_id', $user_id)->where('status', 'accepted')->get();
+        $getacceptfollower  = UserFollowings::with('getUser', 'getUserFollowing')->where('user_id', $user_id)->get();
         return response()->json(['success' => true, 'data' => $getacceptfollower]);
     }
 }
