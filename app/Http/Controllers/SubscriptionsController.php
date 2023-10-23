@@ -4,9 +4,10 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Subscriptions;
+use App\Models\UserSubscriptions;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 use App\Http\Resources\SubscriptionsResource;
-use App\Models\UserSubscriptions;
 
 class SubscriptionsController extends Controller
 {
@@ -76,6 +77,7 @@ class SubscriptionsController extends Controller
             return response()->json(['success' => true, 'msg' => 'Subscriptions Updated Successfully.']);
         } else {
             $subscriptions = Subscriptions::create($input);
+            $usersubcriptions = UserSubscriptions::created(['user_id' => Auth::user()->id, 'subscriptions_id' => $subscriptions->id]);
             return response()->json(['success' => true, 'msg' => 'Subscriptions Purchased Successfully', 'data' => $subscriptions]);
         }
     }
