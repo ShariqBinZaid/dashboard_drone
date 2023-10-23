@@ -48,37 +48,41 @@ class SubscriptionsController extends Controller
      */
     public function store(Request $req)
     {
-        $input = $req->all();
+        try {
+            $input = $req->all();
 
-        $validator = Validator::make($input, [
-            'image' => 'required',
-            'name' => 'required',
-            'price' => 'required',
-            'desc' => 'required',
-            'start_date' => 'required',
-            'end_date' => 'required',
-            'is_active' => 'required',
-        ]);
+            $validator = Validator::make($input, [
+                'image' => 'required',
+                'name' => 'required',
+                'price' => 'required',
+                'desc' => 'required',
+                'start_date' => 'required',
+                'end_date' => 'required',
+                'is_active' => 'required',
+            ]);
 
-        // dd($input);
-        if ($validator->fails()) {
-            return response()->json(['success' => false, 'error' => $validator->errors()]);
-        }
+            // dd($input);
+            if ($validator->fails()) {
+                return response()->json(['success' => false, 'error' => $validator->errors()]);
+            }
 
-        if ($req->file('image')) {
-            unset($input['image']);
-            $input += ['image' => $this->updateprofile($req, 'image', 'profileimage')];
-        }
+            if ($req->file('image')) {
+                unset($input['image']);
+                $input += ['image' => $this->updateprofile($req, 'image', 'profileimage')];
+            }
 
-        unset($input['_token']);
+            unset($input['_token']);
 
-        if (@$input['id']) {
-            $subscriptions = Subscriptions::where("id", $input['id'])->update($input);
-            return response()->json(['success' => true, 'msg' => 'Subscriptions Updated Successfully.']);
-        } else {
-            $subscriptions = Subscriptions::create($input);
-            $usersubcriptions = UserSubscriptions::created(['user_id' => Auth::user()->id, 'subscriptions_id' => $subscriptions->id]);
-            return response()->json(['success' => true, 'msg' => 'Subscriptions Purchased Successfully', 'data' => $subscriptions]);
+            if (@$input['id']) {
+                $subscriptions = Subscriptions::where("id", $input['id'])->update($input);
+                return response()->json(['success' => true, 'msg' => 'Subscriptions Updated Successfully.']);
+            } else {
+                $subscriptions = Subscriptions::create($input);
+                $usersubcriptions = UserSubscriptions::created(['user_id' => Auth::user()->id, 'subscriptions_id' => $subscriptions->id]);
+                return response()->json(['success' => true, 'msg' => 'Subscriptions Purchased Successfully', 'data' => $subscriptions]);
+            }
+        } catch (\Exception $e) {
+            return $this->sendError($e->getMessage());
         }
     }
 
