@@ -27,6 +27,7 @@ class ApiController extends Controller
                 'last_name' => 'required',
                 'gender' => 'required',
                 'phone' => 'required',
+                'desc' => 'required',
                 'email' => 'required',
                 'password' => 'required'
             ]);
