@@ -78,7 +78,7 @@ class SubscriptionsController extends Controller
                 return response()->json(['success' => true, 'msg' => 'Subscriptions Updated Successfully.']);
             } else {
                 $subscriptions = Subscriptions::create($input);
-                $usersubcriptions = UserSubscriptions::created(['user_id' => Auth::user()->id, 'subscriptions_id' => $subscriptions->id]);
+                // $usersubcriptions = UserSubscriptions::created(['user_id' => Auth::user()->id, 'subscriptions_id' => $subscriptions->id]);
                 return response()->json(['success' => true, 'msg' => 'Subscriptions Purchased Successfully', 'data' => $subscriptions]);
             }
         } catch (\Exception $e) {
