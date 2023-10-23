@@ -13,15 +13,11 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('user_followers', function (Blueprint $table) {
+        Schema::create('winners', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('user_id');
             $table->foreign('user_id')->references('id')->on('users')->cascadeOnDelete()->cascadeOnUpdate();
-            $table->unsignedBigInteger('follower_id');
-            $table->foreign('follower_id')->references('id')->on('users')->cascadeOnDelete()->cascadeOnUpdate();
-            // $table->unsignedBigInteger('post_id')->nullable();
-            // $table->foreign('post_id')->references('id')->on('posts')->cascadeOnDelete()->cascadeOnUpdate();
-            $table->enum('status', ['pending', 'accepted', 'rejected'])->default('pending');
+            $table->enum('winner', ['1', '2', '3'])->nullable();
             $table->timestamps();
         });
     }
@@ -33,6 +29,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('user_followers');
+        Schema::dropIfExists('winners');
     }
 };

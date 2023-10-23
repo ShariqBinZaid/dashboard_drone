@@ -27,9 +27,6 @@ class ApiController extends Controller
                 'gender' => 'required',
                 'phone' => 'required',
                 'email' => 'required',
-                // 'country' => 'required',
-                // 'address' => 'required',
-                // 'desc' => 'required',
                 'password' => 'required'
             ]);
 
@@ -234,13 +231,13 @@ class ApiController extends Controller
         $input = $req->all();
         $validator = Validator::make($req->all(), [
             'user_id' => 'required',
-            'post_id' => 'required'
+            'follower_id' => 'required'
         ]);
 
         if ($validator->fails()) {
             return $this->sendError('Validation Error.', $validator->errors());
         }
-        $checkFollower = UserFollowers::where('user_id', $input['user_id'])->where('post_id', $input['post_id'])->get();
+        $checkFollower = UserFollowers::where('user_id', $input['user_id'])->where('follower_id', $input['follower_id'])->get();
         if ($checkFollower->count() > 0) {
             foreach ($checkFollower as $check) {
                 UserFollowers::where('id', $check->id)->delete();
@@ -259,9 +256,9 @@ class ApiController extends Controller
         return response()->json(['success' => true, 'data' => $usersfollower]);
     }
 
-    public function followercheck($user_id, $post_id)
+    public function followercheck($user_id, $follower_id)
     {
-        $followcheck = UserFollowers::where('user_id', $user_id)->where('post_id', $post_id)->exists();
+        $followcheck = UserFollowers::where('user_id', $user_id)->where('follower_id', $follower_id)->exists();
 
         if (!$followcheck) {
             return response()->json(['success' => true, 'msg' => 'User Not Followed']);
@@ -306,7 +303,7 @@ class ApiController extends Controller
         $input = $req->all();
         $validator = Validator::make($req->all(), [
             'user_id' => 'required',
-            'post_id' => 'required'
+            'follower_id' => 'required'
         ]);
 
         if ($validator->fails()) {
@@ -315,7 +312,7 @@ class ApiController extends Controller
 
         unset($input['_token']);
 
-        $userfollow = UserFollowers::where('user_id', $input['user_id'])->where('post_id', $input['post_id'])->first();
+        $userfollow = UserFollowers::where('user_id', $input['user_id'])->where('follower_id', $input['follower_id'])->first();
 
         if ($userfollow) {
             $userfollow->delete();
@@ -343,7 +340,7 @@ class ApiController extends Controller
         $input = $req->all();
         $validator = Validator::make($req->all(), [
             'user_id' => 'required',
-            'post_id' => 'required'
+            'follower_id' => 'required'
         ]);
 
         if ($validator->fails()) {
@@ -352,7 +349,7 @@ class ApiController extends Controller
 
         unset($input['_token']);
 
-        $userfollow = UserFollowers::where('user_id', $input['user_id'])->where('post_id', $input['post_id'])->first();
+        $userfollow = UserFollowers::where('user_id', $input['user_id'])->where('follower_id', $input['follower_id'])->first();
 
         if ($userfollow)
             $userfollow->delete();
@@ -390,11 +387,9 @@ class ApiController extends Controller
             $followersrequest = UserFollowers::where("id", $input['id'])->update($input);
             return response()->json(['success' => true, 'msg' => 'User Followers Updated Successfully.']);
         } else {
-            // $input['user_id'] = Auth::user()->id;
-            // $input['status'] = 'pending';
-            // $input['post_id'] = null;
             $followersrequest = UserFollowers::create($input);
-            return response()->json(['success' => true, 'msg' => 'User Followed Successfully', 'data' => $followersrequest]);
+            $followersrequest = UserFollowers::with('getUser')->get();
+            return response()->json(['success' => true, 'msg' => 'User Followed Requested Successfully', 'data' => $followersrequest]);
         }
     }
 
@@ -425,7 +420,6 @@ class ApiController extends Controller
                 // If no record exists, create a new one
                 $input['user_id'] = $user->id;
                 $input['status'] = 'pending';
-                $input['post_id'] = null;
                 $followersrequest = UserFollowers::create($input);
                 return response()->json(['success' => true, 'msg' => 'User Followed Request Successfully', 'data' => $followersrequest]);
             }

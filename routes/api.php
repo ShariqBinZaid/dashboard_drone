@@ -42,7 +42,7 @@ Route::middleware('auth:api')->group(function () {
         Route::post('usershares', 'usershares')->name('followers.usershares');
         Route::get('getusershares/{id?}', 'getusershares')->name('followers.getusershares');
         Route::get('getusersfollowers/{id?}', 'getusersfollowers')->name('followers.getusersfollowers');
-        Route::get('followercheck/{user_id?}/{post_id?}', 'followercheck')->name('followers.followercheck');
+        Route::get('followercheck/{user_id?}/{follower_id?}', 'followercheck')->name('followers.followercheck');
         Route::post('followUnfollow', 'followUnfollow')->name('followers.followUnfollow');
         Route::post('followersremove/{user_id?}', 'followersremove')->name('followers.followersremove');
         Route::get('myfollowers/{user_id?}', 'myfollowers')->name('followers.myfollowers');
