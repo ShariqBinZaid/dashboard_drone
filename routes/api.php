@@ -50,6 +50,7 @@ Route::middleware('auth:api')->group(function () {
         Route::post('report', 'report')->name('followers.report');
         Route::post('followaccept', 'followaccept')->name('followers.followaccept');
         Route::post('followersrequest', 'followersrequest')->name('followers.followersrequest');
+        Route::get('getfollowersrequest', 'getfollowersrequest')->name('followers.getfollowersrequest');
         Route::get('allpostlikes/{post_id}', 'allpostlikes')->name('followers.allpostlikes');
     });
 

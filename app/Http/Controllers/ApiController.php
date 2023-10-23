@@ -393,6 +393,12 @@ class ApiController extends Controller
         }
     }
 
+    public function getfollowersrequest()
+    {
+        $getfollowersrequest = UserFollowers::with('getUser')->where('user_id', Auth::user()->id)->get();
+        return response()->json(['success' => true, 'msg' => 'User Followed Requested Successfully', 'data' => $getfollowersrequest]);
+    }
+
     public function followaccept(Request $req)
     {
         try {
