@@ -50,6 +50,7 @@ Route::middleware('auth:api')->group(function () {
         Route::post('report', 'report')->name('followers.report');
         Route::post('followaccept', 'followaccept')->name('followers.followaccept');
         Route::get('getacceptfollower/{user_id?}', 'getacceptfollower')->name('followers.getacceptfollower');
+        Route::post('following', 'following')->name('followers.following');
         Route::get('getmyfollowing/{user_id?}', 'getmyfollowing')->name('followers.getmyfollowing');
         Route::post('followersrequest', 'followersrequest')->name('followers.followersrequest');
         Route::get('getfollowersrequest', 'getfollowersrequest')->name('followers.getfollowersrequest');

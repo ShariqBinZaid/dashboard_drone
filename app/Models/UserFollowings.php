@@ -17,6 +17,6 @@ class UserFollowings extends Model
 
     public function getUserFollowing()
     {
-        return $this->hasMany(User::class, 'id', 'follower_id');
+        return $this->hasMany(User::class, 'id', 'following_id');
     }
 }

@@ -468,6 +468,35 @@ class ApiController extends Controller
         return response()->json(['success' => true, 'data' => $getacceptfollower]);
     }
 
+    public function following(Request $req)
+    {
+        try {
+            $input = $req->all();
+            $validator = Validator::make($req->all(), [ 
+                'user_id' => 'required',
+                'following_id' => 'required'
+            ]);
+
+            if ($validator->fails()) {
+                return $this->sendError('Validation Error.', $validator->errors());
+            }
+
+            unset($input['_token']);
+
+            $userfollowing = UserFollowings::where('user_id', $input['user_id'])->where('following_id', $input['following_id'])->first();
+
+            if ($userfollowing) {
+                $userfollowing->delete();
+                return response()->json(['success' => true, 'msg' => 'User UnFollowing Successfully']);
+            } else {
+                $userfollowing = UserFollowings::create($input);
+                return response()->json(['success' => true, 'msg' => 'User Following Successfully', 'data' => $userfollowing]);
+            }
+        } catch (\Exception $e) {
+            return $this->sendError($e->getMessage());
+        }
+    }
+
     public function getmyfollowing($user_id)
     {
         $getacceptfollower  = UserFollowings::with('getUser', 'getUserFollowing')->where('user_id', $user_id)->get();
