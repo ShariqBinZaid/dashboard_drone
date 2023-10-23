@@ -11,6 +11,8 @@ use Illuminate\Support\Facades\Auth;
 use App\Http\Resources\PostsResource;
 use App\Models\ReplyComments;
 use App\Models\User;
+use App\Models\UserFollowers;
+use App\Models\UserFollowings;
 use App\Models\UserLikes;
 use Illuminate\Support\Facades\Validator;
 
@@ -312,7 +314,11 @@ class PostsController extends Controller
 
     public function getuserpost()
     {
+        $getuser = User::where('id', Auth::user()->id)->get();
         $getuserpost = Posts::where('user_id', Auth::user()->id)->get();
-        return response()->json(['success' => true, 'data' => $getuserpost]);
+        $userpost = Posts::where('user_id', Auth::user()->id)->count();
+        $userfollowers = UserFollowers::where('user_id', Auth::user()->id)->count();
+        $userfollowing = UserFollowings::where('user_id', Auth::user()->id)->count();
+        return response()->json(['success' => true,  'user' => $getuser, 'user_post' => $getuserpost, 'userfollowers' => $userfollowers, 'userfollowing' => $userfollowing, 'userpost' => $userpost]);
     }
 }
