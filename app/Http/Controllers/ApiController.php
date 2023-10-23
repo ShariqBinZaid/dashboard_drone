@@ -460,4 +460,16 @@ class ApiController extends Controller
             return $this->sendError($e->getMessage());
         }
     }
+
+    public function getacceptfollower($user_id)
+    {
+        $getacceptfollower  = UserFollowers::with('getUser', 'getUserFollower')->where('user_id', $user_id)->where('status', 'accepted')->get();
+        return response()->json(['success' => true, 'data' => $getacceptfollower]);
+    }
+
+    public function getmyfollowing($user_id)
+    {
+        $getacceptfollower  = UserFollowers::with('getUser', 'getUserFollower')->where('user_id', $user_id)->where('status', 'accepted')->get();
+        return response()->json(['success' => true, 'data' => $getacceptfollower]);
+    }
 }

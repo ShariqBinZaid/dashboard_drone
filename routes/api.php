@@ -49,6 +49,7 @@ Route::middleware('auth:api')->group(function () {
         Route::post('unfollow', 'unfollow')->name('followers.unfollow');
         Route::post('report', 'report')->name('followers.report');
         Route::post('followaccept', 'followaccept')->name('followers.followaccept');
+        Route::get('getacceptfollower/{user_id?}', 'getacceptfollower')->name('followers.getacceptfollower');
         Route::post('followersrequest', 'followersrequest')->name('followers.followersrequest');
         Route::get('getfollowersrequest', 'getfollowersrequest')->name('followers.getfollowersrequest');
         Route::get('allpostlikes/{post_id}', 'allpostlikes')->name('followers.allpostlikes');
@@ -57,6 +58,7 @@ Route::middleware('auth:api')->group(function () {
     Route::controller(SubscriptionsController::class)->group(function () {
         Route::post('subscriptions', 'store')->name('subscriptions.subscriptions');
         Route::get('getsubscriptions', 'getsubscriptions')->name('subscriptions.getsubscriptions');
+        Route::get('getpostsubscriptions/{subscriptions_id?}', 'getpostsubscriptions')->name('subscriptions.getpostsubscriptions');
         Route::post('usersubcriptions', 'usersubcriptions')->name('subscriptions.usersubcriptions');
         Route::get('getusersubcriptions/{id?}', 'getusersubcriptions')->name('subscriptions.getusersubcriptions');
     });

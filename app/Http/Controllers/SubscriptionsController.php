@@ -8,6 +8,8 @@ use App\Models\UserSubscriptions;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 use App\Http\Resources\SubscriptionsResource;
+use App\Models\PostSubscriptions;
+use App\Models\UserFollowers;
 use Carbon\Carbon;
 
 class SubscriptionsController extends Controller
@@ -172,13 +174,9 @@ class SubscriptionsController extends Controller
         return response()->json(['success' => true, 'data' => $getusersubcriptions]);
     }
 
-    public function counter()
+    public function getpostsubscriptions($subscription_id)
     {
-        $endDate = Subscriptions::where('created_at')->addDays(3);
-
-        $now = Carbon::now();
-        $remainingTime = $endDate->diff($now);
-
-        return $remainingTime;
+        $getpostsubscriptions = PostSubscriptions::with('Subscriptions')->where('subscription_id', $subscription_id)->get();
+        return response()->json(['success' => true, 'data' => $getpostsubscriptions]);
     }
 }

@@ -20,7 +20,8 @@ return new class extends Migration
             $table->unsignedBigInteger('category_id');
             $table->foreign('category_id')->references('id')->on('categories')->cascadeOnDelete()->cascadeOnUpdate();
             $table->string('file')->nullable();
-            $table->string('date')->nullable();
+            $table->dateTime('date')->nullable();
+            // $table->string('date')->nullable();
             $table->string('desc')->nullable();
             $table->enum('post_type', ['post', 'competition'])->nullable();
             $table->timestamps();
