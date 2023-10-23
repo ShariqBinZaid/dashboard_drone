@@ -31,8 +31,6 @@ class SubscriptionEnd extends Command
     public function handle()
     {
         $subscriptionStart = Subscriptions::where('start_date', '<', Carbon::now())->get();
-        return response()->json(['success' => true, 'msg' => 'Subscriptions End Successfully.']);
-
-        // return Command::SUCCESS;
+        return Command::SUCCESS;
     }
 }

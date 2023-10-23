@@ -18,7 +18,7 @@ return new class extends Migration
             $table->string('image')->nullable();
             $table->string('name')->nullable();
             $table->string('price')->nullable();
-            $table->string('desc')->nullable();
+            $table->longText('desc')->nullable();
             $table->string('start_date')->nullable();
             $table->string('end_date')->nullable();
             $table->tinyInteger('is_active')->default(0);

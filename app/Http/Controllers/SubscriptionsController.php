@@ -8,6 +8,7 @@ use App\Models\UserSubscriptions;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 use App\Http\Resources\SubscriptionsResource;
+use Carbon\Carbon;
 
 class SubscriptionsController extends Controller
 {
@@ -169,5 +170,15 @@ class SubscriptionsController extends Controller
     {
         $getusersubcriptions = UserSubscriptions::with('userSubscriptions')->where('user_id', $user_id)->get();
         return response()->json(['success' => true, 'data' => $getusersubcriptions]);
+    }
+
+    public function counter()
+    {
+        $endDate = Subscriptions::where('created_at')->addDays(3);
+
+        $now = Carbon::now();
+        $remainingTime = $endDate->diff($now);
+
+        return $remainingTime;
     }
 }
