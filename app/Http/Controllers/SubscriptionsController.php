@@ -2,15 +2,17 @@
 
 namespace App\Http\Controllers;
 
+use Carbon\Carbon;
+use App\Models\UserLikes;
 use Illuminate\Http\Request;
 use App\Models\Subscriptions;
+use App\Models\UserFollowers;
+use App\Models\PostSubscriptions;
 use App\Models\UserSubscriptions;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 use App\Http\Resources\SubscriptionsResource;
-use App\Models\PostSubscriptions;
-use App\Models\UserFollowers;
-use Carbon\Carbon;
+use App\Models\UserComments;
 
 class SubscriptionsController extends Controller
 {
@@ -176,7 +178,51 @@ class SubscriptionsController extends Controller
 
     public function getpostsubscriptions($subscription_id)
     {
-        $getpostsubscriptions = PostSubscriptions::with('Subscriptions')->where('subscription_id', $subscription_id)->get();
+        try {
+            $getpostsubscriptions = PostSubscriptions::with('Subscriptions')->where('subscription_id', $subscription_id)->take(3)->get();
+
+            if (!empty($getpostsubscriptions)) {
+                foreach ($getpostsubscriptions as $k => $ps) {
+                    $isLike = false;
+                    if (UserLikes::where('user_id', Auth::id())->where('post_id', $ps->id)->exists()) {
+                        $isLike = true;
+                    }
+                    $getpostsubscriptions[$k]->commentCount += UserComments::where('post_id', $ps->id)->count();
+                    $getpostsubscriptions[$k]->likeCount += UserLikes::where('post_id', $ps->id)->count();
+                    $getpostsubscriptions[$k]->isLike += $isLike;
+                }
+            }
+        } catch (\Exception $e) {
+            return $this->sendError($e->getMessage());
+        }
+
         return response()->json(['success' => true, 'data' => $getpostsubscriptions]);
     }
+
+    // public function getpostsubscriptions($subscription_id)
+    // {
+    //     try {
+    //         $getpostsubscriptions = PostSubscriptions::with('Subscriptions')
+    //             ->where('subscription_id', $subscription_id)
+    //             ->withCount('likes')
+    //             ->orderByDesc('likes_count')
+    //             ->take(3)
+    //             ->get();
+
+    //         if (!empty($getpostsubscriptions)) {
+    //             foreach ($getpostsubscriptions as $k => $fcu) {
+    //                 $isLike = false;
+    //                 if (UserLikes::where('user_id', Auth::id())->where('post_id', $fcu->id)->exists()) {
+    //                     $isLike = true;
+    //                 }
+    //                 $getpostsubscriptions[$k]->commentCount += UserComments::where('post_id', $fcu->id)->count();
+    //                 $getpostsubscriptions[$k]->isLike += $isLike;
+    //             }
+    //         }
+    //     } catch (\Exception $e) {
+    //         return $this->sendError($e->getMessage());
+    //     }
+
+    //     return response()->json(['success' => true, 'data' => $getpostsubscriptions]);
+    // }
 }

@@ -464,7 +464,7 @@ class ApiController extends Controller
 
     public function getacceptfollower($user_id)
     {
-        $getacceptfollower  = UserFollowers::with('getUser', 'getUserFollower')->where('user_id', $user_id)->where('status', 'accepted')->get();
+        $getacceptfollower  = UserFollowers::with('getUser', 'getUserFollower.getCategory')->where('user_id', $user_id)->where('status', 'accepted')->get();
         return response()->json(['success' => true, 'data' => $getacceptfollower]);
     }
 
@@ -472,7 +472,7 @@ class ApiController extends Controller
     {
         try {
             $input = $req->all();
-            $validator = Validator::make($req->all(), [ 
+            $validator = Validator::make($req->all(), [
                 'user_id' => 'required',
                 'following_id' => 'required'
             ]);
