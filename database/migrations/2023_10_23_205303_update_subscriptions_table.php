@@ -13,13 +13,10 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('subscriptions', function (Blueprint $table) {
-            $table->id();
-            $table->string('image')->nullable();
-            $table->string('name')->nullable();
-            $table->string('price')->nullable();
-            $table->longText('desc')->nullable();
-            $table->timestamps();
+        Schema::table("subscriptions", function (Blueprint $table) {
+            $table->dateTime('start_date')->nullable()->after('desc');
+            $table->dateTime('end_date')->nullable()->after('start_date');
+            $table->tinyInteger('is_active')->default(0)->after('end_date');
         });
     }
 
@@ -30,6 +27,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('subscriptions');
+        //
     }
 };

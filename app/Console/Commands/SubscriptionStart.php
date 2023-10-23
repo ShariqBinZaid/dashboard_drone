@@ -13,7 +13,7 @@ class SubscriptionStart extends Command
      *
      * @var string
      */
-    protected $signature = 'subscription:end';
+    protected $signature = 'subscription:start';
     // protected $signature = 'command:name';
 
     /**
@@ -21,7 +21,7 @@ class SubscriptionStart extends Command
      *
      * @var string
      */
-    protected $description = 'Command description';
+    protected $description = 'Subscription start';
 
     /**
      * Execute the console command.

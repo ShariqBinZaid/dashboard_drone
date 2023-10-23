@@ -21,7 +21,7 @@ class SubscriptionEnd extends Command
      *
      * @var string
      */
-    protected $description = 'Command description';
+    protected $description = 'Subscription End';
 
     /**
      * Execute the console command.
