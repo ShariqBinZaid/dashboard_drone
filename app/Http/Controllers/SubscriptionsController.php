@@ -54,6 +54,9 @@ class SubscriptionsController extends Controller
             'name' => 'required',
             'price' => 'required',
             'desc' => 'required',
+            'start_date' => 'required',
+            'end_date' => 'required',
+            'is_active' => 'required',
         ]);
 
         // dd($input);
@@ -67,12 +70,13 @@ class SubscriptionsController extends Controller
         }
 
         unset($input['_token']);
+
         if (@$input['id']) {
             $subscriptions = Subscriptions::where("id", $input['id'])->update($input);
             return response()->json(['success' => true, 'msg' => 'Subscriptions Updated Successfully.']);
         } else {
             $subscriptions = Subscriptions::create($input);
-            return response()->json(['success' => true, 'msg' => 'Subscriptions Created Successfully', 'data' => $subscriptions]);
+            return response()->json(['success' => true, 'msg' => 'Subscriptions Purchased Successfully', 'data' => $subscriptions]);
         }
     }
 

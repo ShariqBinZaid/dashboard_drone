@@ -20,7 +20,7 @@ return new class extends Migration
             $table->string('price')->nullable();
             $table->string('desc')->nullable();
             $table->string('start_date')->nullable();
-            $table->string('start_end')->nullable();
+            $table->string('end_date')->nullable();
             $table->tinyInteger('is_active')->default(0);
             $table->timestamps();
         });
