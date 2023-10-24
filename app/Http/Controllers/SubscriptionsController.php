@@ -243,9 +243,9 @@ class SubscriptionsController extends Controller
         }
     }
 
-    public function counterstart($subscription_id)
+    public function counterstart($id)
     {
-        $subscription = Subscriptions::find($subscription_id);
+        $subscription = Subscriptions::find($id);
         $counter = $subscription->getCurrentCounter();
     }
 

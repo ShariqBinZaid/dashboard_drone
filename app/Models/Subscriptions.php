@@ -14,7 +14,6 @@ class Subscriptions extends Model
     public function getCurrentCounter()
     {
         if ($this->is_active) {
-            // Subscription is active
             $startDate = Carbon::parse($this->start_date);
             $currentDate = Carbon::now();
             $endDate = Carbon::parse($this->start_date)->addDays(3); // Adding 3 days to the start_date
