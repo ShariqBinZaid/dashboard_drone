@@ -63,7 +63,7 @@ Route::middleware('auth:api')->group(function () {
         Route::post('usersubscriptions', 'usersubscriptions')->name('subscriptions.usersubscriptions');
         Route::post('postsubscriptions', 'postsubscriptions')->name('subscriptions.postsubscriptions');
         Route::get('getpostsubscriptions/{id?}', 'getpostsubscriptions')->name('subscriptions.getpostsubscriptions');
-        Route::get('checksubscriptions/{user_id?}/{subscription_id?}', 'getpostsubscriptions')->name('subscriptions.getpostsubscriptions');
+        Route::get('checksubscriptions/{user_id?}/{subscriptions_id?}', 'getpostsubscriptions')->name('subscriptions.getpostsubscriptions');
         Route::get('getusersubcriptions/{id?}', 'getusersubcriptions')->name('subscriptions.getusersubcriptions');
         Route::get('winners', 'winners')->name('subscriptions.winners');
     });
