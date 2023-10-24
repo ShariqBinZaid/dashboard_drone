@@ -228,9 +228,9 @@ class SubscriptionsController extends Controller
         return response()->json(['success' => true, 'data' => $getpostsubscriptions]);
     }
 
-    public function checksubscriptions($user_id, $post_id)
+    public function checksubscriptions($user_id, $subscription_id)
     {
-        $checksubscriptions = UserSubscriptions::where('user_id', $user_id)->where('post_id', $post_id)->exists();
+        $checksubscriptions = UserSubscriptions::where('user_id', $user_id)->where('subscription_id', $subscription_id)->exists();
 
         if (!$checksubscriptions) {
             return response()->json(['success' => true, 'msg' => 'User Not Subscribed']);
