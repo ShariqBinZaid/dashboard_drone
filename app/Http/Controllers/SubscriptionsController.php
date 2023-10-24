@@ -150,7 +150,7 @@ class SubscriptionsController extends Controller
         return response()->json(['success' => true, 'data' => $getcategories]);
     }
 
-    public function usersubcriptions(Request $req)
+    public function usersubscriptions(Request $req)
     {
         try {
             $input = $req->all();
