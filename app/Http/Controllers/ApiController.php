@@ -463,7 +463,7 @@ class ApiController extends Controller
             } else {
                 $report = Reports::create($input);
                 // $report = Reports::with('getUser')->first();
-                $report = Reports::with('getCategory')->where('user_id', $input['user_id'])->first();
+                $report = Reports::with('getUser')->where('user_id', $input['user_id'])->first();
                 return response()->json(['success' => true, 'msg' => 'Reported Successfully', 'data' => $report]);
             }
         } catch (\Exception $e) {
