@@ -462,7 +462,7 @@ class ApiController extends Controller
                 return response()->json(['success' => true, 'msg' => 'Reports Updated Successfully.', 'data' => $report]);
             } else {
                 $report = Reports::create($input);
-                $report = Reports::with('getUser')->first();
+                // $report = Reports::with('getUser')->first();
                 return response()->json(['success' => true, 'msg' => 'Reported Successfully', 'data' => $report]);
             }
         } catch (\Exception $e) {
