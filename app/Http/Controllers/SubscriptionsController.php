@@ -241,40 +241,42 @@ class SubscriptionsController extends Controller
     // }
 
     public function getpostsubscriptions($subscription_id)
-{
-    try {
-        $getpostsubscriptions = PostSubscriptions::with('Subscriptions', 'Posts')
-            ->where('subscription_id', $subscription_id)
-            ->withCount('likes')
-            ->orderByDesc('likes_count') // Order by likes_count in descending order
-            ->take(3) // Take the top 3 results
-            ->get();
+    {
+        try {
+            $getpostsubscriptions = PostSubscriptions::with('Subscriptions', 'Posts')
+                ->where('subscription_id', $subscription_id)
+                ->withCount('likes')
+                ->orderByDesc('likes_count') // Order by likes_count in descending order
+                ->take(3) // Take the top 3 results
+                ->get();
 
-        if (!$getpostsubscriptions->isEmpty()) {
-            foreach ($getpostsubscriptions as $k => $post) {
-                $isLike = UserLikes::where('user_id', Auth::id())->where('post_id', $post->id)->exists();
-                $post->commentCount += UserComments::where('post_id', $post->id)->count();
-                $post->isLike = $isLike;
-            }
-
-            // Insert data into the Winners table for 1st, 2nd, and 3rd place
-            $winnerPositions = [1, 2, 3]; // Define the positions for 1st, 2nd, and 3rd place
-            foreach ($winnerPositions as $position => $winnerPosition) {
-                if (isset($getpostsubscriptions[$position])) {
-                    Winners::create([
-                        'user_id' => Auth::id(),
-                        'subscription_id' => $subscription_id,
-                        'winner' => $winnerPosition,
-                        'prize_type' => 'price',
-                    ]);
+            if (!$getpostsubscriptions->isEmpty()) {
+                foreach ($getpostsubscriptions as $k => $post) {
+                    $isLike = UserLikes::where('user_id', Auth::id())->where('post_id', $post->id)->exists();
+                    $post->commentCount += UserComments::where('post_id', $post->id)->count();
+                    $post->isLike = $isLike;
                 }
+
+                $winnerPositions = [1, 2, 3];
+                foreach ($winnerPositions as $position => $winnerPosition) {
+                    if (isset($getpostsubscriptions[$position])) {
+                        Winners::create([
+                            'user_id' => Auth::id(),
+                            'subscription_id' => $subscription_id,
+                            'winner' => $winnerPosition,
+                            'prize_type' => 'price',
+                        ]);
+                    }
+                }
+                Subscriptions::updated([
+                    'id' => $subscription_id,
+                    'is_active' => '0',
+                ]);
             }
+        } catch (\Exception $e) {
+            return $this->sendError($e->getMessage());
         }
-    } catch (\Exception $e) {
-        return $this->sendError($e->getMessage());
+
+        return response()->json(['success' => true, 'data' => $getpostsubscriptions]);
     }
-
-    return response()->json(['success' => true, 'data' => $getpostsubscriptions]);
-}
-
 }
