@@ -243,7 +243,7 @@ class SubscriptionsController extends Controller
     public function getpostsubscriptions($subscription_id)
     {
         try {
-            $getpostsubscriptions = PostSubscriptions::with('Subscriptions', 'Posts.User')
+            $getpostsubscriptions = PostSubscriptions::with('Subscriptions', 'Posts')
                 ->where('subscription_id', $subscription_id)
                 ->withCount('likes')
                 ->orderByDesc('likes_count')

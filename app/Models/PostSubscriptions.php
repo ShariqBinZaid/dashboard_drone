@@ -15,11 +15,6 @@ class PostSubscriptions extends Model
         return $this->belongsTo(Subscriptions::class, 'subscription_id', 'id');
     }
 
-    public function User()
-    {
-        return $this->belongsTo(User::class, 'user_id', 'id');
-    }
-
     public function Posts()
     {
         return $this->belongsTo(Posts::class, 'post_id', 'id');
