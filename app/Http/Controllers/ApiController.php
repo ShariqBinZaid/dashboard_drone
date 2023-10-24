@@ -110,7 +110,12 @@ class ApiController extends Controller
                 $input += ['display_picture' => $this->updateprofile($req, 'display_picture', 'profileimage')];
             }
 
+            if (array_key_exists('category_id', $input)) {
+                unset($input['category_id']);
+            }
+
             unset($input['_token']);
+
             if (@$input['id']) {
                 $userupdate = User::where("id", $input['id'])->update($input);
                 return response()->json(['success' => true, 'msg' => 'User Updated Successfully.', 'data' => User::with('getCategory')->where('id', $input['id'])->first()]);
