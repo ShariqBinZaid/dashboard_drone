@@ -268,8 +268,7 @@ class SubscriptionsController extends Controller
                         ]);
                     }
                 }
-                Subscriptions::updated([
-                    'id' => $subscription_id,
+                Subscriptions::where('id', $subscription_id)->update([
                     'is_active' => '0',
                 ]);
             }
