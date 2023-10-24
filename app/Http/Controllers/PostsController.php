@@ -316,7 +316,7 @@ class PostsController extends Controller
     public function getuserpost()
     {
         $getuser = User::where('id', Auth::user()->id)->get();
-        $getuserpost = Posts::with('getUser.getCategorys', 'getCategorys')->where('user_id', Auth::user()->id)->get();
+        $getuserpost = Posts::with('getUser', 'getCategorys')->where('user_id', Auth::user()->id)->get();
         $userpost = Posts::where('user_id', Auth::user()->id)->count();
         $userfollowers = UserFollowers::where('user_id', Auth::user()->id)->count();
         $userfollowing = UserFollowings::where('user_id', Auth::user()->id)->count();
