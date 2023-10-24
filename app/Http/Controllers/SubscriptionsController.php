@@ -194,19 +194,20 @@ class SubscriptionsController extends Controller
             }
 
             unset($input['_token']);
+
             if (@$input['id']) {
                 $postubscriptions = PostSubscriptions::where("id", $input['id'])->update($input);
                 return response()->json(['success' => true, 'msg' => 'Post Subscriptions Updated Successfully.']);
             } else {
                 $postubscriptions = PostSubscriptions::create($input);
-                return response()->json(['success' => true, 'msg' => 'Psot Subscriptions Created Successfully', 'data' => $postubscriptions]);
+                return response()->json(['success' => true, 'msg' => 'Post Subscribed Successfully', 'data' => $postubscriptions]);
             }
         } catch (\Exception $e) {
             return $this->sendError($e->getMessage());
         }
     }
 
-    public function subscriptionsposts($id)
+    public function getpostsubscriptions($id)
     {
         $viewposts = Posts::with('getUser', 'getCategorys')->whereHas('subscriptions', function ($q) use ($id) {
             $q->where('id', $id);
