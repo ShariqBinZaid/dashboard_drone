@@ -65,7 +65,7 @@ class SubscriptionsController extends Controller
                 'desc' => 'required',
                 'start_date' => 'required',
                 'end_date' => 'required',
-                'is_active' => 'required',
+                // 'is_active' => 'required',
             ]);
 
             // dd($input);
@@ -85,7 +85,7 @@ class SubscriptionsController extends Controller
                 return response()->json(['success' => true, 'msg' => 'Subscriptions Updated Successfully.']);
             } else {
                 $subscriptions = Subscriptions::create($input);
-                return response()->json(['success' => true, 'msg' => 'Subscriptions Purchased Successfully', 'data' => $subscriptions]);
+                return response()->json(['success' => true, 'msg' => 'Subscriptions Submitted Successfully', 'data' => $subscriptions]);
             }
         } catch (\Exception $e) {
             return $this->sendError($e->getMessage());
@@ -167,6 +167,7 @@ class SubscriptionsController extends Controller
             return response()->json(['success' => true, 'msg' => 'User Subscriptions Updated Successfully.']);
         } else {
             $usersubcriptions = UserSubscriptions::create($input);
+            $usersubcriptions = UserSubscriptions::with('User')->get();
             return response()->json(['success' => true, 'msg' => 'User Subscriptions Created Successfully', 'data' => $usersubcriptions]);
         }
     }
@@ -177,15 +178,15 @@ class SubscriptionsController extends Controller
         return response()->json(['success' => true, 'data' => $getusersubcriptions]);
     }
 
-    public function winners()
+    public function winners($subscriptions_id)
     {
-        $winners = Winners::where('user_id', Auth::user()->id)->get();
+        $winners = Winners::where('subscriptions_id', $subscriptions_id)->take(3)->get();
         return response()->json(['success' => true, 'data' => $winners]);
     }
 
-    public function viewposts($id)
+    public function subscriptionsposts($id)
     {
-        $viewposts = Posts::with('getUser', 'getCategorys')->whereHas('subscriptions', function($q) use($id){
+        $viewposts = Posts::with('getUser', 'getCategorys')->whereHas('subscriptions', function ($q) use ($id) {
             $q->where('id', $id);
         })->get();
 
@@ -203,5 +204,4 @@ class SubscriptionsController extends Controller
 
         return response()->json(['success' => true, 'data' => $viewposts]);
     }
-
 }

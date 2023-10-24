@@ -15,4 +15,9 @@ class UserSubscriptions extends Model
     {
         return $this->belongsTo(Subscriptions::class, 'subscriptions_id', 'id');
     }
+
+    public function User()
+    {
+        return $this->belongsTo(User::class, 'user_id', 'id');
+    }
 }

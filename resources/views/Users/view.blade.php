@@ -81,8 +81,8 @@
                                             <div class="text-gray-600 text-capitalize">{{ $user->phone }}</div>
                                             <div class="fw-bold mt-5">Country</div>
                                             <div class="text-gray-600 text-capitalize">{{ $user->country }}</div>
-                                            <div class="fw-bold mt-5">Address</div>
-                                            <div class="text-gray-600 text-capitalize">{{ $user->address }}</div>
+                                            {{-- <div class="fw-bold mt-5">Address</div>
+                                            <div class="text-gray-600 text-capitalize">{{ $user->address }}</div> --}}
                                             {{-- <div class="fw-bold mt-5">Country</div>
                                             <div class="text-gray-600">
                                                 <a href="#"
@@ -179,17 +179,17 @@
                                                         type="text" id="email" value="{{ $user->email }}">
                                                 </div>
 
-                                                <div class="mb-10">
+                                                {{-- <div class="mb-10">
                                                     <label for="address" class="form-label">Address</label>
                                                     <input class="form-control" placeholder="Address" name="address"
                                                         type="text" id="address" value="{{ $user->address }}">
-                                                </div>
+                                                </div> --}}
 
-                                                <div class="mb-10">
+                                                {{-- <div class="mb-10">
                                                     <label for="country" class="form-label">Country</label>
                                                     <input class="form-control" placeholder="Country" name="country"
                                                         type="text" id="country" value="{{ $user->country }}">
-                                                </div>
+                                                </div> --}}
 
                                                 <div class="mb-10">
                                                     <label for="desc" class="form-label">Descriptions</label>
