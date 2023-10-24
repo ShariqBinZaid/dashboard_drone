@@ -455,7 +455,7 @@ class ApiController extends Controller
                 return response()->json(['success' => false, 'error' => $validator->errors()]);
             }
 
-            $input += ['user_id' => Auth::id()];
+            // $input += ['user_id' => Auth::id()];
 
             if (@$input['id']) {
                 $report = Reports::where("id", $input['id'])->update($input);
