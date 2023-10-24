@@ -209,23 +209,34 @@ class SubscriptionsController extends Controller
 
     public function getpostsubscriptions($id)
     {
-        $viewposts = Posts::with('getUser', 'getCategorys')->whereHas('subscriptions', function ($q) use ($id) {
+        $getpostsubscriptions = Posts::with('getUser', 'getCategorys')->whereHas('subscriptions', function ($q) use ($id) {
             $q->where('id', $id);
         })->get();
 
-        if (!empty($viewposts)) {
-            foreach ($viewposts as $k => $fcu) {
+        if (!empty($getpostsubscriptions)) {
+            foreach ($getpostsubscriptions as $k => $ps) {
                 $isLike = false;
-                if (UserLikes::where('user_id', Auth::id())->where('post_id', $fcu->id)->exists()) {
+                if (UserLikes::where('user_id', Auth::id())->where('post_id', $ps->id)->exists()) {
                     $isLike = true;
                 }
-                $viewposts[$k]->commentCount += UserComments::where('post_id', $fcu->id)->count();
-                $viewposts[$k]->likeCount += UserLikes::where('post_id', $fcu->id)->count();
-                $viewposts[$k]->isLike += $isLike;
+                $getpostsubscriptions[$k]->commentCount += UserComments::where('post_id', $ps->id)->count();
+                $getpostsubscriptions[$k]->likeCount += UserLikes::where('post_id', $ps->id)->count();
+                $getpostsubscriptions[$k]->isLike += $isLike;
             }
         }
 
-        return response()->json(['success' => true, 'data' => $viewposts]);
+        return response()->json(['success' => true, 'data' => $getpostsubscriptions]);
+    }
+
+    public function checksubscriptions($user_id, $post_id)
+    {
+        $checksubscriptions = UserSubscriptions::where('user_id', $user_id)->where('post_id', $post_id)->exists();
+
+        if (!$checksubscriptions) {
+            return response()->json(['success' => true, 'msg' => 'User Not Subscribed']);
+        }
+
+        return response()->json(['success' => true, 'msg' => 'User Already Subscribed']);
     }
 
     public function winners($subscriptions_id)
