@@ -16,11 +16,12 @@ class BestPlaceController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+
     public function index()
     {
         $place = BestPlace::all();
         $users = User::get();
-        return view('place.index', compact(['place']));
+        return view('place.index', compact(['place' , 'users']));
     }
 
     public function list(Request $req)
@@ -35,6 +36,7 @@ class BestPlaceController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+
     public function create()
     {
         //
@@ -46,6 +48,7 @@ class BestPlaceController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
+
     public function store(Request $req)
     {
         $input = $req->all();
@@ -129,6 +132,7 @@ class BestPlaceController extends Controller
         BestPlace::where('id', $id)->forcedelete();
         echo json_encode(['success' => true, 'msg' => 'BestPlace Deleted Successfully']);
     }
+
     public function getplace()
     {
         $getplace = BestPlace::with('getUser')->get();

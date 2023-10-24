@@ -80,12 +80,11 @@
                                             <span class="svg-icon svg-icon-1">
                                                 <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
                                                     xmlns="http://www.w3.org/2000/svg">
-                                                    <rect opacity="0.5" x="6" y="17.3137" width="16"
-                                                        height="2" rx="1" transform="rotate(-45 6 17.3137)"
+                                                    <rect opacity="0.5" x="6" y="17.3137" width="16" height="2"
+                                                        rx="1" transform="rotate(-45 6 17.3137)"
                                                         fill="currentColor" />
-                                                    <rect x="7.41422" y="6" width="16" height="2"
-                                                        rx="1" transform="rotate(45 7.41422 6)"
-                                                        fill="currentColor" />
+                                                    <rect x="7.41422" y="6" width="16" height="2" rx="1"
+                                                        transform="rotate(45 7.41422 6)" fill="currentColor" />
                                                 </svg>
                                             </span>
                                         </div>
@@ -144,6 +143,7 @@
                         <thead>
                             <tr class="text-start text-muted fw-bold fs-7 text-uppercase gs-0">
                                 <th>File</th>
+                                <th>User</th>
                                 <th>Date</th>
                                 <th>Descriptions</th>
                                 <th>Category</th>
@@ -213,6 +213,22 @@
                                 </div>
                                 <div class="form-text">Allowed file types: png, jpg, jpeg.</div>
 
+                            </div>
+
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="mb-10">
+                                        <label for="user_id" class="form-label">User</label>
+                                        <select class="form-select select2-example"
+                                            aria-label="Floating label select example" name="user_id">
+                                            <option selected disabled>User</option>
+                                            @foreach ($users as $user)
+                                                <option value="{{ $user->id }}">
+                                                    {{ $user->first_name . ' ' . $user->last_name }}</option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                </div>
                             </div>
 
                             <div class="row">
@@ -321,6 +337,9 @@
                     data: 'file'
                 },
                 {
+                    data: 'user_id'
+                },
+                {
                     data: 'date'
                 },
                 {
@@ -341,7 +360,7 @@
         $('body').on('click', '.edit_blog', function() {
             $('.passwordDiv').hide();
             let id = $(this).attr('data-id');
-            $('.drawertitle').html('Edit User')
+            $('.drawertitle').html('Edit Post')
             showloader('none')
             $.get('{{ route('posts.show', '') }}/' + id, {
                 _token: '{{ csrf_token() }}',

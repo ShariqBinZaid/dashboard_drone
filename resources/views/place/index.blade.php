@@ -216,12 +216,17 @@
                             </div>
 
                             <div class="row">
-                                <div class="col-md-6">
+                                <div class="col-md-12">
                                     <div class="mb-10">
                                         <label for="user_id" class="form-label">User</label>
-                                        @foreach (users as user)
-                                            <option name="{{ $user->first_name }}" id="{{ $user->id }}"></option>
-                                        @endforeach
+                                        <select class="form-select select2-example"
+                                            aria-label="Floating label select example" name="user_id">
+                                            <option selected disabled>User</option>
+                                            @foreach ($users as $user)
+                                                <option value="{{ $user->id }}">
+                                                    {{ $user->first_name . ' ' . $user->last_name }}</option>
+                                            @endforeach
+                                        </select>
                                     </div>
                                 </div>
                             </div>

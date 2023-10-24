@@ -57,6 +57,7 @@ class PostsResource extends JsonResource
 
                 $posts[] = [
                     'file' => $userAvatar,
+                    'user_id' => $post->getUser->first_name . ' ' . $post->getUser->last_name,
                     'date' => $post->date,
                     'desc' => $post->desc,
                     'category_id' => $post->getCategorys->name,

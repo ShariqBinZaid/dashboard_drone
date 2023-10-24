@@ -27,6 +27,7 @@ class PostsController extends Controller
     {
         $data['posts'] = Posts::all();
         $data['categories'] = Categories::all();
+        $data['users'] = User::all();
         return view('posts.index')->with($data);
     }
 

@@ -88,14 +88,14 @@ class ApiController extends Controller
         try {
             $input = $req->all();
             $validator = Validator::make($input, [
-                'display_picture' => 'required',
+                // 'display_picture' => 'required',
                 // 'user_name' => 'required',
-                'first_name' => 'required',
-                'last_name' => 'required',
+                // 'first_name' => 'required',
+                // 'last_name' => 'required',
                 // 'gender' => 'required',
                 // 'email' => 'required',
                 // 'dob' => 'required',
-                'phone' => 'required',
+                // 'phone' => 'required',
                 // 'status' => 'required',
                 // 'is_active' => 'required',
                 // 'user_type' => 'required',
@@ -113,7 +113,7 @@ class ApiController extends Controller
             unset($input['_token']);
             if (@$input['id']) {
                 $userupdate = User::where("id", $input['id'])->update($input);
-                return response()->json(['success' => true, 'msg' => 'User Updated Successfully.', 'data' => User::where('id', $input['id'])->first()]);
+                return response()->json(['success' => true, 'msg' => 'User Updated Successfully.', 'data' => User::with('getCategory')->where('id', $input['id'])->first()]);
             } else {
                 $userupdate = User::create($input);
                 return response()->json(['success' => true, 'msg' => 'User Created Successfully']);
