@@ -212,16 +212,15 @@ class SubscriptionsController extends Controller
             ->where('subscription_id', $subscription_id)
             ->withCount('likes')
             ->orderByDesc('likes_count')
-            ->take(3)
-            ->get();
+            ->take(3)->get();
 
         if (!empty($getpostsubscriptions)) {
-            foreach ($getpostsubscriptions as $k => $fcu) {
+            foreach ($getpostsubscriptions as $k => $ps) {
                 $isLike = false;
-                if (UserLikes::where('user_id', Auth::id())->where('post_id', $fcu->id)->exists()) {
+                if (UserLikes::where('user_id', Auth::id())->where('post_id', $ps->id)->exists()) {
                     $isLike = true;
                 }
-                $getpostsubscriptions[$k]->commentCount += UserComments::where('post_id', $fcu->id)->count();
+                $getpostsubscriptions[$k]->commentCount += UserComments::where('post_id', $ps->id)->count();
                 // $getpostsubscriptions[$k]->likeCount += UserLikes::where('post_id', $fcu->id)->count();
                 $getpostsubscriptions[$k]->isLike += $isLike;
 
@@ -232,6 +231,10 @@ class SubscriptionsController extends Controller
                     'prize_type' => 'price',
                 ]);
             }
+
+            // Subscriptions::updated([
+            //     'is_active' => 0
+            // ]);
         }
 
         return response()->json(['success' => true, 'data' => $getpostsubscriptions]);
