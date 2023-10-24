@@ -245,8 +245,12 @@ class SubscriptionsController extends Controller
 
     public function counterstart($id)
     {
-        $subscription = Subscriptions::find($id);
-        $counter = $subscription->getCurrentCounter();
+        try {
+            $subscription = Subscriptions::find($id);
+            $counter = $subscription->getCurrentCounter();
+        } catch (\Exception $e) {
+            return $this->sendError($e->getMessage());
+        }
     }
 
 
