@@ -243,6 +243,13 @@ class SubscriptionsController extends Controller
         }
     }
 
+    public function counterstart($subscription_id)
+    {
+        $subscription = Subscriptions::find($subscription_id);
+        $counter = $subscription->getCurrentCounter();
+    }
+
+
     public function winners($subscriptions_id)
     {
         $winners = Winners::where('subscriptions_id', $subscriptions_id)->take(3)->get();
