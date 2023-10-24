@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Posts;
 use Carbon\Carbon;
 use App\Models\Winners;
 use App\Models\UserLikes;
@@ -84,7 +85,6 @@ class SubscriptionsController extends Controller
                 return response()->json(['success' => true, 'msg' => 'Subscriptions Updated Successfully.']);
             } else {
                 $subscriptions = Subscriptions::create($input);
-                $usersubcriptions = UserSubscriptions::create(['user_id' => Auth::user()->id, 'subscriptions_id' => $subscriptions->id]);
                 return response()->json(['success' => true, 'msg' => 'Subscriptions Purchased Successfully', 'data' => $subscriptions]);
             }
         } catch (\Exception $e) {
@@ -146,7 +146,7 @@ class SubscriptionsController extends Controller
 
     public function getsubscriptions()
     {
-        $getcategories = Subscriptions::get();
+        $getcategories = Subscriptions::where('start_date', '<', Carbon::now()->format('Y-m-d'))->first();
         return response()->json(['success' => true, 'data' => $getcategories]);
     }
 
@@ -183,100 +183,25 @@ class SubscriptionsController extends Controller
         return response()->json(['success' => true, 'data' => $winners]);
     }
 
-    // public function getpostsubscriptions($subscription_id)
-    // {
-    //     try {
-    //         $getpostsubscriptions = PostSubscriptions::with('Subscriptions', 'Posts')->where('subscription_id', $subscription_id)->take(3)->get();
-
-    //         if (!empty($getpostsubscriptions)) {
-    //             foreach ($getpostsubscriptions as $k => $ps) {
-    //                 $isLike = false;
-    //                 if (UserLikes::where('user_id', Auth::id())->where('post_id', $ps->id)->exists()) {
-    //                     $isLike = true;
-    //                 }
-    //                 $getpostsubscriptions[$k]->commentCount += UserComments::where('post_id', $ps->id)->count();
-    //                 $getpostsubscriptions[$k]->likeCount += UserLikes::where('post_id', $ps->id)->count();
-    //                 $getpostsubscriptions[$k]->isLike += $isLike;
-    //             }
-    //         }
-    //     } catch (\Exception $e) {
-    //         return $this->sendError($e->getMessage());
-    //     }
-
-    //     return response()->json(['success' => true, 'data' => $getpostsubscriptions]);
-    // }
-
-    // public function getpostsubscriptions($subscription_id)
-    // {
-    //     $getpostsubscriptions = PostSubscriptions::with('Subscriptions')
-    //         ->where('subscription_id', $subscription_id)
-    //         ->withCount('likes')
-    //         ->orderByDesc('likes_count')
-    //         ->take(3)->get();
-
-    //     if (!empty($getpostsubscriptions)) {
-    //         foreach ($getpostsubscriptions as $k => $ps) {
-    //             $isLike = false;
-    //             if (UserLikes::where('user_id', Auth::id())->where('post_id', $ps->id)->exists()) {
-    //                 $isLike = true;
-    //             }
-    //             $getpostsubscriptions[$k]->commentCount += UserComments::where('post_id', $ps->id)->count();
-    //             // $getpostsubscriptions[$k]->likeCount += UserLikes::where('post_id', $fcu->id)->count();
-    //             $getpostsubscriptions[$k]->isLike += $isLike;
-
-    //             Winners::create([
-    //                 'user_id' => Auth::id(),
-    //                 'subscription_id' => $subscription_id,
-    //                 'winner' => $k + 1,
-    //                 'prize_type' => 'price',
-    //             ]);
-    //         }
-
-    //         // Subscriptions::updated([
-    //         //     'is_active' => 0
-    //         // ]);
-    //     }
-
-    //     return response()->json(['success' => true, 'data' => $getpostsubscriptions]);
-    // }
-
-    public function getpostsubscriptions($subscription_id)
+    public function viewposts($id)
     {
-        try {
-            $getpostsubscriptions = PostSubscriptions::with('Subscriptions', 'Posts')
-                ->where('subscription_id', $subscription_id)
-                ->withCount('likes')
-                ->orderByDesc('likes_count')
-                ->take(3)
-                ->get();
+        $viewposts = Posts::with('getUser', 'getCategorys')->whereHas('subscriptions', function($q) use($id){
+            $q->where('id', $id);
+        })->get();
 
-            if (!$getpostsubscriptions->isEmpty()) {
-                foreach ($getpostsubscriptions as $k => $post) {
-                    $isLike = UserLikes::where('user_id', Auth::id())->where('post_id', $post->id)->exists();
-                    $post->commentCount += UserComments::where('post_id', $post->id)->count();
-                    $post->isLike = $isLike;
+        if (!empty($viewposts)) {
+            foreach ($viewposts as $k => $fcu) {
+                $isLike = false;
+                if (UserLikes::where('user_id', Auth::id())->where('post_id', $fcu->id)->exists()) {
+                    $isLike = true;
                 }
-
-                $winnerPositions = [1, 2, 3];
-                foreach ($winnerPositions as $position => $winnerPosition) {
-                    if (isset($getpostsubscriptions[$position])) {
-                        Winners::create([
-                            'user_id' => Auth::id(),
-                            'subscription_id' => $subscription_id,
-                            'winner' => $winnerPosition,
-                            'prize_type' => 'price',
-                        ]);
-                    }
-                }
-
-                Subscriptions::where('id', $subscription_id)->update([
-                    'is_active' => '0',
-                ]);
+                $viewposts[$k]->commentCount += UserComments::where('post_id', $fcu->id)->count();
+                $viewposts[$k]->likeCount += UserLikes::where('post_id', $fcu->id)->count();
+                $viewposts[$k]->isLike += $isLike;
             }
-        } catch (\Exception $e) {
-            return $this->sendError($e->getMessage());
         }
 
-        return response()->json(['success' => true, 'data' => $getpostsubscriptions]);
+        return response()->json(['success' => true, 'data' => $viewposts]);
     }
+
 }

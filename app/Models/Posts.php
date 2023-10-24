@@ -27,4 +27,8 @@ class Posts extends Model
     {
         return $this->hasMany(UserLikes::class, 'user_id', 'user_id');
     }
+
+    public function subscriptions(){
+        return $this->hasOneThrough(Subscriptions::class, PostSubscriptions::class, 'post_id', 'subscription_id', 'id');
+    }
 }
