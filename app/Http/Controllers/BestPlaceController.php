@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\User;
 use App\Models\BestPlace;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -18,7 +19,7 @@ class BestPlaceController extends Controller
     public function index()
     {
         $place = BestPlace::all();
-
+        $users = User::get();
         return view('place.index', compact(['place']));
     }
 

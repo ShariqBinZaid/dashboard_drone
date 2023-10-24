@@ -218,6 +218,17 @@
                             <div class="row">
                                 <div class="col-md-6">
                                     <div class="mb-10">
+                                        <label for="user_id" class="form-label">User</label>
+                                        @foreach (users as user)
+                                            <option name="{{ $user->first_name }}" id="{{ $user->id }}"></option>
+                                        @endforeach
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="mb-10">
                                         <label for="title" class="form-label">Title</label>
                                         <input class="form-control removeclass" placeholder="Title" name="title"
                                             type="text" id="title" value="">

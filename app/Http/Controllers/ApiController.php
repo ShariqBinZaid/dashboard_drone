@@ -83,7 +83,7 @@ class ApiController extends Controller
         }
     }
 
-    public function updateregister(Request $req)
+    public function registerupdate(Request $req)
     {
         try {
             $input = $req->all();
