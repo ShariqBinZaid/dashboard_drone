@@ -325,15 +325,15 @@ class ApiController extends Controller
         }
     }
 
-    public function myfollowers($user_id)
+    public function myfollowers()
     {
-        $myfollowers = UserFollowers::with('getUser')->where('user_id', $user_id)->get();
+        $myfollowers = UserFollowers::with('getUser')->where('user_id', Auth::user()->id)->get();
         return response()->json(['success' => true, 'data' => $myfollowers]);
     }
 
-    public function followersremove(Request $req, $user_id)
+    public function followersremove($follower_id)
     {
-        $followersremove = UserFollowers::where('user_id', $user_id)->forcedelete();
+        $followersremove = UserFollowers::where('follower_id', $follower_id)->forcedelete();
         return response()->json(['success' => true, 'msg' => 'Followers Deleted Successfully']);
     }
 
