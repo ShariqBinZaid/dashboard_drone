@@ -168,7 +168,6 @@ class SubscriptionsController extends Controller
                 return response()->json(['success' => true, 'msg' => 'User Subscriptions Updated Successfully.']);
             } else {
                 $usersubcriptions = UserSubscriptions::create($input);
-                // $usersubcriptions = UserSubscriptions::with('User')->where('user_id', $input['id'])->first();
                 return response()->json(['success' => true, 'msg' => 'User Subscriptions Created Successfully', 'data' => $usersubcriptions]);
             }
         } catch (\Exception $e) {
@@ -182,10 +181,29 @@ class SubscriptionsController extends Controller
         return response()->json(['success' => true, 'data' => $getusersubcriptions]);
     }
 
-    public function winners($subscriptions_id)
+    public function postsubscriptions(Request $req)
     {
-        $winners = Winners::where('subscriptions_id', $subscriptions_id)->take(3)->get();
-        return response()->json(['success' => true, 'data' => $winners]);
+        try {
+            $input = $req->all();
+
+            $validator = Validator::make($input, []);
+
+            // dd($input);
+            if ($validator->fails()) {
+                return response()->json(['success' => false, 'error' => $validator->errors()]);
+            }
+
+            unset($input['_token']);
+            if (@$input['id']) {
+                $postubscriptions = PostSubscriptions::where("id", $input['id'])->update($input);
+                return response()->json(['success' => true, 'msg' => 'Post Subscriptions Updated Successfully.']);
+            } else {
+                $postubscriptions = PostSubscriptions::create($input);
+                return response()->json(['success' => true, 'msg' => 'Psot Subscriptions Created Successfully', 'data' => $postubscriptions]);
+            }
+        } catch (\Exception $e) {
+            return $this->sendError($e->getMessage());
+        }
     }
 
     public function subscriptionsposts($id)
@@ -207,5 +225,11 @@ class SubscriptionsController extends Controller
         }
 
         return response()->json(['success' => true, 'data' => $viewposts]);
+    }
+
+    public function winners($subscriptions_id)
+    {
+        $winners = Winners::where('subscriptions_id', $subscriptions_id)->take(3)->get();
+        return response()->json(['success' => true, 'data' => $winners]);
     }
 }
