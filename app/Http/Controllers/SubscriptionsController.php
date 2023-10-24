@@ -241,26 +241,40 @@ class SubscriptionsController extends Controller
     // }
 
     public function getpostsubscriptions($subscription_id)
-    {
-        try {
-            $getpostsubscriptions = PostSubscriptions::with('Subscriptions', 'Posts')
-                ->where('subscription_id', $subscription_id)
-                ->withCount('likes')
-                ->orderByDesc('likes_count') // Order by likes_count in descending order
-                ->take(3) // Take the top 3 results
-                ->get();
+{
+    try {
+        $getpostsubscriptions = PostSubscriptions::with('Subscriptions', 'Posts')
+            ->where('subscription_id', $subscription_id)
+            ->withCount('likes')
+            ->orderByDesc('likes_count') // Order by likes_count in descending order
+            ->take(3) // Take the top 3 results
+            ->get();
 
-            if (!$getpostsubscriptions->isEmpty()) {
-                foreach ($getpostsubscriptions as $k => $ps) {
-                    $isLike = UserLikes::where('user_id', Auth::id())->where('post_id', $ps->id)->exists();
-                    $getpostsubscriptions[$k]->commentCount += UserComments::where('post_id', $ps->id)->count();
-                    $getpostsubscriptions[$k]->isLike = $isLike;
+        if (!$getpostsubscriptions->isEmpty()) {
+            foreach ($getpostsubscriptions as $k => $post) {
+                $isLike = UserLikes::where('user_id', Auth::id())->where('post_id', $post->id)->exists();
+                $post->commentCount += UserComments::where('post_id', $post->id)->count();
+                $post->isLike = $isLike;
+            }
+
+            // Insert data into the Winners table for 1st, 2nd, and 3rd place
+            $winnerPositions = [1, 2, 3]; // Define the positions for 1st, 2nd, and 3rd place
+            foreach ($winnerPositions as $position => $winnerPosition) {
+                if (isset($getpostsubscriptions[$position])) {
+                    Winners::create([
+                        'user_id' => Auth::id(),
+                        'subscription_id' => $subscription_id,
+                        'winner' => $winnerPosition,
+                        'prize_type' => 'price',
+                    ]);
                 }
             }
-        } catch (\Exception $e) {
-            return $this->sendError($e->getMessage());
         }
-
-        return response()->json(['success' => true, 'data' => $getpostsubscriptions]);
+    } catch (\Exception $e) {
+        return $this->sendError($e->getMessage());
     }
+
+    return response()->json(['success' => true, 'data' => $getpostsubscriptions]);
+}
+
 }
