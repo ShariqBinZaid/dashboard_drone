@@ -246,8 +246,8 @@ class SubscriptionsController extends Controller
             $getpostsubscriptions = PostSubscriptions::with('Subscriptions', 'Posts')
                 ->where('subscription_id', $subscription_id)
                 ->withCount('likes')
-                ->orderByDesc('likes_count') // Order by likes_count in descending order
-                ->take(3) // Take the top 3 results
+                ->orderByDesc('likes_count')
+                ->take(3)
                 ->get();
 
             if (!$getpostsubscriptions->isEmpty()) {
@@ -268,6 +268,7 @@ class SubscriptionsController extends Controller
                         ]);
                     }
                 }
+
                 Subscriptions::where('id', $subscription_id)->update([
                     'is_active' => '0',
                 ]);

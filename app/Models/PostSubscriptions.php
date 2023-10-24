@@ -12,7 +12,7 @@ class PostSubscriptions extends Model
 
     public function Subscriptions()
     {
-        return $this->belongsTo(Subscriptions::class, 'subscriptions_id', 'id');
+        return $this->belongsTo(Subscriptions::class, 'subscription_id', 'id');
     }
 
     public function Posts()
