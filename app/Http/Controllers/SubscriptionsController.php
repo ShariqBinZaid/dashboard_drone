@@ -152,23 +152,27 @@ class SubscriptionsController extends Controller
 
     public function usersubcriptions(Request $req)
     {
-        $input = $req->all();
+        try {
+            $input = $req->all();
 
-        $validator = Validator::make($input, []);
+            $validator = Validator::make($input, []);
 
-        // dd($input);
-        if ($validator->fails()) {
-            return response()->json(['success' => false, 'error' => $validator->errors()]);
-        }
+            // dd($input);
+            if ($validator->fails()) {
+                return response()->json(['success' => false, 'error' => $validator->errors()]);
+            }
 
-        unset($input['_token']);
-        if (@$input['id']) {
-            $usersubcriptions = UserSubscriptions::where("id", $input['id'])->update($input);
-            return response()->json(['success' => true, 'msg' => 'User Subscriptions Updated Successfully.']);
-        } else {
-            $usersubcriptions = UserSubscriptions::create($input);
-            $usersubcriptions = UserSubscriptions::with('User')->where('user_id', $input['id'])->first();
-            return response()->json(['success' => true, 'msg' => 'User Subscriptions Created Successfully', 'data' => $usersubcriptions]);
+            unset($input['_token']);
+            if (@$input['id']) {
+                $usersubcriptions = UserSubscriptions::where("id", $input['id'])->update($input);
+                return response()->json(['success' => true, 'msg' => 'User Subscriptions Updated Successfully.']);
+            } else {
+                $usersubcriptions = UserSubscriptions::create($input);
+                $usersubcriptions = UserSubscriptions::with('User')->where('user_id', $input['id'])->first();
+                return response()->json(['success' => true, 'msg' => 'User Subscriptions Created Successfully', 'data' => $usersubcriptions]);
+            }
+        } catch (\Exception $e) {
+            return $this->sendError($e->getMessage());
         }
     }
 
