@@ -206,35 +206,59 @@ class SubscriptionsController extends Controller
     //     return response()->json(['success' => true, 'data' => $getpostsubscriptions]);
     // }
 
+    // public function getpostsubscriptions($subscription_id)
+    // {
+    //     $getpostsubscriptions = PostSubscriptions::with('Subscriptions')
+    //         ->where('subscription_id', $subscription_id)
+    //         ->withCount('likes')
+    //         ->orderByDesc('likes_count')
+    //         ->take(3)->get();
+
+    //     if (!empty($getpostsubscriptions)) {
+    //         foreach ($getpostsubscriptions as $k => $ps) {
+    //             $isLike = false;
+    //             if (UserLikes::where('user_id', Auth::id())->where('post_id', $ps->id)->exists()) {
+    //                 $isLike = true;
+    //             }
+    //             $getpostsubscriptions[$k]->commentCount += UserComments::where('post_id', $ps->id)->count();
+    //             // $getpostsubscriptions[$k]->likeCount += UserLikes::where('post_id', $fcu->id)->count();
+    //             $getpostsubscriptions[$k]->isLike += $isLike;
+
+    //             Winners::create([
+    //                 'user_id' => Auth::id(),
+    //                 'subscription_id' => $subscription_id,
+    //                 'winner' => $k + 1,
+    //                 'prize_type' => 'price',
+    //             ]);
+    //         }
+
+    //         // Subscriptions::updated([
+    //         //     'is_active' => 0
+    //         // ]);
+    //     }
+
+    //     return response()->json(['success' => true, 'data' => $getpostsubscriptions]);
+    // }
+
     public function getpostsubscriptions($subscription_id)
     {
-        $getpostsubscriptions = PostSubscriptions::with('Subscriptions')
-            ->where('subscription_id', $subscription_id)
-            ->withCount('likes')
-            ->orderByDesc('likes_count')
-            ->take(3)->get();
+        try {
+            $getpostsubscriptions = PostSubscriptions::with('Subscriptions', 'Posts')
+                ->where('subscription_id', $subscription_id)
+                ->withCount('likes')
+                ->orderByDesc('likes_count') // Order by likes_count in descending order
+                ->take(3) // Take the top 3 results
+                ->get();
 
-        if (!empty($getpostsubscriptions)) {
-            foreach ($getpostsubscriptions as $k => $ps) {
-                $isLike = false;
-                if (UserLikes::where('user_id', Auth::id())->where('post_id', $ps->id)->exists()) {
-                    $isLike = true;
+            if (!$getpostsubscriptions->isEmpty()) {
+                foreach ($getpostsubscriptions as $k => $ps) {
+                    $isLike = UserLikes::where('user_id', Auth::id())->where('post_id', $ps->id)->exists();
+                    $getpostsubscriptions[$k]->commentCount += UserComments::where('post_id', $ps->id)->count();
+                    $getpostsubscriptions[$k]->isLike = $isLike;
                 }
-                $getpostsubscriptions[$k]->commentCount += UserComments::where('post_id', $ps->id)->count();
-                // $getpostsubscriptions[$k]->likeCount += UserLikes::where('post_id', $fcu->id)->count();
-                $getpostsubscriptions[$k]->isLike += $isLike;
-
-                Winners::create([
-                    'user_id' => Auth::id(),
-                    'subscription_id' => $subscription_id,
-                    'winner' => $k + 1,
-                    'prize_type' => 'price',
-                ]);
             }
-
-            // Subscriptions::updated([
-            //     'is_active' => 0
-            // ]);
+        } catch (\Exception $e) {
+            return $this->sendError($e->getMessage());
         }
 
         return response()->json(['success' => true, 'data' => $getpostsubscriptions]);
