@@ -403,7 +403,7 @@ class ApiController extends Controller
 
     public function getfollowersrequest()
     {
-        $getfollowersrequest = UserFollowers::with('getUser.getCategory')->where('user_id', Auth::user()->id)->get();
+        $getfollowersrequest = UserFollowers::with('getUser.getCategory')->where('user_id', Auth::user()->id)->where('status', 'pending')->get();
         return response()->json(['success' => true, 'msg' => 'User Followed Requested Successfully', 'data' => $getfollowersrequest]);
     }
 
