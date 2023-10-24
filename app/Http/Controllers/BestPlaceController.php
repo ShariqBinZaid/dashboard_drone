@@ -25,7 +25,7 @@ class BestPlaceController extends Controller
     public function list(Request $req)
     {
         $req = $req->input();
-        $place = BestPlace::get();
+        $place = BestPlace::with('getUser')->get();
         return new BestPlaceResource($place);
     }
 

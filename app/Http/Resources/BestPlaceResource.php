@@ -57,6 +57,7 @@ class BestPlaceResource extends JsonResource
 
                 $places[] = [
                     'file' => $userAvatar,
+                    'user_id' => $place->getUser->first_name . ' ' . $place->getUser->last_name,
                     'title' => $place->title,
                     'loc' => $place->loc,
                     'desc' => $place->desc,

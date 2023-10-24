@@ -60,6 +60,8 @@ class SubscriptionsResource extends JsonResource
                     'name' => $subscription->name,
                     'price' => $subscription->price,
                     'desc' => $subscription->desc,
+                    'start_date' => $subscription->start_date,
+                    'end_date' => $subscription->end_date,
                     // 'createdAt' => Carbon::createFromFormat('Y-m-d H:i:s', $subscription->created_at)->format('d M, Y h:i A'),
                     'actions' => $actions
                 ];

@@ -82,12 +82,11 @@
                                             <span class="svg-icon svg-icon-1">
                                                 <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
                                                     xmlns="http://www.w3.org/2000/svg">
-                                                    <rect opacity="0.5" x="6" y="17.3137" width="16"
-                                                        height="2" rx="1" transform="rotate(-45 6 17.3137)"
+                                                    <rect opacity="0.5" x="6" y="17.3137" width="16" height="2"
+                                                        rx="1" transform="rotate(-45 6 17.3137)"
                                                         fill="currentColor" />
-                                                    <rect x="7.41422" y="6" width="16" height="2"
-                                                        rx="1" transform="rotate(45 7.41422 6)"
-                                                        fill="currentColor" />
+                                                    <rect x="7.41422" y="6" width="16" height="2" rx="1"
+                                                        transform="rotate(45 7.41422 6)" fill="currentColor" />
                                                 </svg>
                                             </span>
                                         </div>
@@ -148,6 +147,8 @@
                                 <th>Name</th>
                                 <th>Price</th>
                                 <th>Descriptions</th>
+                                <th>Start Date</th>
+                                <th>End Date</th>
                                 <th>Actions</th>
                             </tr>
                         </thead>
@@ -233,10 +234,28 @@
                             </div>
 
                             <div class="row">
+                                <div class="col-md-6">
+                                    <div class="mb-10">
+                                        <label for="start_date" class="form-label">Start Date</label>
+                                        <input class="form-control removeclass" placeholder="Start Date"
+                                            name="start_date" type="text" id="start_date" value="">
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="mb-10">
+                                        <label for="end_date" class="form-label">End Date</label>
+                                        <input class="form-control removeclass" placeholder="End Date" name="end_date"
+                                            type="text" id="end_date" value="">
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row">
                                 <div class="col-md-12">
                                     <div class="mb-10">
                                         <label for="desc" class="form-label">Descriptions</label>
-                                        <textarea class="form-control removeclass" name="desc" id="desc" palceholder="Descriptions" cols="30" rows="10"></textarea>
+                                        <textarea class="form-control removeclass" name="desc" id="desc" palceholder="Descriptions" cols="30"
+                                            rows="10"></textarea>
                                     </div>
                                 </div>
                             </div>
@@ -279,7 +298,17 @@
 
 <script>
     $(document).ready(function() {
-        $("#join_on").daterangepicker({
+        $("#start_date").daterangepicker({
+            singleDatePicker: true,
+            showDropdowns: true,
+            minYear: 1901,
+            maxYear: parseInt(moment().format("YYYY"), 12)
+        }, function(start, end, label) {
+            var years = moment().diff(start, "years");
+            // alert("You are " + years + " years old!");
+        });
+
+        $("#end_date").daterangepicker({
             singleDatePicker: true,
             showDropdowns: true,
             minYear: 1901,
@@ -310,6 +339,12 @@
                     data: 'desc'
                 },
                 {
+                    data: 'start_date'
+                },
+                {
+                    data: 'end_date'
+                },
+                {
                     data: 'actions'
                 }
             ],
@@ -328,6 +363,11 @@
                 $('#kt_drawer_example_basic').find('input[name="name"]').val(d.data.name)
                 $('#kt_drawer_example_basic').find('input[name="price"]').val(d.data.price)
                 $('#kt_drawer_example_basic').find('textarea[name="desc"]').val(d.data.desc)
+                $('#kt_drawer_example_basic').find('input[name="start_date"]').val(d.data
+                    .start_date)
+                $('#kt_drawer_example_basic').find('input[name="end_date"]').val(d.data
+                    .end_date)
+
             }, 'json')
 
         });
