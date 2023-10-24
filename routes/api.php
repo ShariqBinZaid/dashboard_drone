@@ -44,7 +44,7 @@ Route::controller(ApiController::class)->group(function () {
     Route::get('getusersfollowers/{id?}', 'getusersfollowers')->name('followers.getusersfollowers');
     Route::get('followercheck/{user_id?}/{follower_id?}', 'followercheck')->name('followers.followercheck');
     Route::post('followUnfollow', 'followUnfollow')->name('followers.followUnfollow');
-    Route::post('followersremove/{user_id?}', 'followersremove')->name('followers.followersremove');
+    Route::get('followersremove/{follower_id?}', 'followersremove')->name('followers.followersremove');
     Route::get('myfollowers', 'myfollowers')->name('followers.myfollowers');
     Route::post('unfollow', 'unfollow')->name('followers.unfollow');
     Route::post('report', 'report')->name('followers.report');
