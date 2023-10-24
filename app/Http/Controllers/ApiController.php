@@ -47,6 +47,7 @@ class ApiController extends Controller
                 $input += ['display_picture' => $this->updateprofile($request, 'display_picture', 'profileimage')];
             }
 
+            $input += ['user_type' => 'user'];
             // return $input;
             $input['password'] = bcrypt($input['password']);
             $user = User::create($input);
