@@ -243,7 +243,7 @@ class SubscriptionsController extends Controller
         }
     }
 
-    public function counterstart($id)
+    public function counterstart1($id)
     {
         try {
             $subscription = Subscriptions::find($id);
@@ -256,13 +256,19 @@ class SubscriptionsController extends Controller
 
             $counter = $days . ' ' . $hours . ' ' . $minutes . ' ' . $seconds;
 
-            return response()->json(['success' => true, 'msg' => 'Counter Start', 'counter' => $remainingTime]);
+            return response()->json(['success' => true, 'msg' => 'Live Counter Start', 'counter' => $remainingTime]);
 
 
             // dd($counter);
         } catch (\Exception $e) {
             return $this->sendError($e->getMessage());
         }
+    }
+
+    public function counterstart()
+    {
+        $counterstart = Subscriptions::get();
+        return response()->json(['success' => true, 'msg' => 'Counter Start', 'counter' => $counterstart]);
     }
 
 
