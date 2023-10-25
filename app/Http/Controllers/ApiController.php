@@ -100,8 +100,8 @@ class ApiController extends Controller
             }
 
             // Hash the password field using bcrypt
-            $input['password'] = bcrypt($input['password']);
-            $input['confirm_password'] = bcrypt($input['confirm_password']);
+            // $input['password'] = bcrypt($input['password']);
+            // $input['confirm_password'] = bcrypt($input['confirm_password']);
 
             if ($req->file('display_picture')) {
                 unset($input['display_picture']);
@@ -112,12 +112,12 @@ class ApiController extends Controller
                 unset($input['category_id']);
             }
 
-            if (array_key_exists('password', $input)) {
-                unset($input['password']);
-            }
+            // if (array_key_exists('password', $input)) {
+            //     unset($input['password']);
+            // }
 
-            if (array_key_exists('confirm_password', $input)) {
-                unset($input['confirm_password']);
+            // if (array_key_exists('confirm_password', $input)) {
+            //     unset($input['confirm_password']);
             }
 
             unset($input['_token']);
