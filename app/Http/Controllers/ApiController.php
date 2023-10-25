@@ -91,8 +91,8 @@ class ApiController extends Controller
             $input = $req->all();
             $validator = Validator::make($input, [
                 'email' => 'required',
-                'password' => 'required', // Add validation for the password field
-                'confirm_password' => 'required|same:password', // Add validation for the confirm_password field
+                // 'password' => 'required', // Add validation for the password field
+                // 'confirm_password' => 'required|same:password', // Add validation for the confirm_password field
             ]);
 
             if ($validator->fails()) {
