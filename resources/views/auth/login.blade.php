@@ -26,7 +26,7 @@
 
 </head>
 
-<body id="kt_body" class="app-blank app-blank bgi-size-cover bgi-position-center bgi-no-repeat">
+<body style="backdrop-filter: brightness(0.5);" id="kt_body" class="app-blank app-blank bgi-size-cover bgi-position-center bgi-no-repeat">
 
     <script>
         var defaultThemeMode = "light";
@@ -52,7 +52,7 @@
 
         <style>
             body {
-                background-image: url('assets/media/auth/bg10.jpeg');
+                background-image: url('assets/media/auth/bg0.jpg');
             }
 
             [data-theme="dark"] body {
