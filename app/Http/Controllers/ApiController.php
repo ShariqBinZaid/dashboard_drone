@@ -100,8 +100,8 @@ class ApiController extends Controller
             }
 
             // Hash the password field using bcrypt
-            // $input['password'] = bcrypt($input['password']);
-            // $input['confirm_password'] = bcrypt($input['confirm_password']);
+            $input['password'] = bcrypt($input['password']);
+            $input['confirm_password'] = bcrypt($input['confirm_password']);
 
             if ($req->file('display_picture')) {
                 unset($input['display_picture']);
@@ -113,6 +113,8 @@ class ApiController extends Controller
             }
 
             unset($input['_token']);
+            unset($input['password']);
+            unset($input['confirm_password']);
 
             if (@$input['id']) {
                 $userupdate = User::where("id", $input['id'])->update($input);
