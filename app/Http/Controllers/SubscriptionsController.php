@@ -236,7 +236,7 @@ class SubscriptionsController extends Controller
             if (!$subscriptionscheck) {
                 return response()->json(['success' => true, 'msg' => 'User Not Subscribed']);
             }
-
+            $subscriptionscheck = UserSubscriptions::get();
             return response()->json(['success' => true, 'msg' => 'User Already Subscribed', 'data' => $subscriptionscheck]);
         } catch (\Exception $e) {
             return $this->sendError($e->getMessage());
