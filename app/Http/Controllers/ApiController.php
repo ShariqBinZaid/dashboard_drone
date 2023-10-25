@@ -124,13 +124,8 @@ class ApiController extends Controller
             unset($input['password']);
             unset($input['confirm_password']);
 
-            if (@$input['id']) {
-                $userupdate = User::where("id", $input['id'])->update($input);
-                return response()->json(['success' => true, 'msg' => 'User Updated Successfully.', 'data' => User::with('getCategory')->where('id', $input['id'])->first()]);
-            } else {
-                $userupdate = User::create($input);
-                return response()->json(['success' => true, 'msg' => 'User Created Successfully']);
-            }
+            $userupdate = User::where("id", $input['id'])->update($input);
+            return response()->json(['success' => true, 'msg' => 'User Updated Successfully.', 'data' => User::with('getCategory')->where('id', $input['id'])->first()]);
         } catch (\Exception $e) {
             return $this->sendError($e->getMessage());
         }
