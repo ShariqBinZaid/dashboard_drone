@@ -247,6 +247,7 @@ class SubscriptionsController extends Controller
     {
         try {
             $subscription = Subscriptions::find($id);
+            dd($subscription);
             $counter = $subscription->getCurrentCounter();
         } catch (\Exception $e) {
             return $this->sendError($e->getMessage());
