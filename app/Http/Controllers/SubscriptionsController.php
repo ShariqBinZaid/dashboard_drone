@@ -278,7 +278,7 @@ class SubscriptionsController extends Controller
     {
         $getpostsubscriptions = PostSubscriptions::with('Subscriptions')
             ->where('subscription_id', $subscription_id)
-            ->withCount('likes') // Count the likes
+            ->withCount('likes')
             ->orderByDesc('likes_count')
             ->take(3)
             ->get();
