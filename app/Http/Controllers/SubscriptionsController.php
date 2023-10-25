@@ -292,7 +292,7 @@ class SubscriptionsController extends Controller
                     $post->isLike = $isLike;
                 }
             }
-            return response()->json(['success' => true, 'msg' => 'Counter Start', 'counter' => $getpostsubscriptions]);
+            return response()->json(['success' => true, 'msg' => 'Counter Start', 'data' => $getpostsubscriptions]);
         } catch (\Exception $e) {
             return $e->getMessage();
         }
