@@ -274,9 +274,9 @@ class SubscriptionsController extends Controller
         }
     }
 
-    public function counterstart()
+    public function counterstart($id)
     {
-        $counterstart = Subscriptions::get();
+        $counterstart = Subscriptions::where('id', $id)->get();
         return response()->json(['success' => true, 'msg' => 'Counter Start', 'counter' => $counterstart]);
     }
 

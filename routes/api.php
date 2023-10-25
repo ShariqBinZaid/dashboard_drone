@@ -63,7 +63,7 @@ Route::middleware('auth:api')->group(function () {
         Route::post('usersubscriptions', 'usersubscriptions')->name('subscriptions.usersubscriptions');
         Route::post('postsubscriptions', 'postsubscriptions')->name('subscriptions.postsubscriptions');
         Route::get('getpostsubscriptions/{id?}', 'getpostsubscriptions')->name('subscriptions.getpostsubscriptions');
-        Route::get('counterstart', 'counterstart')->name('subscriptions.counterstart');
+        Route::get('counterstart/{id?}', 'counterstart')->name('subscriptions.counterstart');
         Route::get('upcomingsubs', 'upcomingsubs')->name('subscriptions.upcomingsubs');
         Route::get('subscriptionscheck/{user_id?}/{subscriptions_id?}', 'subscriptionscheck')->name('subscriptions.subscriptionscheck');
         Route::get('getusersubcriptions/{id?}', 'getusersubcriptions')->name('subscriptions.getusersubcriptions');
