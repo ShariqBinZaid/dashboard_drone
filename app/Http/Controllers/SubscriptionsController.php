@@ -247,8 +247,14 @@ class SubscriptionsController extends Controller
     {
         try {
             $subscription = Subscriptions::find($id);
-            $counter = $subscription->getCurrentCounter();
-            dd($subscription->getCurrentCounter());
+            $remainingTime = $subscription->getTimeRemaining();
+
+            $days = $remainingTime['days'];
+            $hours = $remainingTime['hours'];
+            $minutes = $remainingTime['minutes'];
+            $seconds = $remainingTime['seconds'];
+            
+            // dd($counter);
         } catch (\Exception $e) {
             return $this->sendError($e->getMessage());
         }

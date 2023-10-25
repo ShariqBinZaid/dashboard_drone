@@ -11,19 +11,32 @@ class Subscriptions extends Model
     use HasFactory;
     protected $guarded = [];
 
-    public function getCurrentCounter()
+    public function getTimeRemaining()
     {
         if ($this->is_active) {
             $startDate = Carbon::parse($this->start_date);
             $currentDate = Carbon::now();
-            $endDate = Carbon::parse($this->start_date)->addDays(3); // Adding 3 days to the start_date
-            $counter = $endDate->diffInDays($currentDate);
+            $endDate = Carbon::parse($this->start_date)->addDays(3);
 
-            // Ensure the counter is not negative
-            return max(0, $counter);
+            // Calculate the difference in days, hours, minutes, and seconds
+            $diff = $currentDate->diff($endDate);
+
+            $remaining = [
+                'days' => $diff->d,
+                'hours' => $diff->h,
+                'minutes' => $diff->i,
+                'seconds' => $diff->s,
+            ];
+
+            return $remaining;
         } else {
-            // Subscription is not active, so counter is 0
-            return 0;
+            // Subscription is not active, so return 0 for all units
+            return [
+                'days' => 0,
+                'hours' => 0,
+                'minutes' => 0,
+                'seconds' => 0,
+            ];
         }
     }
 }
