@@ -162,7 +162,10 @@ class SubscriptionsController extends Controller
                 return response()->json(['success' => false, 'error' => $validator->errors()]);
             }
 
+            $input += ['user_id' => Auth::id()];
+
             unset($input['_token']);
+
             if (@$input['id']) {
                 $usersubcriptions = UserSubscriptions::where("id", $input['id'])->update($input);
                 return response()->json(['success' => true, 'msg' => 'User Subscriptions Updated Successfully.']);

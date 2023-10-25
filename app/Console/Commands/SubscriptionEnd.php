@@ -39,7 +39,7 @@ class SubscriptionEnd extends Command
         DB::beginTransaction();
         try {
             $getpostsubscriptions = PostSubscriptions::with('Subscriptions', 'Posts')
-                ->whereHas('Subscriptions', function($q){
+                ->whereHas('Subscriptions', function ($q) {
                     $q->where('end_date', '<', Carbon::now()->format('Y-m-d'));
                 })
                 ->withCount('likes')
