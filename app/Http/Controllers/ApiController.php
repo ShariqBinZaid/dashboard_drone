@@ -112,6 +112,14 @@ class ApiController extends Controller
                 unset($input['category_id']);
             }
 
+            if (array_key_exists('password', $input)) {
+                unset($input['password']);
+            }
+
+            if (array_key_exists('confirm_password', $input)) {
+                unset($input['confirm_password']);
+            }
+
             unset($input['_token']);
 
             if (@$input['id']) {
@@ -125,41 +133,6 @@ class ApiController extends Controller
             return $this->sendError($e->getMessage());
         }
     }
-
-    // public function registerupdate(Request $req)
-    // {
-    //     try {
-    //         $input = $req->all();
-    //         $validator = Validator::make($input, [
-    //             'email' => 'required',
-    //         ]);
-
-    //         if ($validator->fails()) {
-    //             return response()->json(['success' => false, 'error' => $validator->errors()]);
-    //         }
-
-    //         if ($req->file('display_picture')) {
-    //             unset($input['display_picture']);
-    //             $input += ['display_picture' => $this->updateprofile($req, 'display_picture', 'profileimage')];
-    //         }
-
-    //         if (array_key_exists('category_id', $input)) {
-    //             unset($input['category_id']);
-    //         }
-
-    //         unset($input['_token']);
-
-    //         if (@$input['id']) {
-    //             $userupdate = User::where("id", $input['id'])->update($input);
-    //             return response()->json(['success' => true, 'msg' => 'User Updated Successfully.', 'data' => User::with('getCategory')->where('id', $input['id'])->first()]);
-    //         } else {
-    //             $userupdate = User::create($input);
-    //             return response()->json(['success' => true, 'msg' => 'User Created Successfully']);
-    //         }
-    //     } catch (\Exception $e) {
-    //         return $this->sendError($e->getMessage());
-    //     }
-    // }
 
     public function changepassword(Request $request)
     {
