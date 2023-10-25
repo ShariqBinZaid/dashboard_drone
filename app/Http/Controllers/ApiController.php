@@ -112,14 +112,6 @@ class ApiController extends Controller
                 unset($input['category_id']);
             }
 
-            // if (array_key_exists('password', $input)) {
-            //     unset($input['password']);
-            // }
-
-            // if (array_key_exists('confirm_password', $input)) {
-            //     unset($input['confirm_password']);
-            }
-
             unset($input['_token']);
 
             if (@$input['id']) {
