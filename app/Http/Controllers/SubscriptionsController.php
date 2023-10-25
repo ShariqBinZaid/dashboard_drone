@@ -196,8 +196,6 @@ class SubscriptionsController extends Controller
                 return response()->json(['success' => false, 'error' => $validator->errors()]);
             }
 
-            $input += ['user_id' => Auth::id()];
-
             unset($input['_token']);
 
             if (@$input['id']) {
