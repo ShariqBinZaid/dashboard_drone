@@ -59,6 +59,7 @@ Route::middleware('auth:api')->group(function () {
 
     Route::controller(SubscriptionsController::class)->group(function () {
         Route::post('subscriptions', 'store')->name('subscriptions.subscriptions');
+        Route::post('subscriptionscompi', 'subscriptionscompi')->name('subscriptions.subscriptionscompi');
         Route::get('getsubscriptions', 'getsubscriptions')->name('subscriptions.getsubscriptions');
         Route::post('usersubscriptions', 'usersubscriptions')->name('subscriptions.usersubscriptions');
         Route::post('postsubscriptions', 'postsubscriptions')->name('subscriptions.postsubscriptions');

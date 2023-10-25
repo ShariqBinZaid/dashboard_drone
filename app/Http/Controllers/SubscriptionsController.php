@@ -274,6 +274,29 @@ class SubscriptionsController extends Controller
         }
     }
 
+    public function subscriptionscompi()
+    {
+        try {
+            $getpostsubscriptions = PostSubscriptions::with('Subscriptions', 'Posts')
+                ->whereHas('Subscriptions', function ($q) {
+                    $q->where('end_date', '<', Carbon::now()->format('Y-m-d'));
+                })
+                ->withCount('likes')
+                ->orderByDesc('likes_count')
+                ->get();
+
+            if (!$getpostsubscriptions->isEmpty()) {
+                foreach ($getpostsubscriptions as $k => $post) {
+                    $isLike = UserLikes::where('user_id', Auth::id())->where('post_id', $post->id)->exists();
+                    $post->commentCount += UserComments::where('post_id', $post->id)->count();
+                    $post->isLike = $isLike;
+                }
+            }
+        } catch (\Exception $e) {
+            return $e->getMessage();
+        }
+    }
+
     public function counterstart($id)
     {
         $counterstart = Subscriptions::where('id', $id)->get();

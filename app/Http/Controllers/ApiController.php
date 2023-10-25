@@ -100,12 +100,10 @@ class ApiController extends Controller
                 return response()->json(['success' => false, 'error' => $validator->errors()]);
             }
 
-            // Check if the 'password' key exists before hashing it
             if (array_key_exists('password', $input)) {
                 $input['password'] = bcrypt($input['password']);
             }
 
-            // Check if the 'confirm_password' key exists before hashing it
             if (array_key_exists('confirm_password', $input)) {
                 $input['confirm_password'] = bcrypt($input['confirm_password']);
             }
