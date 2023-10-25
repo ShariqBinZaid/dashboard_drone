@@ -243,22 +243,6 @@ class SubscriptionsController extends Controller
         }
     }
 
-    // public function subscriptionscheck($user_id, $subscriptions_id)
-    // {
-    //     try {
-    //         $subscriptionscheck = UserSubscriptions::where('user_id', $user_id)->where('subscriptions_id', $subscriptions_id)->first();
-
-    //         if (!$subscriptionscheck) {
-    //             return response()->json(['success' => true, 'msg' => 'User Not Subscribed']);
-    //         }
-
-    //         // User is subscribed, so you can return the subscribed user's data along with the success message.
-    //         return response()->json(['success' => true, 'msg' => 'User Already Subscribed', 'data' => $subscriptionscheck]);
-    //     } catch (\Exception $e) {
-    //         return $this->sendError($e->getMessage());
-    //     }
-    // }
-
     public function counterstart1($id)
     {
         try {
