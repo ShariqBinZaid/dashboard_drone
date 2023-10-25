@@ -243,6 +243,13 @@ class SubscriptionsController extends Controller
         }
     }
 
+    public function upcomingsubs()
+    {
+        $currentDateTime = Carbon::now();
+        $upcomingsubs = Subscriptions::where('datetime', '>', $currentDateTime)->get();
+        return response()->json(['success' => true, 'data' => $upcomingsubs]);
+    }
+
     public function counterstart1($id)
     {
         try {
