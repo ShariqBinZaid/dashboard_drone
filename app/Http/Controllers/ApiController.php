@@ -120,9 +120,7 @@ class ApiController extends Controller
                 unset($input['confirm_password']);
             }
 
-            unset($input['_token']);
-            unset($input['password']);
-            unset($input['confirm_password']);
+            unset($input['_token'], $input['password'], $input['confirm_password']);
 
             $userupdate = User::where("id", $input['id'])->update($input);
             return response()->json(['success' => true, 'msg' => 'User Updated Successfully.', 'data' => User::with('getCategory')->where('id', $input['id'])->first()]);
