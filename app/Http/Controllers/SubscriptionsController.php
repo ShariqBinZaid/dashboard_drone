@@ -274,28 +274,27 @@ class SubscriptionsController extends Controller
         }
     }
 
-    public function subscriptionscompi()
+    public function subscriptionscompi($subscription_id)
     {
-        try {
-            $getpostsubscriptions = PostSubscriptions::with('Subscriptions', 'Posts')
-                ->whereHas('Subscriptions', function ($q) {
-                    $q->where('end_date', '<', Carbon::now()->format('Y-m-d'));
-                })
-                ->withCount('likes')
-                ->orderByDesc('likes_count')
-                ->get();
+        $getpostsubscriptions = PostSubscriptions::with('Subscriptions')
+            ->where('subscription_id', $subscription_id)
+            ->withCount('likes') // Count the likes
+            ->orderByDesc('likes_count')
+            ->take(3)
+            ->get();
 
-            if (!$getpostsubscriptions->isEmpty()) {
-                foreach ($getpostsubscriptions as $k => $post) {
-                    $isLike = UserLikes::where('user_id', Auth::id())->where('post_id', $post->id)->exists();
-                    $post->commentCount += UserComments::where('post_id', $post->id)->count();
-                    $post->isLike = $isLike;
+        if (!empty($getpostsubscriptions)) {
+            foreach ($getpostsubscriptions as $k => $fcu) {
+                $isLike = false;
+                if ($fcu->likes->where('user_id', Auth::id())->isNotEmpty()) {
+                    $isLike = true;
                 }
+                $getpostsubscriptions[$k]->commentCount += UserComments::where('post_id', $fcu->id)->count();
+                $getpostsubscriptions[$k]->isLike += $isLike;
             }
-            return response()->json(['success' => true, 'msg' => 'Counter Start', 'data' => $getpostsubscriptions]);
-        } catch (\Exception $e) {
-            return $e->getMessage();
         }
+
+        return response()->json(['success' => true, 'data' => $getpostsubscriptions]);
     }
 
     public function counterstart($id)
