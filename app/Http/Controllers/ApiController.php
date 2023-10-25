@@ -90,22 +90,18 @@ class ApiController extends Controller
         try {
             $input = $req->all();
             $validator = Validator::make($input, [
-                // 'display_picture' => 'required',
-                // 'user_name' => 'required',
-                // 'first_name' => 'required',
-                // 'last_name' => 'required',
-                // 'gender' => 'required',
-                // 'email' => 'required',
-                // 'dob' => 'required',
-                // 'phone' => 'required',
-                // 'status' => 'required',
-                // 'is_active' => 'required',
-                // 'user_type' => 'required',
+                'email' => 'required',
+                'password' => 'required', // Add validation for the password field
+                'confirm_password' => 'required|same:password', // Add validation for the confirm_password field
             ]);
 
             if ($validator->fails()) {
                 return response()->json(['success' => false, 'error' => $validator->errors()]);
             }
+
+            // Hash the password field using bcrypt
+            $input['password'] = bcrypt($input['password']);
+            $input['confirm_password'] = bcrypt($input['confirm_password']);
 
             if ($req->file('display_picture')) {
                 unset($input['display_picture']);
@@ -129,6 +125,41 @@ class ApiController extends Controller
             return $this->sendError($e->getMessage());
         }
     }
+
+    // public function registerupdate(Request $req)
+    // {
+    //     try {
+    //         $input = $req->all();
+    //         $validator = Validator::make($input, [
+    //             'email' => 'required',
+    //         ]);
+
+    //         if ($validator->fails()) {
+    //             return response()->json(['success' => false, 'error' => $validator->errors()]);
+    //         }
+
+    //         if ($req->file('display_picture')) {
+    //             unset($input['display_picture']);
+    //             $input += ['display_picture' => $this->updateprofile($req, 'display_picture', 'profileimage')];
+    //         }
+
+    //         if (array_key_exists('category_id', $input)) {
+    //             unset($input['category_id']);
+    //         }
+
+    //         unset($input['_token']);
+
+    //         if (@$input['id']) {
+    //             $userupdate = User::where("id", $input['id'])->update($input);
+    //             return response()->json(['success' => true, 'msg' => 'User Updated Successfully.', 'data' => User::with('getCategory')->where('id', $input['id'])->first()]);
+    //         } else {
+    //             $userupdate = User::create($input);
+    //             return response()->json(['success' => true, 'msg' => 'User Created Successfully']);
+    //         }
+    //     } catch (\Exception $e) {
+    //         return $this->sendError($e->getMessage());
+    //     }
+    // }
 
     public function changepassword(Request $request)
     {
