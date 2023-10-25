@@ -37,7 +37,6 @@ Route::middleware('auth:api')->group(function () {
         Route::post('changepassword', 'changepassword')->name('user.changepassword');
         Route::post('registerupdate', 'registerupdate')->name('user.registerupdate');
         Route::post('registerdelete/{id}', 'registerdelete')->name('user.registerdelete');
-        Route::get('locations', 'locations')->name('locations.locations');
         Route::post('userfollowers', 'userfollowers')->name('followers.userfollowers');
         Route::post('usershares', 'usershares')->name('followers.usershares');
         Route::get('getusershares/{id?}', 'getusershares')->name('followers.getusershares');

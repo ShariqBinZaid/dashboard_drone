@@ -127,50 +127,6 @@ class ApiController extends Controller
         }
     }
 
-    // public function registerupdate(Request $req)
-    // {
-    //     try {
-    //         $input = $req->all();
-    //         $validator = Validator::make($input, [
-    //             'email' => 'required',
-    //             // 'password' => 'required', // Add validation for the password field
-    //             // 'confirm_password' => 'required|same:password', // Add validation for the confirm_password field
-    //         ]);
-
-    //         if ($validator->fails()) {
-    //             return response()->json(['success' => false, 'error' => $validator->errors()]);
-    //         }
-
-    //         // Hash the password field using bcrypt
-    //         $input['password'] = bcrypt($input['password']);
-    //         $input['confirm_password'] = bcrypt($input['confirm_password']);
-
-    //         if ($req->file('display_picture')) {
-    //             unset($input['display_picture']);
-    //             $input += ['display_picture' => $this->updateprofile($req, 'display_picture', 'profileimage')];
-    //         }
-
-    //         if (array_key_exists('category_id', $input)) {
-    //             unset($input['category_id']);
-    //         }
-
-    //         if (array_key_exists('password', $input)) {
-    //             unset($input['password']);
-    //         }
-
-    //         if (array_key_exists('confirm_password', $input)) {
-    //             unset($input['confirm_password']);
-    //         }
-
-    //         unset($input['_token'], $input['password'], $input['confirm_password']);
-
-    //         $userupdate = User::where("id", $input['id'])->update($input);
-    //         return response()->json(['success' => true, 'msg' => 'User Updated Successfully.', 'data' => User::with('getCategory')->where('id', $input['id'])->first()]);
-    //     } catch (\Exception $e) {
-    //         return $this->sendError($e->getMessage());
-    //     }
-    // }
-
     public function changepassword(Request $request)
     {
         try {
@@ -194,42 +150,16 @@ class ApiController extends Controller
 
     public function login(Request $request)
     {
-        if (Auth::attempt(['email' => $request->email, 'password' => $request->password])) {
-            $user = Auth::user();
-            $success['token'] =  $user->createToken('MyApp')->accessToken;
-
-            $success['user'] =  User::with('getCategory')->find($user->id);
-
-            return $this->sendResponse($success, 'User Login Successfully.');
-        } else {
-            return $this->sendResponse('Unauthorised.', ['error' => 'Email or Password Incorrect']);
-        }
-    }
-
-
-    public function userupdate(Request $req)
-    {
         try {
-            $input = $req->all();
-            $validator = Validator::make($input, [
-                'first_name' => 'required',
-                'last_name' => 'required',
-                'email' => 'required',
-                'designation' => 'required',
-                'user_type' => 'required',
-                'password' => 'required'
-            ]);
+            if (Auth::attempt(['email' => $request->email, 'password' => $request->password])) {
+                $user = Auth::user();
+                $success['token'] =  $user->createToken('MyApp')->accessToken;
 
-            if ($validator->fails()) {
-                return response()->json(['success' => false, 'error' => $validator->errors()]);
-            }
-            unset($input['_token']);
-            if (@$input['id']) {
-                $userupdate = User::where("id", $input['id'])->update($input);
-                return response()->json(['success' => true, 'msg' => 'User Updated Successfully.']);
+                $success['user'] =  User::with('getCategory')->find($user->id);
+
+                return $this->sendResponse($success, 'User Login Successfully.');
             } else {
-                $userupdate = User::create($input);
-                return response()->json(['success' => true, 'msg' => 'User Created Successfully']);
+                return $this->sendResponse('Unauthorised.', ['error' => 'Email or Password Incorrect']);
             }
         } catch (\Exception $e) {
             return $this->sendError($e->getMessage());
@@ -238,32 +168,14 @@ class ApiController extends Controller
 
     public function phoneotp(Request $req)
     {
-        $otp = User::where('id', $req->user_id)->where('otp', $req->otp)->first();
-        if (!empty($otp)) {
-            return response()->json(['success' => true, 'msg' => 'Success']);
-        }
-        return response()->json(['success' => false, 'msg' => 'Please enter valid otp code']);
-    }
-
-    public function locations(Request $req)
-    {
-        $input = $req->all();
-        $validator = Validator::make($input, [
-            // 'first_name' => 'required',
-        ]);
-
-        if ($validator->fails()) {
-            return response()->json(['success' => false, 'error' => $validator->errors()]);
-        }
-
-        $input += ['user_id' => Auth::id()];
-        unset($input['_token']);
-        if (@$input['id']) {
-            $userupdate = User::where("id", $input['id'])->update($input);
-            return response()->json(['success' => true, 'msg' => 'User Updated Successfully.']);
-        } else {
-            $userupdate = User::create($input);
-            return response()->json(['success' => true, 'msg' => 'User Created Successfully']);
+        try {
+            $otp = User::where('id', $req->user_id)->where('otp', $req->otp)->first();
+            if (!empty($otp)) {
+                return response()->json(['success' => true, 'msg' => 'Success']);
+            }
+            return response()->json(['success' => false, 'msg' => 'Please enter valid otp code']);
+        } catch (\Exception $e) {
+            return $this->sendError($e->getMessage());
         }
     }
 
@@ -321,7 +233,6 @@ class ApiController extends Controller
     {
         $input = $req->all();
         $validator = Validator::make($input, [
-            // 'user_id' => 'required',
             'post_id' => 'required',
         ]);
 
