@@ -254,7 +254,9 @@ class SubscriptionsController extends Controller
             $minutes = $remainingTime['minutes'];
             $seconds = $remainingTime['seconds'];
 
-            return response()->json(['success' => true, 'msg' => 'User Not Subscribed', 'days' => $days]);
+            $counter = $days . ' ' . $hours . ' ' . $minutes . ' ' . $seconds;
+
+            return response()->json(['success' => true, 'msg' => 'User Not Subscribed', 'days' => $counter]);
 
 
             // dd($counter);
