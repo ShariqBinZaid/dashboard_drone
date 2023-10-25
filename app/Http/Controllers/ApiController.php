@@ -50,6 +50,7 @@ class ApiController extends Controller
             $input += ['user_type' => 'user'];
             // return $input;
             $input['password'] = bcrypt($input['password']);
+            $input['confirm_password'] = bcrypt($input['confirm_password']);
             $user = User::create($input);
             $success['token'] =  $user->createToken('MyApp')->accessToken;
             $success['user'] =  $user;
