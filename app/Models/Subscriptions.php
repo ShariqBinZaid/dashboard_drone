@@ -18,7 +18,6 @@ class Subscriptions extends Model
             $currentDate = Carbon::now();
             $endDate = Carbon::parse($this->start_date)->addDays(3);
 
-            // Calculate the difference in days, hours, minutes, and seconds
             $diff = $currentDate->diff($endDate);
 
             $remaining = [
@@ -30,7 +29,6 @@ class Subscriptions extends Model
 
             return $remaining;
         } else {
-            // Subscription is not active, so return 0 for all units
             return [
                 'days' => 0,
                 'hours' => 0,
